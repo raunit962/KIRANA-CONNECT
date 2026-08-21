@@ -19,16 +19,16 @@ export const InteractiveMap: React.FC<InteractiveMapProps> = ({
 }) => {
   const [activeLayer, setActiveLayer] = useState<'STANDARD' | 'GEOFENCE' | 'CAPACITY'>('STANDARD');
 
-  // Customer location or default center
+  // Customer location or default center (Salt Lake Sector V, Kolkata)
   const customerLoc: Coordinates = activeParcel?.destinationCoords || {
-    latitude: 28.5680,
-    longitude: 77.2435,
+    latitude: 22.5815,
+    longitude: 88.4385,
   };
 
-  // Convert GPS Coordinates to Relative SVG Canvas Coordinates
-  const centerLat = 28.5680;
-  const centerLng = 77.2435;
-  const scale = 22000; // Zoom factor
+  // Map Center: Salt Lake Sector V, Kolkata (Lat: 22.5804, Lng: 88.4378)
+  const centerLat = 22.5804;
+  const centerLng = 88.4378;
+  const scale = 22000; // Zoom scale factor for hyper-local neighborhood
 
   const getSvgCoords = (lat: number, lng: number) => {
     const x = 300 + (lng - centerLng) * scale;
@@ -145,7 +145,7 @@ export const InteractiveMap: React.FC<InteractiveMapProps> = ({
             <div className="absolute -top-1 -right-1 w-3 h-3 rounded-full bg-sky-400 border border-slate-900" />
           </div>
           <div className="mt-1 bg-slate-900/90 text-sky-300 border border-sky-500/40 text-[10px] font-bold px-2 py-0.5 rounded-full shadow whitespace-nowrap">
-            📍 Delivery Drop Target
+            📍 Godrej Waterside (Sector V)
           </div>
         </div>
 
@@ -205,8 +205,8 @@ export const InteractiveMap: React.FC<InteractiveMapProps> = ({
 
       {/* Map Control Overlay */}
       <div className="absolute top-3 left-3 bg-slate-900/90 backdrop-blur-md border border-slate-800 px-3 py-1.5 rounded-2xl flex items-center space-x-2 text-xs text-slate-300 shadow-xl">
-        <Compass className="w-4 h-4 text-brand-400 animate-spin-slow" />
-        <span className="font-bold">Lajpat Nagar IV Hub Zone</span>
+        <Compass className="w-4 h-4 text-brand-400" />
+        <span className="font-bold">Salt Lake Sector V, Kolkata (PIN 700091)</span>
         <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping" />
       </div>
 

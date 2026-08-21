@@ -40,21 +40,21 @@ export const LiveFlowSimulator: React.FC = () => {
   const targetParcel = parcels.find((p) => p.id === createdParcelId) || parcels[0];
   const matchedStore = stores.find((s) => s.id === targetParcel?.kiranaStoreId) || stores[0];
 
-  // Step 1: Dispatch new order
+  // Step 1: Dispatch new order in Salt Lake Sector V, Kolkata
   const handleStep1Dispatch = () => {
     const res = createAndDispatchParcel({
-      customerName: 'Aarav Sharma',
-      customerPhone: '+91 98111 22334',
+      customerName: 'Anirban Chatterjee',
+      customerPhone: '+91 98300 12894',
       packageItem: 'boAt Rockerz 450 Pro Bluetooth Headphone',
-      destinationAddress: 'Flat 104, Sunrise Enclave, Lajpat Nagar IV',
-      destinationPincode: '110024',
-      destinationCoords: { latitude: 28.5678, longitude: 77.2438 },
+      destinationAddress: 'Godrej Waterside, Tower 3, Sector V, Salt Lake',
+      destinationPincode: '700091',
+      destinationCoords: { latitude: 22.5815, longitude: 88.4385 },
       packageSize: 'SMALL',
     });
 
     if (res.success && res.parcel) {
       setCreatedParcelId(res.parcel.id);
-      addLog(`Step 1 Complete: Order created & matched to "${matchedStore.storeName}" via Haversine Proximity.`);
+      addLog(`Step 1 Complete: Order matched to "${matchedStore.storeName}" (Near Webel More, Sector V) via Haversine Proximity.`);
       setSimStep(2);
     }
   };
@@ -64,14 +64,14 @@ export const LiveFlowSimulator: React.FC = () => {
     if (!targetParcel) return;
     const res = dropParcelAtKirana(targetParcel.id);
     if (res.success) {
-      addLog(`Step 2 Complete: Rider dropped package at ${matchedStore.storeName}. Drop proof recorded.`);
+      addLog(`Step 2 Complete: Rider dropped package at ${matchedStore.storeName}. Drop proof photo verified.`);
       setSimStep(3);
     }
   };
 
   // Step 3: Customer receives Notification
   const handleStep3Notification = () => {
-    addLog(`Step 3 Complete: WhatsApp webhook fired with OTP: ${targetParcel.pickupOtp} & QR token.`);
+    addLog(`Step 3 Complete: WhatsApp webhook fired to ${targetParcel.customerPhone} with OTP: ${targetParcel.pickupOtp} & QR token.`);
     setSimStep(4);
   };
 
@@ -89,7 +89,7 @@ export const LiveFlowSimulator: React.FC = () => {
     resetToDemoState();
     setSimStep(1);
     setLog([]);
-    addLog('Simulation reset to initial state.');
+    addLog('Simulation reset to initial state for Salt Lake Sector V, Kolkata.');
   };
 
   return (
@@ -105,8 +105,8 @@ export const LiveFlowSimulator: React.FC = () => {
               <h2 className="text-lg font-extrabold text-white">
                 {language === 'hi' ? 'इंटरैक्टिव एंड-टू-एंड सिमुलेटर' : 'KiranaConnect End-to-End Flow Simulator'}
               </h2>
-              <span className="bg-rose-500/20 text-rose-300 text-[10px] font-bold px-2 py-0.5 rounded-full border border-rose-500/30">
-                Live Interactive Demo
+              <span className="bg-rose-500/20 text-rose-300 text-[10px] font-bold px-2.5 py-0.5 rounded-full border border-rose-500/30">
+                Salt Lake Sector V, Kolkata
               </span>
             </div>
             <p className="text-xs text-slate-400">
@@ -185,13 +185,13 @@ export const LiveFlowSimulator: React.FC = () => {
               </div>
 
               <p className="text-xs text-slate-300 leading-relaxed">
-                An e-commerce order is placed in Lajpat Nagar (PIN 110024). The matching algorithm checks 13M+ Indian Kirana infrastructure, evaluates capacity, and assigns the nearest active hub.
+                An e-commerce order is placed in Sector V, Salt Lake (PIN 700091). The matching algorithm evaluates local Kirana capacity and assigns the closest active hub.
               </p>
 
               <div className="bg-slate-800/70 p-4 rounded-2xl border border-slate-700/60 space-y-2 text-xs">
-                <div className="text-slate-400">Order: <strong>boAt Rockerz 450 Pro</strong></div>
-                <div className="text-slate-400">Destination: <strong>Lajpat Nagar IV, New Delhi (PIN 110024)</strong></div>
-                <div className="text-emerald-400 font-semibold">Matched Hub: Gupta General Store (~0.45 km away, 28 shelf slots free)</div>
+                <div className="text-slate-400">Order: <strong>boAt Rockerz 450 Pro Headphones</strong></div>
+                <div className="text-slate-400">Destination: <strong>Godrej Waterside, Tower 3, Sector V, Salt Lake (PIN 700091)</strong></div>
+                <div className="text-emerald-400 font-semibold">Matched Hub: Ghosh Brothers Daily Provisions (~0.35 km away, Near Webel More)</div>
               </div>
 
               <button
@@ -214,7 +214,7 @@ export const LiveFlowSimulator: React.FC = () => {
               </div>
 
               <p className="text-xs text-slate-300 leading-relaxed">
-                Rider avoids doorstep drop failure (door locked / irregular address) and drops parcel directly at the neighborhood Kirana hub with photo proof.
+                Rider avoids doorstep drop failure (office gate security / customer unavailable) and drops parcel directly at the neighborhood Kirana hub with photo proof.
               </p>
 
               <div className="bg-slate-800/70 p-4 rounded-2xl border border-slate-700/60 flex items-center space-x-4">
@@ -224,9 +224,9 @@ export const LiveFlowSimulator: React.FC = () => {
                   className="w-20 h-16 object-cover rounded-xl border border-slate-600"
                 />
                 <div className="text-xs space-y-1">
-                  <div className="font-bold text-white">Gupta General Store</div>
-                  <div className="text-slate-400">Rider: Vikram Singh (Shadowfax)</div>
-                  <div className="text-emerald-400 font-semibold">Status: Arrived at Shop Counter</div>
+                  <div className="font-bold text-white">{matchedStore.storeName}</div>
+                  <div className="text-slate-400">Rider: Tapas Sen (Shadowfax / Delhivery)</div>
+                  <div className="text-emerald-400 font-semibold">Status: Arrived at Shop Counter (Webel More)</div>
                 </div>
               </div>
 
@@ -256,7 +256,7 @@ export const LiveFlowSimulator: React.FC = () => {
               <div className="bg-[#0b141a] p-4 rounded-2xl border border-emerald-500/30 space-y-2 text-xs">
                 <div className="text-emerald-400 font-bold">📲 WhatsApp Alert Sent to Customer:</div>
                 <div className="bg-[#005c4b] p-3 rounded-xl text-white space-y-1">
-                  <div>Your parcel is waiting at <strong>{matchedStore.storeName}</strong>.</div>
+                  <div>Your parcel is waiting at <strong>{matchedStore.storeName}</strong> ({matchedStore.address}).</div>
                   <div className="font-mono font-bold text-amber-300">Pickup OTP: {targetParcel?.pickupOtp}</div>
                 </div>
               </div>
@@ -338,7 +338,7 @@ export const LiveFlowSimulator: React.FC = () => {
               <span>Real-Time Event Stream Log</span>
             </h3>
             <span className="text-[10px] font-mono text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded">
-              LIVE
+              KOLKATA SECTOR V
             </span>
           </div>
 

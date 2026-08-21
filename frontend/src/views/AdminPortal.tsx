@@ -40,10 +40,10 @@ export const AdminPortal: React.FC = () => {
   const [customerName, setCustomerName] = useState('Ananya Singhania');
   const [customerPhone, setCustomerPhone] = useState('+91 98201 99214');
   const [packageItem, setPackageItem] = useState('Apple AirPods Pro (2nd Gen)');
-  const [destinationAddress, setDestinationAddress] = useState('Flat 402, Block C, Lajpat Nagar IV');
-  const [destinationPincode, setDestinationPincode] = useState('110024');
-  const [destLat, setDestLat] = useState('28.5682');
-  const [destLng, setDestLng] = useState('77.2438');
+  const [destinationAddress, setDestinationAddress] = useState('Tower 2, Godrej Genesis, EP Block, Sector V, Salt Lake');
+  const [destinationPincode, setDestinationPincode] = useState('700091');
+  const [destLat, setDestLat] = useState('22.5815');
+  const [destLng, setDestLng] = useState('88.4385');
   const [packageSize, setPackageSize] = useState<'SMALL' | 'MEDIUM' | 'LARGE'>('SMALL');
   const [dispatchFeedback, setDispatchFeedback] = useState<{ success: boolean; message: string } | null>(null);
 
@@ -52,7 +52,7 @@ export const AdminPortal: React.FC = () => {
   const [newStoreName, setNewStoreName] = useState('');
   const [newOwnerName, setNewOwnerName] = useState('');
   const [newPhone, setNewPhone] = useState('');
-  const [newPincode, setNewPincode] = useState('110024');
+  const [newPincode, setNewPincode] = useState('700091');
   const [newAddress, setNewAddress] = useState('');
   const [newCapacity, setNewCapacity] = useState('40');
   const [storeFeedback, setStoreFeedback] = useState<{ success: boolean; message: string } | null>(null);

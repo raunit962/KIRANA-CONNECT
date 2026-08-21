@@ -51,7 +51,7 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
 
   const [notifications, setNotifications] = useState<NotificationItem[]>([]);
   const [activeStoreId, setActiveStoreId] = useState<string>('store-1');
-  const [activeTrackingNumber, setActiveTrackingNumber] = useState<string>('KC-84920-DL');
+  const [activeTrackingNumber, setActiveTrackingNumber] = useState<string>('KC-70091-KOL');
 
   useEffect(() => {
     localStorage.setItem('kc_stores', JSON.stringify(stores));
@@ -217,8 +217,8 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
 
   // Admin creates & dispatches a new order with auto-matching
   const createAndDispatchParcel = (orderData: Partial<Parcel>) => {
-    const pincode = orderData.destinationPincode || '110024';
-    const coords = orderData.destinationCoords || { latitude: 28.5675, longitude: 77.2430 };
+    const pincode = orderData.destinationPincode || '700091';
+    const coords = orderData.destinationCoords || { latitude: 22.5815, longitude: 88.4385 };
 
     // Run smart matching algorithm
     const matchResults = findBestKiranaStores(coords, pincode, stores);
@@ -301,7 +301,7 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
     setParcels(INITIAL_PARCELS);
     setPayoutLogs(INITIAL_PAYOUT_LOGS);
     setNotifications([]);
-    setActiveTrackingNumber('KC-84920-DL');
+    setActiveTrackingNumber('KC-70091-KOL');
     setActiveStoreId('store-1');
     localStorage.removeItem('kc_stores');
     localStorage.removeItem('kc_parcels');

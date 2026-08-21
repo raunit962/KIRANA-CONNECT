@@ -34,8 +34,8 @@ export const createParcel = (req: Request, res: Response) => {
   } = req.body;
 
   const stores = db.getStores();
-  const coords = destinationCoords || { latitude: 28.5680, longitude: 77.2435 };
-  const pincode = destinationPincode || '110024';
+  const coords = destinationCoords || { latitude: 22.5815, longitude: 88.4385 };
+  const pincode = destinationPincode || '700091';
 
   const matches = findBestKiranaHub(coords, pincode, stores);
   const bestMatch = matches.find((m) => m.hasCapacity && m.store.isVerified);
