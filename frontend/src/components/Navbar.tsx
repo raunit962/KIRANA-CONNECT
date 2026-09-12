@@ -9,7 +9,21 @@ export const Navbar: React.FC = () => {
   const activeParcels = parcels.filter((p) => p.status !== 'COLLECTED').length;
 
   return (
-    <header className="sticky top-0 z-40 bg-slate-900/90 backdrop-blur-md border-b border-slate-800">
+    <>
+      {/* SIH 2026 PS 26205 Top Banner */}
+      <div className="bg-gradient-to-r from-slate-950 via-brand-950 to-slate-950 border-b border-brand-500/30 text-xs py-1.5 px-4 text-center flex flex-wrap items-center justify-center gap-2 z-50 relative">
+        <span className="bg-brand-500 text-slate-950 font-black px-2 py-0.5 rounded text-[10px] tracking-wider uppercase">
+          SIH 2026 • PS ID: 26205
+        </span>
+        <span className="text-slate-200 font-semibold text-[11px]">
+          Transportation & Logistics: Relieving Urban Transport Networks & Logistics Infrastructure
+        </span>
+        <span className="text-emerald-400 font-bold text-[11px] hidden sm:inline">
+          • Eliminates Day-2/Day-3 Re-attempt Loops | ~88% Failed-Delivery Recovery Rate
+        </span>
+      </div>
+
+      <header className="sticky top-0 z-40 bg-slate-900/90 backdrop-blur-md border-b border-slate-800">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
         {/* Brand Logo */}
         <div className="flex items-center space-x-3">
@@ -51,7 +65,7 @@ export const Navbar: React.FC = () => {
 
           <div className="flex items-center space-x-1.5 text-emerald-400 bg-emerald-500/10 px-2.5 py-1.5 rounded-lg border border-emerald-500/20 font-semibold">
             <ShieldCheck className="w-4 h-4" />
-            <span>0% Failed Drops</span>
+            <span>~88% Retrieval Rate</span>
           </div>
         </div>
 
@@ -83,5 +97,6 @@ export const Navbar: React.FC = () => {
         </div>
       </div>
     </header>
+    </>
   );
 };

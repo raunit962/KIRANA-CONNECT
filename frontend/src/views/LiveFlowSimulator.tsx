@@ -185,13 +185,14 @@ export const LiveFlowSimulator: React.FC = () => {
               </div>
 
               <p className="text-xs text-slate-300 leading-relaxed">
-                An e-commerce order is placed in Sector V, Salt Lake (PIN 700091). The matching algorithm evaluates local Kirana capacity and assigns the closest active hub.
+                An e-commerce order is placed in Sector V, Salt Lake (PIN 700091). The matching algorithm evaluates local Kirana capacity and assigns the closest active hub within a <strong>zero-emission 4-minute walking radius</strong>.
               </p>
 
               <div className="bg-slate-800/70 p-4 rounded-2xl border border-slate-700/60 space-y-2 text-xs">
                 <div className="text-slate-400">Order: <strong>boAt Rockerz 450 Pro Headphones</strong></div>
                 <div className="text-slate-400">Destination: <strong>Godrej Waterside, Tower 3, Sector V, Salt Lake (PIN 700091)</strong></div>
                 <div className="text-emerald-400 font-semibold">Matched Hub: Ghosh Brothers Daily Provisions (~0.35 km away, Near Webel More)</div>
+                <div className="text-sky-300 text-[11px] font-medium">🚶 Pedestrian Geofence: 280m walk from customer home (Zero net-new traffic)</div>
               </div>
 
               <button
@@ -209,12 +210,12 @@ export const LiveFlowSimulator: React.FC = () => {
               <div className="flex items-center justify-between border-b border-slate-800 pb-3">
                 <h3 className="font-bold text-base text-white flex items-center gap-2">
                   <Bike className="w-5 h-5 text-amber-400" />
-                  <span>Step 2: Delivery Rider Batch Drop at Kirana</span>
+                  <span>Step 2: Delivery Rider Batch Drop at Kirana (Terminates Re-Attempt Loop)</span>
                 </h3>
               </div>
 
               <p className="text-xs text-slate-300 leading-relaxed">
-                Rider avoids doorstep drop failure (office gate security / customer unavailable) and drops parcel directly at the neighborhood Kirana hub with photo proof.
+                Rider avoids 15 fragmented doorstep delivery attempts through congested city alleys. A single 3-minute batch drop eliminates road congestion and double-parking choke points.
               </p>
 
               <div className="bg-slate-800/70 p-4 rounded-2xl border border-slate-700/60 flex items-center space-x-4">
@@ -315,8 +316,12 @@ export const LiveFlowSimulator: React.FC = () => {
                 <CheckCircle2 className="w-12 h-12 text-emerald-400 mx-auto" />
                 <h4 className="font-black text-lg text-white">Full PUDO Lifecycle Successful!</h4>
                 <p className="text-xs text-emerald-200">
-                  Zero doorstep failed delivery. ₹15 credited directly to {matchedStore.storeName}'s UPI wallet.
+                  Missed doorstep delivery securely recovered at corner Kirana. ₹15 credited directly to {matchedStore.storeName}'s UPI wallet.
                 </p>
+                <div className="bg-slate-900/80 p-2.5 rounded-xl border border-emerald-500/30 text-[11px] text-emerald-300 font-semibold space-y-0.5">
+                  <div>🚦 Urban Impact: Eliminates Day-2/Day-3 courier re-attempt runs</div>
+                  <div>🏢 Infrastructure: Cuts NDR holding clutter in city sorting warehouses by ~82%</div>
+                </div>
                 <div className="text-2xl font-black text-white">Wallet Balance: ₹{matchedStore.walletBalance}</div>
               </div>
 

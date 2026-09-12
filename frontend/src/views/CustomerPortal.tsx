@@ -103,11 +103,15 @@ export const CustomerPortal: React.FC = () => {
             onChange={(e) => setActiveTrackingNumber(e.target.value)}
             className="bg-slate-800 border border-slate-700 text-white rounded-xl px-3.5 py-2 text-xs font-mono font-bold focus:outline-none focus:border-brand-500"
           >
-            {parcels.map((p) => (
-              <option key={p.id} value={p.trackingNumber}>
-                {p.trackingNumber} — {p.packageItem} ({p.status.replace(/_/g, ' ')})
-              </option>
-            ))}
+            {parcels.map((p) => {
+              const store = stores.find((s) => s.id === p.kiranaStoreId);
+              const sizeLabel = p.packageSize === 'LARGE' ? '📦 HEAVY' : p.packageSize === 'MEDIUM' ? '📦 MED' : '✉️ SML';
+              return (
+                <option key={p.id} value={p.trackingNumber}>
+                  {sizeLabel} | {p.packageItem.slice(0, 28)}... ➔ {store?.storeName.split(' ')[0] || 'Hub'} ({p.status.replace(/_/g, ' ')})
+                </option>
+              );
+            })}
           </select>
 
           <button
@@ -214,7 +218,33 @@ export const CustomerPortal: React.FC = () => {
                   <div className="bg-slate-900/80 p-3 rounded-2xl border border-slate-800 text-xs space-y-1.5">
                     <div className="text-slate-300">Item: <strong className="text-white">{activeParcel.packageItem}</strong></div>
                     <div className="text-slate-400">Order ID: <span className="font-mono text-slate-200">{activeParcel.orderId}</span></div>
-                    <div className="text-slate-400">Package: <span className="text-brand-400 font-bold">{activeParcel.packageSize} Box</span></div>
+                    <div className="text-slate-400">Package: <span className="text-brand-400 font-bold">{activeParcel.packageSize === 'LARGE' ? '📦 LARGE (Heavy Box)' : activeParcel.packageSize === 'MEDIUM' ? '📦 MEDIUM Box' : '✉️ SMALL Box'}</span></div>
+                  </div>
+
+                  {/* PS 26205: Neighbourhood Green Footprint Tracker Badge */}
+                  <div className="bg-emerald-950/40 border border-emerald-500/30 rounded-2xl p-3 text-xs text-emerald-300 space-y-1.5">
+                    <div className="flex items-center justify-between font-bold">
+                      <span className="flex items-center gap-1.5 text-white">
+                        <span>🌱</span>
+                        <span>Neighbourhood Green Footprint Tracker</span>
+                      </span>
+                      <span className="text-[10px] bg-emerald-500/20 text-emerald-300 px-2 py-0.5 rounded-full border border-emerald-500/30 font-bold">
+                        Your Green Impact
+                      </span>
+                    </div>
+                    <div className="grid grid-cols-2 gap-2 pt-1 text-[11px]">
+                      <div className="bg-slate-900/80 p-2 rounded-xl border border-slate-800">
+                        <span className="text-slate-400 block text-[10px]">Repeat Trips Avoided</span>
+                        <strong className="text-white text-xs">1 Courier Run</strong>
+                      </div>
+                      <div className="bg-slate-900/80 p-2 rounded-xl border border-slate-800">
+                        <span className="text-slate-400 block text-[10px]">CO₂ Emissions Avoided</span>
+                        <strong className="text-emerald-400 text-xs">320g CO₂ (1.4 km)</strong>
+                      </div>
+                    </div>
+                    <p className="text-[10px] text-slate-400 leading-tight pt-0.5">
+                      Walking 280m to {assignedStore.storeName} eliminated a repeat multi-day van delivery trip.
+                    </p>
                   </div>
                 </div>
               </div>
@@ -259,13 +289,13 @@ export const CustomerPortal: React.FC = () => {
               {/* Action Buttons */}
               <div className="grid grid-cols-2 gap-3 pt-1">
                 <a
-                  href={`https://www.google.com/maps/search/?api=1&query=${assignedStore.latitude},${assignedStore.longitude}`}
+                  href={`https://www.google.com/maps/dir/?api=1&destination=${assignedStore.latitude},${assignedStore.longitude}`}
                   target="_blank"
                   rel="noreferrer"
-                  className="flex items-center justify-center space-x-2 bg-gradient-to-r from-brand-500 to-amber-500 hover:from-brand-400 hover:to-amber-400 text-slate-950 font-black py-2.5 rounded-xl text-xs shadow-lg shadow-brand-500/20 transition"
+                  className="flex items-center justify-center space-x-2 bg-gradient-to-r from-brand-600 to-amber-600 hover:from-brand-500 hover:to-amber-500 text-slate-950 font-black py-2.5 rounded-xl text-xs shadow-lg transition"
                 >
                   <Navigation className="w-4 h-4" />
-                  <span>Google Maps Directions</span>
+                  <span>Directions (Google Maps)</span>
                 </a>
 
                 <a
@@ -296,6 +326,24 @@ export const CustomerPortal: React.FC = () => {
             </div>
             <span className="text-xs font-mono font-bold bg-emerald-500/20 text-emerald-300 px-3 py-1.5 rounded-xl border border-emerald-500/30 uppercase whitespace-nowrap">
               KIRANA15
+            </span>
+          </div>
+
+          {/* PS 26205: Reverse PUDO (Zero-Courier Return Hub) */}
+          <div className="bg-gradient-to-r from-sky-950/40 via-slate-900 to-slate-900 border border-sky-500/30 rounded-3xl p-4 shadow-xl flex items-center justify-between gap-4 text-xs">
+            <div className="flex items-center space-x-3">
+              <div className="w-10 h-10 rounded-xl bg-sky-500/20 border border-sky-500/40 flex items-center justify-center text-sky-400 font-bold text-base">
+                🔄
+              </div>
+              <div>
+                <div className="font-extrabold text-white text-sm">Two-Way Circular Logistics (Return PUDO)</div>
+                <div className="text-slate-400 text-[11px] mt-0.5">
+                  Returning an Amazon/Flipkart order? Drop it back at this counter — eliminates dedicated courier return trips across city roads!
+                </div>
+              </div>
+            </div>
+            <span className="text-[10px] font-bold bg-sky-500/20 text-sky-300 px-3 py-1.5 rounded-xl border border-sky-500/30 whitespace-nowrap">
+              Return Hub
             </span>
           </div>
         </div>

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { KiranaStore, Parcel, Coordinates } from '../types';
-import { Store, User, Bike, Navigation, Layers, Compass, Zap, MapPin } from 'lucide-react';
+import { Store, User, Bike, Navigation, Layers, Compass, Zap, MapPin, AlertTriangle, CheckCircle2 } from 'lucide-react';
 
 interface InteractiveMapProps {
   stores: KiranaStore[];
@@ -17,7 +17,7 @@ export const InteractiveMap: React.FC<InteractiveMapProps> = ({
   onSelectStore,
   showRiderTrack = true,
 }) => {
-  const [activeLayer, setActiveLayer] = useState<'STANDARD' | 'GEOFENCE' | 'CAPACITY'>('STANDARD');
+  const [activeLayer, setActiveLayer] = useState<'STANDARD' | 'DOORSTEP_TRAFFIC' | 'GEOFENCE'>('STANDARD');
 
   // Customer location or default center (Salt Lake Sector V, Kolkata)
   const customerLoc: Coordinates = activeParcel?.destinationCoords || {
@@ -50,7 +50,7 @@ export const InteractiveMap: React.FC<InteractiveMapProps> = ({
   };
 
   return (
-    <div className="relative w-full h-80 sm:h-96 bg-[#090d16] rounded-3xl overflow-hidden border border-slate-800 shadow-2xl group">
+    <div className="relative w-full h-84 sm:h-[400px] bg-[#090d16] rounded-3xl overflow-hidden border border-slate-800 shadow-2xl group">
       {/* Map Grid Background */}
       <div 
         className="absolute inset-0 opacity-25"
@@ -80,15 +80,36 @@ export const InteractiveMap: React.FC<InteractiveMapProps> = ({
           </pattern>
         </defs>
 
-        {/* Connective Delivery Route Polyline */}
-        <path
-          d={`M ${custSvg.x} ${custSvg.y} Q ${riderSvg.x} ${riderSvg.y} ${storeSvg.x} ${storeSvg.y}`}
-          fill="none"
-          stroke="url(#routeGradient)"
-          strokeWidth="3"
-          strokeDasharray="6 4"
-          className="animate-pulse"
-        />
+        {/* Mode 1: Consolidated Single PUDO Batch Drop Route */}
+        {activeLayer !== 'DOORSTEP_TRAFFIC' && (
+          <path
+            d={`M ${custSvg.x} ${custSvg.y} Q ${riderSvg.x} ${riderSvg.y} ${storeSvg.x} ${storeSvg.y}`}
+            fill="none"
+            stroke="url(#routeGradient)"
+            strokeWidth="3.5"
+            strokeDasharray="6 4"
+            className="animate-pulse"
+          />
+        )}
+
+        {/* Mode 2: Traditional Fragmented Doorstep Delivery (Simulating 15 stops, narrow lanes, traffic congestion) */}
+        {activeLayer === 'DOORSTEP_TRAFFIC' && (
+          <g>
+            <path
+              d="M 90 70 L 150 130 L 190 85 L 260 140 L 230 220 L 310 270 L 390 230 L 460 300 L 510 240 L 440 130 L 370 85 L 280 50 L 170 65 Z"
+              fill="none"
+              stroke="#ef4444"
+              strokeWidth="2.5"
+              strokeDasharray="5 4"
+              className="animate-pulse"
+            />
+            {/* Failed delivery red markers */}
+            <circle cx="190" cy="85" r="5" fill="#ef4444" stroke="#ffffff" strokeWidth="1.5" />
+            <circle cx="310" cy="270" r="5" fill="#ef4444" stroke="#ffffff" strokeWidth="1.5" />
+            <circle cx="460" cy="300" r="5" fill="#ef4444" stroke="#ffffff" strokeWidth="1.5" />
+            <circle cx="170" cy="65" r="5" fill="#ef4444" stroke="#ffffff" strokeWidth="1.5" />
+          </g>
+        )}
 
         {/* Geofence Radii for Stores */}
         {stores.map((store) => {
@@ -108,13 +129,13 @@ export const InteractiveMap: React.FC<InteractiveMapProps> = ({
                 cy={coords.y}
                 r={isSelected ? 45 : 32}
                 fill={ringColor}
-                fillOpacity={activeLayer === 'GEOFENCE' ? 0.18 : 0.06}
+                fillOpacity={activeLayer === 'GEOFENCE' ? 0.22 : 0.06}
                 stroke={ringColor}
                 strokeWidth={isSelected ? '1.5' : '0.75'}
                 strokeDasharray={isSelected ? '4 2' : 'none'}
               />
               {/* Proximity line to customer */}
-              {isSelected && (
+              {isSelected && activeLayer !== 'DOORSTEP_TRAFFIC' && (
                 <line
                   x1={custSvg.x}
                   y1={custSvg.y}
@@ -150,7 +171,7 @@ export const InteractiveMap: React.FC<InteractiveMapProps> = ({
         </div>
 
         {/* Live Rider Marker */}
-        {showRiderTrack && (
+        {showRiderTrack && activeLayer !== 'DOORSTEP_TRAFFIC' && (
           <div
             className="absolute transform -translate-x-1/2 -translate-y-1/2 flex flex-col items-center z-30"
             style={{ left: `${(riderSvg.x / 600) * 100}%`, top: `${(riderSvg.y / 400) * 100}%` }}
@@ -203,30 +224,68 @@ export const InteractiveMap: React.FC<InteractiveMapProps> = ({
         })}
       </div>
 
-      {/* Map Control Overlay */}
-      <div className="absolute top-3 left-3 bg-slate-900/90 backdrop-blur-md border border-slate-800 px-3 py-1.5 rounded-2xl flex items-center space-x-2 text-xs text-slate-300 shadow-xl">
+      {/* Map Header Location Overlay */}
+      <div className="absolute top-3 left-3 bg-slate-900/95 backdrop-blur-md border border-slate-800 px-3 py-1.5 rounded-2xl flex items-center space-x-2 text-xs text-slate-300 shadow-xl">
         <Compass className="w-4 h-4 text-brand-400" />
         <span className="font-bold">Salt Lake Sector V, Kolkata (PIN 700091)</span>
         <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping" />
       </div>
 
-      {/* Layer Toggles */}
-      <div className="absolute bottom-3 right-3 bg-slate-900/90 backdrop-blur-md border border-slate-800 p-1.5 rounded-xl flex items-center space-x-1 text-[11px] shadow-xl">
+      {/* PS 26205 Route Comparison Alert Banner */}
+      {activeLayer === 'DOORSTEP_TRAFFIC' ? (
+        <div className="absolute top-12 left-3 right-3 bg-red-950/90 backdrop-blur-md border border-red-500/50 p-2.5 rounded-2xl text-xs text-red-200 flex flex-wrap items-center justify-between shadow-2xl z-30 animate-fadeIn">
+          <div className="flex items-center gap-2">
+            <AlertTriangle className="w-4 h-4 text-red-400 flex-shrink-0" />
+            <span>
+              <strong>Traditional Doorstep Grid:</strong> 18.4 km across 15 zig-zag stops • 110 mins • 4 failed deliveries • High road congestion
+            </span>
+          </div>
+          <span className="bg-red-500 text-white font-black text-[10px] px-2 py-0.5 rounded-full shadow">
+            Severe Road Congestion
+          </span>
+        </div>
+      ) : activeLayer === 'STANDARD' ? (
+        <div className="absolute top-12 left-3 right-3 bg-emerald-950/90 backdrop-blur-md border border-emerald-500/40 p-2.5 rounded-2xl text-xs text-emerald-200 flex flex-wrap items-center justify-between shadow-2xl z-30 animate-fadeIn">
+          <div className="flex items-center gap-2">
+            <CheckCircle2 className="w-4 h-4 text-emerald-400 flex-shrink-0" />
+            <span>
+              <strong>KiranaConnect PUDO Route:</strong> Single Fallback Batch Drop (2.8 km, 12 mins) • Eliminates Multi-Day Re-attempts • ~60% Re-attempt Mileage Saved
+            </span>
+          </div>
+          <span className="bg-emerald-500 text-slate-950 font-black text-[10px] px-2 py-0.5 rounded-full shadow">
+            Green Consolidated Route
+          </span>
+        </div>
+      ) : null}
+
+      {/* Layer Controls with SIH PS 26205 Route Comparison */}
+      <div className="absolute bottom-3 right-3 bg-slate-900/95 backdrop-blur-md border border-slate-800 p-1.5 rounded-2xl flex items-center space-x-1 text-[11px] shadow-2xl z-30">
         <button
           onClick={() => setActiveLayer('STANDARD')}
-          className={`px-2.5 py-1 rounded-lg font-semibold transition ${
-            activeLayer === 'STANDARD' ? 'bg-brand-500 text-white' : 'text-slate-400 hover:text-white'
+          className={`px-2.5 py-1 rounded-xl font-bold transition flex items-center gap-1 ${
+            activeLayer === 'STANDARD' ? 'bg-emerald-500 text-slate-950 shadow' : 'text-slate-400 hover:text-white'
           }`}
+          title="Consolidated PUDO batch route"
         >
-          Routing
+          <span>PUDO Batch (Green)</span>
+        </button>
+        <button
+          onClick={() => setActiveLayer('DOORSTEP_TRAFFIC')}
+          className={`px-2.5 py-1 rounded-xl font-bold transition flex items-center gap-1 ${
+            activeLayer === 'DOORSTEP_TRAFFIC' ? 'bg-red-500 text-white shadow' : 'text-slate-400 hover:text-red-300'
+          }`}
+          title="Compare with fragmented doorstep delivery"
+        >
+          <span>Doorstep Traffic (Red)</span>
         </button>
         <button
           onClick={() => setActiveLayer('GEOFENCE')}
-          className={`px-2.5 py-1 rounded-lg font-semibold transition ${
-            activeLayer === 'GEOFENCE' ? 'bg-emerald-500 text-slate-950' : 'text-slate-400 hover:text-white'
+          className={`px-2.5 py-1 rounded-xl font-bold transition ${
+            activeLayer === 'GEOFENCE' ? 'bg-sky-500 text-slate-950 shadow' : 'text-slate-400 hover:text-white'
           }`}
+          title="500m pedestrian walking radius"
         >
-          500m Geofence
+          <span>500m Walk Zone</span>
         </button>
       </div>
     </div>

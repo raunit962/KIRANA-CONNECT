@@ -154,6 +154,52 @@ export const AdminPortal: React.FC = () => {
         </button>
       </div>
 
+      {/* SIH PS 26205 Smart City & Urban Transport Telemetry HUD */}
+      <div className="bg-gradient-to-r from-emerald-950/40 via-slate-900 to-sky-950/40 border border-emerald-500/30 rounded-3xl p-5 shadow-xl space-y-3">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 border-b border-slate-800 pb-3">
+          <div className="flex items-center space-x-2">
+            <span className="text-emerald-300 font-black text-[10px] bg-emerald-500/20 px-2.5 py-0.5 rounded-full border border-emerald-500/30 uppercase tracking-wider">
+              SIH 2026 • PS ID: 26205
+            </span>
+            <h3 className="font-extrabold text-sm text-white flex items-center gap-1.5">
+              <span>🌱</span>
+              <span>NEIGHBOURHOOD GREEN FOOTPRINT TRACKER</span>
+            </h3>
+          </div>
+          <span className="text-[11px] text-emerald-400 font-bold bg-emerald-500/10 px-2.5 py-0.5 rounded-full border border-emerald-500/20">
+            Logistics Relief Telemetry • Kolkata Sector V
+          </span>
+        </div>
+
+        {/* Feature Context Description */}
+        <p className="text-xs text-slate-300 leading-relaxed bg-slate-950/60 p-3 rounded-2xl border border-slate-800/80">
+          <strong className="text-emerald-400">Neighbourhood Green Footprint Tracker:</strong> Estimates the environmental impact of local pickup by tracking repeat delivery trips avoided, vehicle kilometers reduced &amp; established CO₂ emissions avoided, providing customers a measurable view of their contribution to a greener last mile logistics.
+        </p>
+
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 text-xs">
+          <div className="bg-slate-950/60 p-3 rounded-xl border border-slate-800 space-y-1">
+            <div className="text-slate-400 text-[11px]">Repeat Delivery Trips Avoided</div>
+            <div className="text-xl font-black text-emerald-400">142 Trips</div>
+            <div className="text-[10px] text-slate-400">Eliminates multi-day re-attempt loops</div>
+          </div>
+          <div className="bg-slate-950/60 p-3 rounded-xl border border-slate-800 space-y-1">
+            <div className="text-slate-400 text-[11px]">Vehicle Kilometers Reduced</div>
+            <div className="text-xl font-black text-emerald-400">68.4 km</div>
+            <div className="text-[10px] text-slate-400">Cuts ~70% of repeat courier miles</div>
+          </div>
+          <div className="bg-slate-950/60 p-3 rounded-xl border border-slate-800 space-y-1">
+            <div className="text-slate-400 text-[11px]">Established CO₂ Avoided</div>
+            <div className="text-xl font-black text-sky-400">15.8 kg CO₂</div>
+            <div className="text-[10px] text-slate-400">~0.23 kg CO₂/km 2-wheeler savings</div>
+          </div>
+          <div className="bg-slate-950/60 p-3 rounded-xl border border-slate-800 space-y-1">
+            <div className="text-slate-400 text-[11px]">Central Warehouse RTO Relief</div>
+            <div className="text-xl font-black text-purple-400">~82% RTO Cut</div>
+            <div className="text-[10px] text-slate-400">Reduces holding backlog from 22% to &lt;4%</div>
+          </div>
+        </div>
+      </div>
+
       {/* KPI Stats Row */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <div className="bg-slate-900 border border-slate-800 rounded-2xl p-4 shadow space-y-1">
@@ -162,15 +208,15 @@ export const AdminPortal: React.FC = () => {
             <Store className="w-4 h-4 text-brand-400" />
           </div>
           <div className="text-2xl font-black text-white">{stores.length} Stores</div>
-          <div className="text-[11px] text-emerald-400 font-medium">100% KYC Verified & Active</div>
+          <div className="text-[11px] text-emerald-400 font-medium">Tiered KYC Verified & Active</div>
         </div>
 
         <div className="bg-slate-900 border border-slate-800 rounded-2xl p-4 shadow space-y-1">
           <div className="flex items-center justify-between text-slate-400 text-xs">
-            <span>RTO Failure Reduction</span>
+            <span>NDR Recovery Rate</span>
             <TrendingDown className="w-4 h-4 text-emerald-400" />
           </div>
-          <div className="text-2xl font-black text-emerald-400">~24.8% Saved</div>
+          <div className="text-2xl font-black text-emerald-400">~88.4% Picked Up</div>
           <div className="text-[11px] text-slate-400">Industry avg: 18-25% failed</div>
         </div>
 
@@ -180,7 +226,7 @@ export const AdminPortal: React.FC = () => {
             <Coins className="w-4 h-4 text-amber-400" />
           </div>
           <div className="text-2xl font-black text-amber-400">₹{totalCostSaved.toLocaleString('en-IN')}</div>
-          <div className="text-[11px] text-emerald-400 font-medium">₹38 saved per parcel drop</div>
+          <div className="text-[11px] text-emerald-400 font-medium">₹38 saved vs. 3 re-attempt cycles</div>
         </div>
 
         <div className="bg-slate-900 border border-slate-800 rounded-2xl p-4 shadow space-y-1">
@@ -195,43 +241,83 @@ export const AdminPortal: React.FC = () => {
         </div>
       </div>
 
-      {/* Doorstep vs. KiranaConnect ROI Breakdown Matrix */}
-      <div className="bg-gradient-to-r from-slate-900 via-slate-900 to-indigo-950/40 border border-slate-800 rounded-3xl p-6 shadow-xl space-y-4">
-        <div className="flex items-center justify-between border-b border-slate-800 pb-3">
-          <h3 className="font-extrabold text-sm text-white flex items-center gap-2">
-            <TrendingUp className="w-4 h-4 text-emerald-400" />
-            <span>Economic Unit Economics: Traditional Doorstep vs. KiranaConnect PUDO</span>
-          </h3>
-          <span className="text-[10px] font-bold text-emerald-400 bg-emerald-500/10 px-2.5 py-0.5 rounded-full border border-emerald-500/20">
-            63% COST REDUCTION
-          </span>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
-          {/* Traditional Doorstep */}
-          <div className="bg-slate-950/80 p-4 rounded-2xl border border-red-500/30 space-y-2">
-            <div className="flex justify-between font-bold text-red-400">
-              <span>Traditional Doorstep Drop (High Risk)</span>
-              <span>₹60 - ₹75 / drop</span>
-            </div>
-            <ul className="space-y-1 text-slate-400 text-[11px]">
-              <li>❌ 18-25% Failed deliveries (door locked, customer at office)</li>
-              <li>❌ ₹120+ RTO Return To Origin penalty per failed attempt</li>
-              <li>❌ 15 mins wasted per drop in congested narrow lanes</li>
-            </ul>
+      {/* Doorstep vs. KiranaConnect ROI & Urban Transport Relief Matrix */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {/* Card 1: Economic Unit Economics */}
+        <div className="bg-gradient-to-r from-slate-900 via-slate-900 to-indigo-950/40 border border-slate-800 rounded-3xl p-6 shadow-xl space-y-4">
+          <div className="flex items-center justify-between border-b border-slate-800 pb-3">
+            <h3 className="font-extrabold text-sm text-white flex items-center gap-2">
+              <TrendingUp className="w-4 h-4 text-emerald-400" />
+              <span>Unit Economics: Doorstep vs PUDO</span>
+            </h3>
+            <span className="text-[10px] font-bold text-emerald-400 bg-emerald-500/10 px-2.5 py-0.5 rounded-full border border-emerald-500/20">
+              63% COST CUT
+            </span>
           </div>
 
-          {/* KiranaConnect PUDO */}
-          <div className="bg-slate-950/80 p-4 rounded-2xl border border-emerald-500/40 space-y-2">
-            <div className="flex justify-between font-bold text-emerald-400">
-              <span>KiranaConnect PUDO Hub (Zero Failure)</span>
-              <span>₹22 Total Cost</span>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+            <div className="bg-slate-950/80 p-3.5 rounded-2xl border border-red-500/30 space-y-1.5">
+              <div className="flex justify-between font-bold text-red-400">
+                <span>Traditional Doorstep</span>
+                <span>₹60 - ₹75</span>
+              </div>
+              <ul className="space-y-1 text-slate-400 text-[11px]">
+                <li>❌ 18-25% Failed doorstep drops</li>
+                <li>❌ ₹120+ RTO penalty per return</li>
+                <li>❌ High fuel & delivery re-attempts</li>
+              </ul>
             </div>
-            <ul className="space-y-1 text-slate-300 text-[11px]">
-              <li>✅ 0% Failed Drops (Always accepted at trusted local dukan)</li>
-              <li>✅ ₹15 Direct micro-income for local store merchant</li>
-              <li>✅ Batch drop (Rider drops 10 parcels in 1 stop in 3 mins)</li>
-            </ul>
+
+            <div className="bg-slate-950/80 p-3.5 rounded-2xl border border-emerald-500/40 space-y-1.5">
+              <div className="flex justify-between font-bold text-emerald-400">
+                <span>KiranaConnect PUDO</span>
+                <span>₹22.00</span>
+              </div>
+              <ul className="space-y-1 text-slate-300 text-[11px]">
+                <li>✅ 88%+ Customer Retrieval (&lt;4% RTO)</li>
+                <li>✅ ₹15 Direct to Kirana UPI wallet</li>
+                <li>✅ Batch drop 15 parcels in 3 mins</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        {/* Card 2: SIH PS 26205 Urban Transport & Logistics Relief */}
+        <div className="bg-gradient-to-r from-slate-900 via-slate-900 to-sky-950/40 border border-slate-800 rounded-3xl p-6 shadow-xl space-y-4">
+          <div className="flex items-center justify-between border-b border-slate-800 pb-3">
+            <h3 className="font-extrabold text-sm text-white flex items-center gap-2">
+              <MapPin className="w-4 h-4 text-sky-400" />
+              <span>Urban Transport & Infrastructure Relief (PS 26205)</span>
+            </h3>
+            <span className="text-[10px] font-bold text-sky-300 bg-sky-500/10 px-2.5 py-0.5 rounded-full border border-sky-500/20">
+              ~70% RE-ATTEMPT VMT CUT
+            </span>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+            <div className="bg-slate-950/80 p-3.5 rounded-2xl border border-red-500/30 space-y-1.5">
+              <div className="flex justify-between font-bold text-red-400">
+                <span>Doorstep Traffic Impact</span>
+                <span>Choked Roads</span>
+              </div>
+              <ul className="space-y-1 text-slate-400 text-[11px]">
+                <li>🚦 15 separate bikes clogging lanes</li>
+                <li>🛣️ 18.4 km total travel per cluster</li>
+                <li>🏢 Sorting hubs clogged with RTOs</li>
+              </ul>
+            </div>
+
+            <div className="bg-slate-950/80 p-3.5 rounded-2xl border border-sky-500/40 space-y-1.5">
+              <div className="flex justify-between font-bold text-sky-400">
+                <span>PUDO Grid Impact</span>
+                <span>Clean Traffic</span>
+              </div>
+              <ul className="space-y-1 text-slate-300 text-[11px]">
+                <li>🟢 1 single courier drop run (2.8 km)</li>
+                <li>🚶 ~85% within 400m walking radius</li>
+                <li>🏢 Sorting hubs freed from failed loops</li>
+              </ul>
+            </div>
           </div>
         </div>
       </div>

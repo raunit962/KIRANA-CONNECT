@@ -35,17 +35,17 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
   const [language, setLanguage] = useState<'en' | 'hi'>('en');
   
   const [stores, setStores] = useState<KiranaStore[]>(() => {
-    const saved = localStorage.getItem('kc_stores');
+    const saved = localStorage.getItem('kc_stores_v3');
     return saved ? JSON.parse(saved) : INITIAL_KIRANA_STORES;
   });
 
   const [parcels, setParcels] = useState<Parcel[]>(() => {
-    const saved = localStorage.getItem('kc_parcels');
+    const saved = localStorage.getItem('kc_parcels_v3');
     return saved ? JSON.parse(saved) : INITIAL_PARCELS;
   });
 
   const [payoutLogs, setPayoutLogs] = useState<PayoutLog[]>(() => {
-    const saved = localStorage.getItem('kc_payouts');
+    const saved = localStorage.getItem('kc_payouts_v3');
     return saved ? JSON.parse(saved) : INITIAL_PAYOUT_LOGS;
   });
 
@@ -54,15 +54,15 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
   const [activeTrackingNumber, setActiveTrackingNumber] = useState<string>('KC-70091-KOL');
 
   useEffect(() => {
-    localStorage.setItem('kc_stores', JSON.stringify(stores));
+    localStorage.setItem('kc_stores_v3', JSON.stringify(stores));
   }, [stores]);
 
   useEffect(() => {
-    localStorage.setItem('kc_parcels', JSON.stringify(parcels));
+    localStorage.setItem('kc_parcels_v3', JSON.stringify(parcels));
   }, [parcels]);
 
   useEffect(() => {
-    localStorage.setItem('kc_payouts', JSON.stringify(payoutLogs));
+    localStorage.setItem('kc_payouts_v3', JSON.stringify(payoutLogs));
   }, [payoutLogs]);
 
   // Delivery Rider drops parcel at Kirana
@@ -303,6 +303,9 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
     setNotifications([]);
     setActiveTrackingNumber('KC-70091-KOL');
     setActiveStoreId('store-1');
+    localStorage.removeItem('kc_stores_v3');
+    localStorage.removeItem('kc_parcels_v3');
+    localStorage.removeItem('kc_payouts_v3');
     localStorage.removeItem('kc_stores');
     localStorage.removeItem('kc_parcels');
     localStorage.removeItem('kc_payouts');
