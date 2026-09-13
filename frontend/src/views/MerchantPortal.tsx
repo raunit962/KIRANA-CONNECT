@@ -94,38 +94,38 @@ export const MerchantPortal: React.FC = () => {
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
       {/* Top Store Selector & Status Bar */}
-      <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6 shadow-xl flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+      <div className="bg-[#EFE8DC] border border-[#D8C3A5] rounded-3xl p-6 shadow-sm flex flex-col md:flex-row md:items-center md:justify-between gap-4">
         <div className="flex items-center space-x-4">
           <img
             src={currentStore.photoUrl}
             alt={currentStore.storeName}
-            className="w-16 h-16 rounded-2xl object-cover border-2 border-emerald-500/40 shadow-lg"
+            className="w-16 h-16 rounded-2xl object-cover border-2 border-[#D8C3A5] shadow-sm"
           />
           <div>
             <div className="flex items-center space-x-2">
-              <h2 className="text-lg font-black text-white">{currentStore.storeName}</h2>
+              <h2 className="text-lg font-black text-[#171717]">{currentStore.storeName}</h2>
               {currentStore.isVerified && (
-                <span className="bg-emerald-500/10 text-emerald-400 text-[10px] font-bold px-2.5 py-0.5 rounded-full border border-emerald-500/30 flex items-center gap-1">
-                  <ShieldCheck className="w-3.5 h-3.5" />
+                <span className="bg-[#D8C3A5]/40 text-[#171717] text-[10px] font-bold px-2.5 py-0.5 rounded-full border border-[#D8C3A5] flex items-center gap-1">
+                  <ShieldCheck className="w-3.5 h-3.5 text-[#B85C38]" />
                   {language === 'hi' ? 'सत्यापित किराना हब' : 'Official PUDO Hub'}
                 </span>
               )}
             </div>
-            <p className="text-xs text-slate-400 mt-0.5">
-              Owner: <strong className="text-slate-200">{currentStore.ownerName}</strong> | PIN: {currentStore.pincode} ({currentStore.city})
+            <p className="text-xs text-[#786F67] mt-0.5">
+              Owner: <strong className="text-[#171717]">{currentStore.ownerName}</strong> | PIN: {currentStore.pincode} ({currentStore.city})
             </p>
           </div>
         </div>
 
         {/* Store Switcher */}
         <div className="flex items-center space-x-3">
-          <span className="text-xs text-slate-400 font-medium whitespace-nowrap">
+          <span className="text-xs text-[#786F67] font-medium whitespace-nowrap">
             {language === 'hi' ? 'दुकान चुनें:' : 'Active Dukan:'}
           </span>
           <select
             value={currentStore.id}
             onChange={(e) => setActiveStoreId(e.target.value)}
-            className="bg-slate-800 border border-slate-700 text-white rounded-xl px-3.5 py-2 text-xs font-bold focus:outline-none focus:border-emerald-500"
+            className="bg-[#F8F5EF] border border-[#D8C3A5] text-[#171717] rounded-xl px-3.5 py-2 text-xs font-bold focus:outline-none focus:border-[#B85C38]"
           >
             {stores.map((s) => (
               <option key={s.id} value={s.id}>
@@ -139,7 +139,7 @@ export const MerchantPortal: React.FC = () => {
       {/* Main KPI Row */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
         {/* Shelf Capacity Gauge */}
-        <div className="bg-slate-900 border border-slate-800 rounded-3xl p-4 shadow-xl flex flex-col justify-between">
+        <div className="bg-[#EFE8DC] border border-[#D8C3A5] rounded-3xl p-4 shadow-sm flex flex-col justify-between">
           <CapacityGauge
             current={currentStore.currentCapacity}
             max={currentStore.maxCapacity}
@@ -148,62 +148,62 @@ export const MerchantPortal: React.FC = () => {
         </div>
 
         {/* Commission Wallet */}
-        <div className="bg-gradient-to-br from-emerald-950/40 via-slate-900 to-slate-900 border border-emerald-500/30 rounded-3xl p-5 shadow-xl flex flex-col justify-between">
+        <div className="bg-[#EFE8DC] border border-[#D8C3A5] rounded-3xl p-5 shadow-sm flex flex-col justify-between">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-bold text-slate-300">
+            <span className="text-xs font-bold text-[#786F67]">
               {language === 'hi' ? 'कमीशन वॉलेट' : 'Merchant Wallet'}
             </span>
-            <span className="text-[10px] font-bold bg-emerald-500/20 text-emerald-300 px-2 py-0.5 rounded-full border border-emerald-500/30">
+            <span className="text-[10px] font-bold bg-[#B85C38] text-white px-2 py-0.5 rounded-full shadow-xs">
               ₹{currentStore.commissionRate} / parcel
             </span>
           </div>
 
           <div className="my-2">
-            <div className="text-3xl font-black text-white">
+            <div className="text-3xl font-black text-[#171717]">
               ₹{currentStore.walletBalance.toLocaleString('en-IN')}
             </div>
-            <p className="text-[11px] text-emerald-400 font-medium">
+            <p className="text-[11px] text-[#B85C38] font-medium">
               • {currentStore.totalParcelsHandled} parcels completed
             </p>
           </div>
 
-          <div className="text-[10px] text-slate-400 flex items-center justify-between pt-1 border-t border-slate-800">
+          <div className="text-[10px] text-[#786F67] flex items-center justify-between pt-1 border-t border-[#D8C3A5]">
             <span>Instant UPI settlement</span>
-            <span className="text-emerald-400 font-bold">0% Fee</span>
+            <span className="text-[#B85C38] font-bold">0% Fee</span>
           </div>
         </div>
 
         {/* Extra Footfall & Grocery Cross-Sell Analytics */}
-        <div className="bg-slate-900 border border-slate-800 rounded-3xl p-5 shadow-xl flex flex-col justify-between">
+        <div className="bg-[#EFE8DC] border border-[#D8C3A5] rounded-3xl p-5 shadow-sm flex flex-col justify-between">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-bold text-slate-300">Store Footfall Gain</span>
-            <Users className="w-4 h-4 text-sky-400" />
+            <span className="text-xs font-bold text-[#786F67]">Store Footfall Gain</span>
+            <Users className="w-4 h-4 text-[#B85C38]" />
           </div>
 
           <div className="my-2">
-            <div className="text-2xl font-black text-sky-400">+142 Walk-ins</div>
-            <p className="text-[11px] text-slate-400">
-              Generated <strong className="text-emerald-400">+₹4,250</strong> in extra grocery sales
+            <div className="text-2xl font-black text-[#171717]">+142 Walk-ins</div>
+            <p className="text-[11px] text-[#786F67]">
+              Generated <strong className="text-[#B85C38]">+₹4,250</strong> in extra grocery sales
             </p>
           </div>
 
-          <div className="text-[10px] text-sky-400 font-medium pt-1 border-t border-slate-800">
+          <div className="text-[10px] text-[#B85C38] font-medium pt-1 border-t border-[#D8C3A5]">
             High-converting local footfall
           </div>
         </div>
 
         {/* Big Release Action Button */}
-        <div className="bg-gradient-to-br from-brand-950/40 via-slate-900 to-slate-900 border border-brand-500/30 rounded-3xl p-5 shadow-xl flex flex-col justify-between">
+        <div className="bg-[#EFE8DC] border border-[#D8C3A5] rounded-3xl p-5 shadow-sm flex flex-col justify-between">
           <div>
-            <span className="text-xs font-bold text-slate-300">Handoff Station</span>
-            <h3 className="text-base font-black text-white mt-1">
+            <span className="text-xs font-bold text-[#786F67]">Handoff Station</span>
+            <h3 className="text-base font-black text-[#171717] mt-1">
               {language === 'hi' ? 'पार्सल रिलीज करें' : 'Release Package'}
             </h3>
           </div>
 
           <button
             onClick={() => setIsScannerOpen(true)}
-            className="w-full mt-3 py-3 bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 text-white font-extrabold text-xs rounded-2xl shadow-lg shadow-emerald-500/30 flex items-center justify-center space-x-2 transition"
+            className="w-full mt-3 py-3 bg-[#B85C38] hover:bg-[#A94D2F] text-white font-extrabold text-xs rounded-2xl shadow-sm flex items-center justify-center space-x-2 transition"
           >
             <QrCode className="w-4 h-4" />
             <span>{language === 'hi' ? 'QR / OTP स्कैन' : 'Scan QR & Verify OTP'}</span>
@@ -225,39 +225,39 @@ export const MerchantPortal: React.FC = () => {
       {/* Main Content Split: Left = Active Shelf Inventory, Right = Soundbox & UPI Settlement */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         {/* Left: Active Shelf Inventory Table (8 Cols) */}
-        <div className="lg:col-span-8 bg-slate-900 border border-slate-800 rounded-3xl p-6 shadow-xl space-y-4">
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 border-b border-slate-800 pb-4">
+        <div className="lg:col-span-8 bg-[#EFE8DC] border border-[#D8C3A5] rounded-3xl p-6 shadow-sm space-y-4">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 border-b border-[#D8C3A5] pb-4">
             <div>
-              <h3 className="text-base font-bold text-white flex items-center gap-2">
-                <Package className="w-5 h-5 text-emerald-400" />
+              <h3 className="text-base font-bold text-[#171717] flex items-center gap-2">
+                <Package className="w-5 h-5 text-[#B85C38]" />
                 <span>
                   {language === 'hi' ? 'दुकान शेल्फ पर उपलब्ध पार्सल' : 'Parcels On Store Shelf'} ({parcelsOnShelf.length})
                 </span>
               </h3>
-              <p className="text-xs text-slate-400">
+              <p className="text-xs text-[#786F67]">
                 Verify customer OTP / QR pass to hand over package
               </p>
             </div>
 
             {/* Search Box */}
             <div className="relative">
-              <Search className="w-4 h-4 text-slate-400 absolute left-3 top-2.5" />
+              <Search className="w-4 h-4 text-[#786F67] absolute left-3 top-2.5" />
               <input
                 type="text"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 placeholder="Search phone, OTP, item..."
-                className="bg-slate-800 border border-slate-700 rounded-xl pl-9 pr-4 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500"
+                className="bg-[#F8F5EF] border border-[#D8C3A5] rounded-xl pl-9 pr-4 py-2 text-xs text-[#171717] placeholder-[#786F67] focus:outline-none focus:border-[#B85C38]"
               />
             </div>
           </div>
 
           {/* Shelf Table */}
           {filteredParcels.length === 0 ? (
-            <div className="p-10 text-center bg-slate-800/40 rounded-2xl border border-dashed border-slate-700 space-y-2">
-              <CheckCircle2 className="w-8 h-8 text-emerald-400 mx-auto" />
-              <p className="text-sm font-bold text-white">No parcels waiting on shelf</p>
-              <p className="text-xs text-slate-400">
+            <div className="p-10 text-center bg-[#F8F5EF] rounded-2xl border border-dashed border-[#D8C3A5] space-y-2">
+              <CheckCircle2 className="w-8 h-8 text-[#B85C38] mx-auto" />
+              <p className="text-sm font-bold text-[#171717]">No parcels waiting on shelf</p>
+              <p className="text-xs text-[#786F67]">
                 All packages have been successfully collected!
               </p>
             </div>
@@ -265,7 +265,7 @@ export const MerchantPortal: React.FC = () => {
             <div className="overflow-x-auto">
               <table className="w-full text-left text-xs">
                 <thead>
-                  <tr className="border-b border-slate-800 text-slate-400 uppercase text-[10px] font-bold">
+                  <tr className="border-b border-[#D8C3A5] text-[#786F67] uppercase text-[10px] font-bold">
                     <th className="pb-3 px-2">Tracking / Item</th>
                     <th className="pb-3 px-2">Customer</th>
                     <th className="pb-3 px-2">Arrived At</th>
@@ -273,31 +273,31 @@ export const MerchantPortal: React.FC = () => {
                     <th className="pb-3 px-2 text-right">Action</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-slate-800/60">
+                <tbody className="divide-y divide-[#D8C3A5]/50">
                   {filteredParcels.map((parcel) => (
-                    <tr key={parcel.id} className="hover:bg-slate-800/40 transition">
+                    <tr key={parcel.id} className="hover:bg-[#F8F5EF] transition">
                       <td className="py-3.5 px-2">
-                        <div className="font-mono font-bold text-white">{parcel.trackingNumber}</div>
-                        <div className="text-slate-400 font-medium truncate max-w-[190px]">
+                        <div className="font-mono font-bold text-[#171717]">{parcel.trackingNumber}</div>
+                        <div className="text-[#786F67] font-medium truncate max-w-[190px]">
                           {parcel.packageItem}
                         </div>
                       </td>
 
                       <td className="py-3.5 px-2">
-                        <div className="font-semibold text-slate-200">{parcel.customerName}</div>
-                        <div className="text-slate-400">{parcel.customerPhone}</div>
+                        <div className="font-semibold text-[#171717]">{parcel.customerName}</div>
+                        <div className="text-[#786F67]">{parcel.customerPhone}</div>
                       </td>
 
                       <td className="py-3.5 px-2">
-                        <span className="flex items-center gap-1 text-slate-300">
-                          <Clock className="w-3.5 h-3.5 text-brand-400" />
+                        <span className="flex items-center gap-1 text-[#786F67]">
+                          <Clock className="w-3.5 h-3.5 text-[#B85C38]" />
                           {parcel.droppedAt ? new Date(parcel.droppedAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : 'Today'}
                         </span>
-                        <span className="text-[10px] text-emerald-400 font-medium">Safe in 72h window</span>
+                        <span className="text-[10px] text-[#B85C38] font-medium">Safe in 72h window</span>
                       </td>
 
                       <td className="py-3.5 px-2 text-center">
-                        <span className="font-mono font-black bg-amber-500/20 text-amber-300 border border-amber-500/40 px-2.5 py-1 rounded-lg text-xs tracking-wider">
+                        <span className="font-mono font-black bg-[#D8C3A5]/40 text-[#171717] border border-[#D8C3A5] px-2.5 py-1 rounded-lg text-xs tracking-wider">
                           {parcel.pickupOtp}
                         </span>
                       </td>
@@ -308,7 +308,7 @@ export const MerchantPortal: React.FC = () => {
                             setSelectedShelfParcel(parcel);
                             setIsScannerOpen(true);
                           }}
-                          className="px-3.5 py-1.5 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-bold text-xs shadow transition"
+                          className="px-3.5 py-1.5 rounded-xl bg-[#B85C38] hover:bg-[#A94D2F] text-white font-bold text-xs shadow-xs transition"
                         >
                           Verify & Handover
                         </button>
@@ -330,39 +330,39 @@ export const MerchantPortal: React.FC = () => {
           />
 
           {/* Instant UPI Withdrawal Form */}
-          <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6 shadow-xl space-y-4">
-            <div className="flex items-center space-x-2 border-b border-slate-800 pb-3">
-              <IndianRupee className="w-4 h-4 text-emerald-400" />
-              <h3 className="text-sm font-bold text-white">Instant UPI Bank Transfer</h3>
+          <div className="bg-[#EFE8DC] border border-[#D8C3A5] rounded-3xl p-6 shadow-sm space-y-4">
+            <div className="flex items-center space-x-2 border-b border-[#D8C3A5] pb-3">
+              <IndianRupee className="w-4 h-4 text-[#B85C38]" />
+              <h3 className="text-sm font-bold text-[#171717]">Instant UPI Bank Transfer</h3>
             </div>
 
             <form onSubmit={handleWithdrawal} className="space-y-3 text-xs">
               <div>
-                <label className="block text-slate-400 font-semibold mb-1">
+                <label className="block text-[#786F67] font-semibold mb-1">
                   UPI ID (VPA):
                 </label>
                 <input
                   type="text"
                   value={upiId}
                   onChange={(e) => setUpiId(e.target.value)}
-                  className="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-white font-mono text-xs focus:outline-none focus:border-emerald-500"
+                  className="w-full bg-[#F8F5EF] border border-[#D8C3A5] rounded-xl px-3 py-2 text-[#171717] font-mono text-xs focus:outline-none focus:border-[#B85C38]"
                   placeholder="e.g. yourname@okhdfcbank"
                 />
               </div>
 
               <div>
-                <label className="block text-slate-400 font-semibold mb-1 flex items-center justify-between">
+                <label className="block text-[#786F67] font-semibold mb-1 flex items-center justify-between">
                   <span>Withdraw Amount:</span>
-                  <span className="text-emerald-400 font-bold">Available: ₹{currentStore.walletBalance}</span>
+                  <span className="text-[#B85C38] font-bold">Available: ₹{currentStore.walletBalance}</span>
                 </label>
                 <div className="relative">
-                  <span className="absolute left-3 top-2 text-slate-400 font-bold">₹</span>
+                  <span className="absolute left-3 top-2 text-[#786F67] font-bold">₹</span>
                   <input
                     type="number"
                     value={withdrawalAmount}
                     onChange={(e) => setWithdrawalAmount(e.target.value)}
                     placeholder="500"
-                    className="w-full bg-slate-800 border border-slate-700 rounded-xl pl-7 pr-3 py-2 text-white font-bold text-xs focus:outline-none focus:border-emerald-500"
+                    className="w-full bg-[#F8F5EF] border border-[#D8C3A5] rounded-xl pl-7 pr-3 py-2 text-[#171717] font-bold text-xs focus:outline-none focus:border-[#B85C38]"
                   />
                 </div>
               </div>
@@ -371,11 +371,11 @@ export const MerchantPortal: React.FC = () => {
                 <div
                   className={`p-3 rounded-xl flex items-start space-x-2 text-xs font-semibold ${
                     payoutFeedback.success
-                      ? 'bg-emerald-950/80 text-emerald-300 border border-emerald-500/40'
-                      : 'bg-red-950/80 text-red-300 border border-red-500/40'
+                      ? 'bg-emerald-100 text-emerald-800 border border-emerald-300'
+                      : 'bg-red-100 text-red-800 border border-red-300'
                   }`}
                 >
-                  <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
+                  <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
                   <span>{payoutFeedback.message}</span>
                 </div>
               )}
@@ -383,7 +383,7 @@ export const MerchantPortal: React.FC = () => {
               <button
                 type="submit"
                 disabled={currentStore.walletBalance <= 0}
-                className="w-full py-2.5 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-bold rounded-xl text-xs shadow-lg shadow-emerald-500/20 disabled:opacity-50 transition"
+                className="w-full py-2.5 bg-[#B85C38] hover:bg-[#A94D2F] text-white font-bold rounded-xl text-xs shadow-sm disabled:opacity-50 transition"
               >
                 Transfer to Bank Account (Instant)
               </button>

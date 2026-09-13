@@ -50,33 +50,33 @@ export const InteractiveMap: React.FC<InteractiveMapProps> = ({
   };
 
   return (
-    <div className="relative w-full h-84 sm:h-[400px] bg-[#090d16] rounded-3xl overflow-hidden border border-slate-800 shadow-2xl group">
+    <div className="relative w-full h-84 sm:h-[400px] bg-[#171717] rounded-3xl overflow-hidden border border-[#D8C3A5] shadow-sm group">
       {/* Map Grid Background */}
       <div 
-        className="absolute inset-0 opacity-25"
+        className="absolute inset-0 opacity-20"
         style={{
           backgroundImage: `
-            linear-gradient(to right, #1e293b 1px, transparent 1px),
-            linear-gradient(to bottom, #1e293b 1px, transparent 1px)
+            linear-gradient(to right, #786F67 1px, transparent 1px),
+            linear-gradient(to bottom, #786F67 1px, transparent 1px)
           `,
           backgroundSize: '32px 32px'
         }}
       />
 
       {/* Radial ambient glow */}
-      <div className="absolute inset-0 bg-radial-gradient from-brand-500/10 via-transparent to-transparent pointer-events-none" />
+      <div className="absolute inset-0 bg-radial-gradient from-[#B85C38]/10 via-transparent to-transparent pointer-events-none" />
 
       {/* SVG Canvas for Vector Lines, Geofences & Paths */}
       <svg className="absolute inset-0 w-full h-full pointer-events-none" viewBox="0 0 600 400">
         <defs>
           <linearGradient id="routeGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#38bdf8" stopOpacity="0.8" />
-            <stop offset="50%" stopColor="#f59e0b" stopOpacity="1" />
+            <stop offset="0%" stopColor="#D8C3A5" stopOpacity="0.8" />
+            <stop offset="50%" stopColor="#B85C38" stopOpacity="1" />
             <stop offset="100%" stopColor="#10b981" stopOpacity="0.9" />
           </linearGradient>
 
           <pattern id="dotPattern" width="12" height="12" patternUnits="userSpaceOnUse">
-            <circle cx="2" cy="2" r="1" fill="#334155" />
+            <circle cx="2" cy="2" r="1" fill="#786F67" />
           </pattern>
         </defs>
 
@@ -119,7 +119,7 @@ export const InteractiveMap: React.FC<InteractiveMapProps> = ({
 
           let ringColor = '#10b981';
           if (utilization >= 0.85) ringColor = '#ef4444';
-          else if (utilization >= 0.6) ringColor = '#f59e0b';
+          else if (utilization >= 0.6) ringColor = '#B85C38';
 
           return (
             <g key={`geofence-${store.id}`}>
@@ -141,10 +141,10 @@ export const InteractiveMap: React.FC<InteractiveMapProps> = ({
                   y1={custSvg.y}
                   x2={coords.x}
                   y2={coords.y}
-                  stroke="#f97316"
+                  stroke="#B85C38"
                   strokeWidth="1"
                   strokeDasharray="3 3"
-                  opacity="0.6"
+                  opacity="0.7"
                 />
               )}
             </g>
@@ -160,12 +160,12 @@ export const InteractiveMap: React.FC<InteractiveMapProps> = ({
           style={{ left: `${(custSvg.x / 600) * 100}%`, top: `${(custSvg.y / 400) * 100}%` }}
         >
           <div className="relative">
-            <div className="w-8 h-8 rounded-full bg-sky-500/20 border-2 border-sky-400 flex items-center justify-center text-sky-300 shadow-[0_0_15px_#38bdf8] animate-pulse">
+            <div className="w-8 h-8 rounded-full bg-[#171717] border-2 border-[#D8C3A5] flex items-center justify-center text-[#D8C3A5] shadow-md animate-pulse">
               <User className="w-4 h-4" />
             </div>
-            <div className="absolute -top-1 -right-1 w-3 h-3 rounded-full bg-sky-400 border border-slate-900" />
+            <div className="absolute -top-1 -right-1 w-3 h-3 rounded-full bg-[#B85C38] border border-white" />
           </div>
-          <div className="mt-1 bg-slate-900/90 text-sky-300 border border-sky-500/40 text-[10px] font-bold px-2 py-0.5 rounded-full shadow whitespace-nowrap">
+          <div className="mt-1 bg-[#171717]/90 text-[#F8F5EF] border border-[#D8C3A5]/40 text-[10px] font-bold px-2 py-0.5 rounded-full shadow whitespace-nowrap">
             📍 Godrej Waterside (Sector V)
           </div>
         </div>
@@ -176,10 +176,10 @@ export const InteractiveMap: React.FC<InteractiveMapProps> = ({
             className="absolute transform -translate-x-1/2 -translate-y-1/2 flex flex-col items-center z-30"
             style={{ left: `${(riderSvg.x / 600) * 100}%`, top: `${(riderSvg.y / 400) * 100}%` }}
           >
-            <div className="w-8 h-8 rounded-2xl bg-amber-500 text-slate-950 flex items-center justify-center font-bold shadow-[0_0_20px_#f59e0b] border-2 border-white animate-bounce">
+            <div className="w-8 h-8 rounded-2xl bg-[#B85C38] text-white flex items-center justify-center font-bold shadow-md border-2 border-white animate-bounce">
               <Bike className="w-4 h-4" />
             </div>
-            <div className="bg-amber-500 text-slate-950 text-[9px] font-black uppercase px-1.5 py-0.2 rounded-md shadow mt-0.5 tracking-tight">
+            <div className="bg-[#B85C38] text-white text-[9px] font-black uppercase px-1.5 py-0.2 rounded-md shadow mt-0.5 tracking-tight">
               Rider En-Route
             </div>
           </div>
@@ -199,10 +199,10 @@ export const InteractiveMap: React.FC<InteractiveMapProps> = ({
               style={{ left: `${(coords.x / 600) * 100}%`, top: `${(coords.y / 400) * 100}%` }}
             >
               <div
-                className={`w-9 h-9 rounded-xl flex items-center justify-center shadow-lg transition-all ${
+                className={`w-9 h-9 rounded-xl flex items-center justify-center shadow-md transition-all ${
                   isSelected
-                    ? 'bg-brand-500 text-white ring-4 ring-brand-500/30 scale-110 shadow-brand-500/50'
-                    : 'bg-slate-800 text-slate-300 border border-slate-700 hover:border-brand-500/50'
+                    ? 'bg-[#B85C38] text-white ring-4 ring-[#B85C38]/30 scale-110 shadow-md'
+                    : 'bg-[#EFE8DC] text-[#171717] border border-[#D8C3A5] hover:border-[#B85C38]'
                 }`}
               >
                 <Store className="w-5 h-5" />
@@ -210,14 +210,14 @@ export const InteractiveMap: React.FC<InteractiveMapProps> = ({
 
               {/* Tag tooltip */}
               <div
-                className={`mt-1 text-[10px] font-bold px-2 py-0.5 rounded-lg border shadow-lg whitespace-nowrap transition ${
+                className={`mt-1 text-[10px] font-bold px-2 py-0.5 rounded-lg border shadow-md whitespace-nowrap transition ${
                   isSelected
-                    ? 'bg-slate-900 text-brand-400 border-brand-500 font-extrabold'
-                    : 'bg-slate-900/80 text-slate-400 border-slate-800'
+                    ? 'bg-[#171717] text-[#F8F5EF] border-[#B85C38] font-extrabold'
+                    : 'bg-[#F8F5EF] text-[#786F67] border-[#D8C3A5]'
                 }`}
               >
                 <span>{store.storeName.split(' ')[0]}</span>
-                <span className="ml-1 text-[9px] text-emerald-400">({percent}%)</span>
+                <span className="ml-1 text-[9px] text-[#B85C38] font-bold">({percent}%)</span>
               </div>
             </div>
           );
@@ -225,15 +225,15 @@ export const InteractiveMap: React.FC<InteractiveMapProps> = ({
       </div>
 
       {/* Map Header Location Overlay */}
-      <div className="absolute top-3 left-3 bg-slate-900/95 backdrop-blur-md border border-slate-800 px-3 py-1.5 rounded-2xl flex items-center space-x-2 text-xs text-slate-300 shadow-xl">
-        <Compass className="w-4 h-4 text-brand-400" />
+      <div className="absolute top-3 left-3 bg-[#171717]/95 backdrop-blur-md border border-[#D8C3A5]/40 px-3 py-1.5 rounded-2xl flex items-center space-x-2 text-xs text-[#F8F5EF] shadow-md">
+        <Compass className="w-4 h-4 text-[#B85C38]" />
         <span className="font-bold">Salt Lake Sector V, Kolkata (PIN 700091)</span>
-        <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping" />
+        <span className="w-1.5 h-1.5 rounded-full bg-[#B85C38] animate-ping" />
       </div>
 
       {/* PS 26205 Route Comparison Alert Banner */}
       {activeLayer === 'DOORSTEP_TRAFFIC' ? (
-        <div className="absolute top-12 left-3 right-3 bg-red-950/90 backdrop-blur-md border border-red-500/50 p-2.5 rounded-2xl text-xs text-red-200 flex flex-wrap items-center justify-between shadow-2xl z-30 animate-fadeIn">
+        <div className="absolute top-12 left-3 right-3 bg-red-950/90 backdrop-blur-md border border-red-500/50 p-2.5 rounded-2xl text-xs text-red-200 flex flex-wrap items-center justify-between shadow-md z-30 animate-fadeIn">
           <div className="flex items-center gap-2">
             <AlertTriangle className="w-4 h-4 text-red-400 flex-shrink-0" />
             <span>
@@ -245,25 +245,25 @@ export const InteractiveMap: React.FC<InteractiveMapProps> = ({
           </span>
         </div>
       ) : activeLayer === 'STANDARD' ? (
-        <div className="absolute top-12 left-3 right-3 bg-emerald-950/90 backdrop-blur-md border border-emerald-500/40 p-2.5 rounded-2xl text-xs text-emerald-200 flex flex-wrap items-center justify-between shadow-2xl z-30 animate-fadeIn">
+        <div className="absolute top-12 left-3 right-3 bg-[#171717]/90 backdrop-blur-md border border-[#D8C3A5]/40 p-2.5 rounded-2xl text-xs text-[#F8F5EF] flex flex-wrap items-center justify-between shadow-md z-30 animate-fadeIn">
           <div className="flex items-center gap-2">
-            <CheckCircle2 className="w-4 h-4 text-emerald-400 flex-shrink-0" />
+            <CheckCircle2 className="w-4 h-4 text-[#B85C38] flex-shrink-0" />
             <span>
-              <strong>KiranaConnect PUDO Route:</strong> Single Fallback Batch Drop (2.8 km, 12 mins) • Eliminates Multi-Day Re-attempts • ~60% Re-attempt Mileage Saved
+              <strong className="text-[#B85C38]">KiranaConnect PUDO Route:</strong> Single Fallback Batch Drop (2.8 km, 12 mins) • Eliminates Multi-Day Re-attempts • ~60% Re-attempt Mileage Saved
             </span>
           </div>
-          <span className="bg-emerald-500 text-slate-950 font-black text-[10px] px-2 py-0.5 rounded-full shadow">
+          <span className="bg-[#B85C38] text-white font-black text-[10px] px-2 py-0.5 rounded-full shadow">
             Green Consolidated Route
           </span>
         </div>
       ) : null}
 
       {/* Layer Controls with SIH PS 26205 Route Comparison */}
-      <div className="absolute bottom-3 right-3 bg-slate-900/95 backdrop-blur-md border border-slate-800 p-1.5 rounded-2xl flex items-center space-x-1 text-[11px] shadow-2xl z-30">
+      <div className="absolute bottom-3 right-3 bg-[#171717]/95 backdrop-blur-md border border-[#D8C3A5]/40 p-1.5 rounded-2xl flex items-center space-x-1 text-[11px] shadow-md z-30">
         <button
           onClick={() => setActiveLayer('STANDARD')}
           className={`px-2.5 py-1 rounded-xl font-bold transition flex items-center gap-1 ${
-            activeLayer === 'STANDARD' ? 'bg-emerald-500 text-slate-950 shadow' : 'text-slate-400 hover:text-white'
+            activeLayer === 'STANDARD' ? 'bg-[#B85C38] text-white shadow' : 'text-[#D8C3A5] hover:text-white'
           }`}
           title="Consolidated PUDO batch route"
         >
@@ -272,7 +272,7 @@ export const InteractiveMap: React.FC<InteractiveMapProps> = ({
         <button
           onClick={() => setActiveLayer('DOORSTEP_TRAFFIC')}
           className={`px-2.5 py-1 rounded-xl font-bold transition flex items-center gap-1 ${
-            activeLayer === 'DOORSTEP_TRAFFIC' ? 'bg-red-500 text-white shadow' : 'text-slate-400 hover:text-red-300'
+            activeLayer === 'DOORSTEP_TRAFFIC' ? 'bg-red-600 text-white shadow' : 'text-[#D8C3A5] hover:text-red-300'
           }`}
           title="Compare with fragmented doorstep delivery"
         >
@@ -281,7 +281,7 @@ export const InteractiveMap: React.FC<InteractiveMapProps> = ({
         <button
           onClick={() => setActiveLayer('GEOFENCE')}
           className={`px-2.5 py-1 rounded-xl font-bold transition ${
-            activeLayer === 'GEOFENCE' ? 'bg-sky-500 text-slate-950 shadow' : 'text-slate-400 hover:text-white'
+            activeLayer === 'GEOFENCE' ? 'bg-[#D8C3A5] text-[#171717] font-bold shadow' : 'text-[#D8C3A5] hover:text-white'
           }`}
           title="500m pedestrian walking radius"
         >

@@ -53,11 +53,11 @@ export const RoleSwitcher: React.FC<{ activeTab: string; setActiveTab: (tab: str
   ];
 
   return (
-    <div className="bg-slate-900/95 border-b border-slate-800 p-2 sm:p-3 sticky top-16 z-30 shadow-md">
+    <div className="bg-[#EFE8DC]/95 border-b border-[#D8C3A5] p-2 sm:p-3 sticky top-0 z-30 shadow-sm backdrop-blur-md">
       <div className="max-w-7xl mx-auto flex items-center justify-between overflow-x-auto gap-2 py-1 scrollbar-none">
-        <div className="flex items-center space-x-1.5 min-w-max">
-          <span className="text-[11px] uppercase font-bold text-slate-400 tracking-wider flex items-center gap-1 mr-1">
-            <Sparkles className="w-3.5 h-3.5 text-brand-400" />
+        <div className="flex items-center space-x-2 min-w-max">
+          <span className="text-[11px] uppercase font-bold text-[#171717] tracking-wider flex items-center gap-1 mr-1">
+            <Sparkles className="w-3.5 h-3.5 text-[#B85C38]" />
             Switch View:
           </span>
           
@@ -68,20 +68,18 @@ export const RoleSwitcher: React.FC<{ activeTab: string; setActiveTab: (tab: str
               <button
                 key={role.id}
                 onClick={() => setActiveTab(role.id)}
-                className={`flex items-center space-x-2 px-3.5 py-2 rounded-xl text-xs font-semibold transition-all duration-200 ${
+                className={`flex items-center space-x-2 px-4 py-2 rounded-xl text-xs font-semibold transition-all duration-200 shadow-sm ${
                   isActive
-                    ? 'bg-gradient-to-r ' +
-                      role.color +
-                      ' text-white shadow-lg shadow-black/40 ring-2 ring-white/20 scale-[1.02]'
-                    : 'bg-slate-800/80 hover:bg-slate-800 text-slate-300 hover:text-white border border-slate-700/60'
+                    ? 'bg-[#B85C38] text-white shadow-md ring-2 ring-[#B85C38]/30 scale-[1.02]'
+                    : 'bg-[#F8F5EF] hover:bg-white text-[#786F67] hover:text-[#171717] border border-[#D8C3A5]'
                 }`}
               >
-                <Icon className={`w-4 h-4 ${isActive ? 'text-white' : 'text-slate-400'}`} />
+                <Icon className={`w-4 h-4 ${isActive ? 'text-white' : 'text-[#786F67]'}`} />
                 <div className="text-left">
-                  <div className="font-bold flex items-center gap-1.5">
+                  <div className={`font-bold flex items-center gap-1.5 ${isActive ? 'text-white' : 'text-[#171717]'}`}>
                     {role.label}
                   </div>
-                  <div className={`text-[10px] font-normal leading-tight hidden lg:block ${isActive ? 'text-white/80' : 'text-slate-400'}`}>
+                  <div className={`text-[10px] font-normal leading-tight hidden lg:block ${isActive ? 'text-white/90' : 'text-[#786F67]'}`}>
                     {role.sublabel}
                   </div>
                 </div>

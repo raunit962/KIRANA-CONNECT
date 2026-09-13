@@ -7,17 +7,28 @@ export default {
   theme: {
     extend: {
       colors: {
+        theme: {
+          header: '#171717',
+          bg: '#F8F5EF',
+          card: '#EFE8DC',
+          subcard: '#F4EFE6',
+          heading: '#171717',
+          body: '#786F67',
+          btn: '#B85C38',
+          'btn-hover': '#A94D2F',
+          decor: '#D8C3A5',
+        },
         brand: {
           50: '#fff7ed',
           100: '#ffedd5',
           200: '#fed7aa',
           300: '#fdba74',
-          400: '#fb923c',
-          500: '#f97316', // Vibrant Orange / Saffron
-          600: '#ea580c',
-          700: '#c2410c',
-          800: '#9a3412',
-          900: '#7c2d12',
+          400: '#d97d54',
+          500: '#B85C38', // User Button terracotta
+          600: '#A94D2F', // User Button Hover deep terracotta
+          700: '#8c3c22',
+          800: '#6f2d18',
+          900: '#522010',
         },
         indigoNavy: {
           800: '#1e1b4b',
