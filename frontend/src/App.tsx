@@ -35,16 +35,16 @@ const MainLayout: React.FC = () => {
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
           <div className="flex items-center space-x-2">
             <Store className="w-4 h-4 text-[#B85C38]" />
-            <span className="font-bold text-[#F8F5EF]">KiranaConnect PUDO Network</span>
-            <span className="text-[#D8C3A5]/80">• Inspired by Japan's Konbini (Yamato & 7-Eleven) Model adapted for India's 13M+ Kirana Stores</span>
+            <span className="font-bold text-[#F8F5EF]">KiranaConnect </span>
+            <span className="text-[#D8C3A5]/80"> ~ Acts as an exception layer to reduce Failed deliveries</span>
           </div>
 
           <div className="flex items-center space-x-4">
             <span className="text-[#D8C3A5] font-semibold flex items-center gap-1">
               <ShieldCheck className="w-3.5 h-3.5 text-[#B85C38]" />
-              Smart India Hackathon 2026
+              
             </span>
-            <span className="text-[#D8C3A5]/80">Zero Infrastructure Capex</span>
+            <span className="text-[#D8C3A5]/80">Contact For further Queries & Help</span>
           </div>
         </div>
       </footer>
