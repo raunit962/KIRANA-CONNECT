@@ -39,10 +39,15 @@ export default {
           500: '#10b981',
           600: '#059669',
           700: '#047857',
-        }
+        },
+        thematicYellow: '#fffd47',
+        kiranaDeepGreen: '#1A5336',
+        kiranaGold: '#F5A623',
       },
       fontFamily: {
-        sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+        sans: ['"DM Sans"', 'system-ui', '-apple-system', 'sans-serif'],
+        thematic: ['Maharlika', 'RoxboroughCF', '"Playfair Display"', 'serif'],
+        script: ['Caveat', 'cursive'],
       }
     },
   },

@@ -56,9 +56,21 @@ export const RoleSwitcher: React.FC<{ activeTab: string; setActiveTab: (tab: str
     <div className="bg-[#EFE8DC]/95 border-b border-[#D8C3A5] p-2 sm:p-3 sticky top-0 z-30 shadow-sm backdrop-blur-md">
       <div className="max-w-7xl mx-auto flex items-center justify-between overflow-x-auto gap-2 py-1 scrollbar-none">
         <div className="flex items-center space-x-2 min-w-max">
+          <button
+            onClick={() => setActiveTab('COVER')}
+            className={`flex items-center space-x-1.5 px-3 py-2 rounded-xl text-xs font-bold transition shadow-xs ${
+              activeTab === 'COVER'
+                ? 'bg-[#1A5336] text-[#fffd47] ring-2 ring-[#fffd47]/50'
+                : 'bg-[#1A5336] hover:bg-[#133f28] text-white'
+            }`}
+            title="Return to Book Cover Page"
+          >
+            <span>📖 Book Cover</span>
+          </button>
+
           <span className="text-[11px] uppercase font-bold text-[#171717] tracking-wider flex items-center gap-1 mr-1">
             <Sparkles className="w-3.5 h-3.5 text-[#B85C38]" />
-            Switch View:
+            Portals:
           </span>
           
           {roles.map((role) => {
