@@ -76,7 +76,7 @@ export const StatusTimeline: React.FC<StatusTimelineProps> = ({ parcel }) => {
                 {!isLast && (
                   <div
                     className={`absolute left-5 top-10 -bottom-6 w-0.5 transition-colors duration-300 ${
-                      state === 'COMPLETED' ? 'bg-[#B85C38]' : 'bg-[#D8C3A5]'
+                      state === 'COMPLETED' ? 'bg-[#1A5336]' : 'bg-[#CDE3D5]'
                     }`}
                   />
                 )}
@@ -85,10 +85,10 @@ export const StatusTimeline: React.FC<StatusTimelineProps> = ({ parcel }) => {
                 <div
                   className={`relative z-10 w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm transition-all duration-300 ${
                     state === 'COMPLETED'
-                      ? 'bg-[#B85C38] text-white shadow-sm'
+                      ? 'bg-[#1A5336] text-white shadow-sm'
                       : state === 'CURRENT'
-                      ? 'bg-[#B85C38] text-white shadow-md ring-4 ring-[#B85C38]/25 animate-pulse'
-                      : 'bg-[#F8F5EF] text-[#786F67] border border-[#D8C3A5]'
+                      ? 'bg-[#1A5336] text-[#fffd47] shadow-md ring-4 ring-[#fffd47]/60 animate-pulse'
+                      : 'bg-white text-[#52796F] border border-[#CDE3D5]'
                   }`}
                 >
                   <Icon className="w-5 h-5" />
@@ -100,22 +100,22 @@ export const StatusTimeline: React.FC<StatusTimelineProps> = ({ parcel }) => {
                     <h4
                       className={`text-sm font-bold ${
                         state === 'COMPLETED'
-                          ? 'text-[#171717]'
+                          ? 'text-[#0F291E]'
                           : state === 'CURRENT'
-                          ? 'text-[#B85C38] font-extrabold'
-                          : 'text-[#786F67]'
+                          ? 'text-[#1A5336] font-extrabold'
+                          : 'text-[#52796F]'
                       }`}
                     >
                       {step.title}
                     </h4>
                     {step.timestamp && (
-                      <span className="flex items-center gap-1 text-[11px] text-[#786F67] font-medium bg-[#F8F5EF] px-2 py-0.5 rounded-lg border border-[#D8C3A5]">
-                        <Clock className="w-3 h-3 text-[#786F67]" />
+                      <span className="flex items-center gap-1 text-[11px] text-[#0284C7] font-medium bg-[#E0F2FE] px-2 py-0.5 rounded-lg border border-[#38BDF8]/40">
+                        <Clock className="w-3 h-3 text-[#0284C7]" />
                         {step.timestamp}
                       </span>
                     )}
                   </div>
-                  <p className="text-xs text-[#786F67] mt-1 leading-relaxed">{step.description}</p>
+                  <p className="text-xs text-[#52796F] mt-1 leading-relaxed">{step.description}</p>
                 </div>
               </div>
             );

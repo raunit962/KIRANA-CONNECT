@@ -6,13 +6,11 @@ import {
   UserCheck,
   BarChart3,
   PlayCircle,
-  ArrowRight,
-  BookOpen,
-  Sparkles,
-  ShieldCheck,
-  CheckCircle2,
+  Home,
   Globe,
-  RotateCcw
+  RotateCcw,
+  KeyRound,
+  User,
 } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 
@@ -29,7 +27,14 @@ export const PortalSlideMenu: React.FC<PortalSlideMenuProps> = ({
   activeTab,
   onSelectTab,
 }) => {
-  const { language, setLanguage, resetToDemoState } = useApp();
+  const {
+    language,
+    setLanguage,
+    resetToDemoState,
+    currentUser,
+    openAuthModal,
+    logoutUser,
+  } = useApp();
 
   if (!isOpen) return null;
 
@@ -40,9 +45,10 @@ export const PortalSlideMenu: React.FC<PortalSlideMenuProps> = ({
       hindiTitle: 'ग्राहक पिकअप पोर्टल',
       desc: 'Digital QR Boarding Pass, 72h countdown, audio OTP & WhatsApp alert pass',
       icon: UserCheck,
-      color: 'bg-amber-400/20 text-amber-600 border-amber-400/30',
-      activeBorder: 'border-amber-500 ring-2 ring-amber-400/30',
+      color: 'bg-[#fffd47]/25 text-[#0F291E] border-[#fffd47]/40',
+      activeBorder: 'border-[#1A5336] ring-2 ring-[#fffd47]',
       badge: 'Self Collection',
+      badgeColor: 'bg-[#fffd47]/20 text-[#1A5336] border-[#fffd47]/40',
     },
     {
       id: 'AGENT',
@@ -50,9 +56,10 @@ export const PortalSlideMenu: React.FC<PortalSlideMenuProps> = ({
       hindiTitle: 'डिलीवरी राइडर ओएस',
       desc: 'Consolidated batch drop, camera photo-proof verification & route navigation',
       icon: Bike,
-      color: 'bg-emerald-500/20 text-emerald-600 border-emerald-500/30',
-      activeBorder: 'border-emerald-500 ring-2 ring-emerald-400/30',
+      color: 'bg-[#38BDF8]/20 text-[#0284C7] border-[#38BDF8]/40',
+      activeBorder: 'border-[#0284C7] ring-2 ring-[#38BDF8]',
       badge: 'Batch Logistics',
+      badgeColor: 'bg-[#E0F2FE] text-[#0284C7] border-[#BAE6FD]',
     },
     {
       id: 'MERCHANT',
@@ -60,9 +67,10 @@ export const PortalSlideMenu: React.FC<PortalSlideMenuProps> = ({
       hindiTitle: 'किराना मर्चेंट हब',
       desc: 'Physical 2D shelf rack map (A-01 to C-10), UPI Soundbox & ₹15/drop settlement',
       icon: Store,
-      color: 'bg-[#B85C38]/20 text-[#B85C38] border-[#B85C38]/30',
-      activeBorder: 'border-[#B85C38] ring-2 ring-[#B85C38]/30',
+      color: 'bg-[#1A5336]/20 text-[#1A5336] border-[#1A5336]/30',
+      activeBorder: 'border-[#1A5336] ring-2 ring-[#fffd47]',
       badge: 'Soundbox Verified',
+      badgeColor: 'bg-[#EAF3ED] text-[#1A5336] border-[#CDE3D5]',
     },
     {
       id: 'ADMIN',
@@ -70,9 +78,10 @@ export const PortalSlideMenu: React.FC<PortalSlideMenuProps> = ({
       hindiTitle: 'लॉजिस्टिक्स एडमिन टॉवर',
       desc: 'Haversine store matchmaking, Green Footprint Tracker & Doorstep vs PUDO ROI',
       icon: BarChart3,
-      color: 'bg-sky-500/20 text-sky-600 border-sky-500/30',
-      activeBorder: 'border-sky-500 ring-2 ring-sky-400/30',
+      color: 'bg-[#38BDF8]/20 text-[#0284C7] border-[#38BDF8]/40',
+      activeBorder: 'border-[#0284C7] ring-2 ring-[#38BDF8]',
       badge: 'Urban Command',
+      badgeColor: 'bg-[#E0F2FE] text-[#0284C7] border-[#BAE6FD]',
     },
     {
       id: 'SIMULATOR',
@@ -80,9 +89,10 @@ export const PortalSlideMenu: React.FC<PortalSlideMenuProps> = ({
       hindiTitle: 'इंटरैक्टिव फ्लो लैब',
       desc: 'Step-by-step 60-second end-to-end delivery lifecycle simulation with event stream',
       icon: PlayCircle,
-      color: 'bg-rose-500/20 text-rose-600 border-rose-500/30',
-      activeBorder: 'border-rose-500 ring-2 ring-rose-400/30',
+      color: 'bg-[#9fa683]/20 text-[#3A4027] border-[#9fa683]/40',
+      activeBorder: 'border-[#9fa683] ring-2 ring-[#9fa683]',
       badge: 'Live Simulator',
+      badgeColor: 'bg-[#9fa683]/25 text-[#2C311F] border-[#9fa683]/50',
     },
   ];
 
@@ -95,9 +105,9 @@ export const PortalSlideMenu: React.FC<PortalSlideMenuProps> = ({
       />
 
       {/* Slide Drawer from Right */}
-      <aside className="absolute inset-y-0 right-0 max-w-md w-full bg-[#F8F5EF] shadow-2xl border-l border-[#D8C3A5] flex flex-col z-50 transform transition-transform duration-300 ease-out">
+      <aside className="absolute inset-y-0 right-0 max-w-md w-full bg-[#F4F8F5] shadow-2xl border-l border-[#CDE3D5] flex flex-col z-50 transform transition-transform duration-300 ease-out">
         {/* Drawer Header */}
-        <div className="p-5 bg-[#171717] text-white border-b border-[#D8C3A5]/30 flex items-center justify-between">
+        <div className="p-5 bg-[#0F291E] text-white border-b border-[#1A5336]/40 flex items-center justify-between">
           <div className="flex items-center space-x-3">
             <div className="w-10 h-10 rounded-xl bg-white p-1 flex items-center justify-center shadow-md">
               <img
@@ -115,54 +125,122 @@ export const PortalSlideMenu: React.FC<PortalSlideMenuProps> = ({
                   Kirana<span className="text-[#fffd47]">Connect</span>
                 </span>
                 <span className="text-[10px] bg-[#fffd47]/20 text-[#fffd47] px-2 py-0.5 rounded-full font-mono font-bold border border-[#fffd47]/40">
-                  SLIDE MENU
+                  PORTALS
                 </span>
               </div>
-              <p className="text-xs text-[#D8C3A5]">Select a portal or experience</p>
+              <p className="text-xs text-[#D1E7DD]">Select any operational portal</p>
             </div>
           </div>
 
-          <button
-            onClick={onClose}
-            className="w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition"
-            aria-label="Close menu"
-          >
-            <X className="w-5 h-5" />
-          </button>
-        </div>
+          <div className="flex items-center space-x-2">
+            <button
+              onClick={() => {
+                onSelectTab('COVER');
+                onClose();
+              }}
+              className="px-2.5 py-1.5 rounded-xl bg-[#1A5336] hover:bg-[#133F28] text-[#fffd47] text-xs font-bold transition flex items-center gap-1 border border-[#fffd47]/30"
+              title="Return to Home"
+            >
+              <Home className="w-3.5 h-3.5" />
+              <span>Home</span>
+            </button>
 
-        {/* Return to Cover Page Action Button */}
-        <div className="p-4 bg-[#EFE8DC] border-b border-[#D8C3A5]">
-          <button
-            onClick={() => {
-              onSelectTab('COVER');
-              onClose();
-            }}
-            className={`w-full py-3 px-4 rounded-2xl border flex items-center justify-between transition group shadow-sm ${
-              activeTab === 'COVER'
-                ? 'bg-[#1A5336] text-white border-[#1A5336] ring-2 ring-[#fffd47]/50'
-                : 'bg-white hover:bg-[#F4EFE6] text-[#171717] border-[#D8C3A5]'
-            }`}
-          >
-            <div className="flex items-center space-x-3">
-              <div className="w-8 h-8 rounded-xl bg-[#fffd47]/30 text-[#1A5336] flex items-center justify-center font-bold">
-                <BookOpen className="w-4 h-4" />
-              </div>
-              <div className="text-left">
-                <div className="font-bold text-xs">
-                  {language === 'hi' ? '📖 बुक कवर फ्रंट पेज' : '📖 Book Cover Front Page'}
-                </div>
-                <div className="text-[10px] text-[#786F67]">Editorial landing scene & parcel search</div>
-              </div>
-            </div>
-            <ArrowRight className="w-4 h-4 text-[#786F67] group-hover:translate-x-1 transition" />
-          </button>
+            <button
+              onClick={onClose}
+              className="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition"
+              aria-label="Close menu"
+            >
+              <X className="w-4 h-4" />
+            </button>
+          </div>
         </div>
 
         {/* Portal Cards List */}
         <div className="flex-1 overflow-y-auto p-4 space-y-3">
-          <div className="text-[11px] font-bold uppercase tracking-wider text-[#786F67] px-1">
-            {language === 'hi' ? 'संचालन पोर्टल' : 'Operational Portals'}
+          {/* User Account Session Card */}
+          {currentUser ? (
+            <div className="p-3.5 bg-white rounded-2xl border border-[#CDE3D5] shadow-xs flex items-center justify-between">
+              <div className="flex items-center space-x-2.5">
+                <div className="w-9 h-9 rounded-xl bg-[#1A5336] text-[#fffd47] flex items-center justify-center font-bold text-base shadow-xs">
+                  {currentUser.role === 'MERCHANT' ? '🏪' : currentUser.role === 'AGENT' ? '🛵' : '👤'}
+                </div>
+                <div>
+                  <div className="text-xs font-bold text-[#0F291E] flex items-center gap-1.5">
+                    <span>{currentUser.name}</span>
+                    <span className="text-[9px] font-mono px-1.5 py-0.2 bg-[#fffd47]/30 text-[#1A5336] font-bold rounded-full">
+                      {currentUser.role}
+                    </span>
+                  </div>
+                  <p className="text-[11px] text-[#4A5B52] font-mono">{currentUser.phone}</p>
+                </div>
+              </div>
+
+              <div className="flex items-center space-x-1.5">
+                <button
+                  onClick={() => {
+                    openAuthModal(currentUser.role);
+                  }}
+                  className="px-2 py-1 bg-[#EAF3ED] hover:bg-[#D1E7DD] text-[#1A5336] rounded-lg text-[10px] font-bold transition"
+                >
+                  Switch
+                </button>
+                <button
+                  onClick={logoutUser}
+                  className="px-2 py-1 bg-red-50 hover:bg-red-100 text-red-700 rounded-lg text-[10px] font-bold transition"
+                >
+                  Logout
+                </button>
+              </div>
+            </div>
+          ) : (
+            <div className="p-3 bg-[#0F291E] text-white rounded-2xl border border-[#1A5336] shadow-sm">
+              <div className="flex items-center justify-between mb-2">
+                <div className="flex items-center space-x-1.5 text-xs font-bold text-[#fffd47]">
+                  <KeyRound className="w-3.5 h-3.5" />
+                  <span>Account Login</span>
+                </div>
+                <span className="text-[9px] text-[#D1E7DD] font-mono">OTP Verified</span>
+              </div>
+              <div className="grid grid-cols-3 gap-1.5">
+                <button
+                  onClick={() => {
+                    openAuthModal('CUSTOMER');
+                    onClose();
+                  }}
+                  className="py-1.5 bg-[#1A5336] hover:bg-[#133F28] text-white text-[11px] font-bold rounded-xl flex items-center justify-center gap-1 transition"
+                >
+                  <User className="w-3 h-3 text-[#fffd47]" />
+                  <span>Customer</span>
+                </button>
+                <button
+                  onClick={() => {
+                    openAuthModal('AGENT');
+                    onClose();
+                  }}
+                  className="py-1.5 bg-[#1A5336] hover:bg-[#133F28] text-white text-[11px] font-bold rounded-xl flex items-center justify-center gap-1 transition"
+                >
+                  <Bike className="w-3 h-3 text-[#38BDF8]" />
+                  <span>Rider</span>
+                </button>
+                <button
+                  onClick={() => {
+                    openAuthModal('MERCHANT');
+                    onClose();
+                  }}
+                  className="py-1.5 bg-[#1A5336] hover:bg-[#133F28] text-white text-[11px] font-bold rounded-xl flex items-center justify-center gap-1 transition"
+                >
+                  <Store className="w-3 h-3 text-[#fffd47]" />
+                  <span>Merchant</span>
+                </button>
+              </div>
+            </div>
+          )}
+
+          <div className="text-[11px] font-bold uppercase tracking-wider text-[#1A5336] px-1 flex items-center justify-between pt-1">
+            <span>{language === 'hi' ? 'संचालन पोर्टल' : 'Operational Portals'}</span>
+            <span className="text-[10px] font-mono text-[#0284C7] bg-[#E0F2FE] px-2 py-0.5 rounded-full border border-[#BAE6FD]">
+              5 Active Modules
+            </span>
           </div>
 
           {portals.map((p) => {
@@ -178,8 +256,8 @@ export const PortalSlideMenu: React.FC<PortalSlideMenuProps> = ({
                 }}
                 className={`p-4 rounded-2xl border cursor-pointer transition-all duration-200 group relative ${
                   isSelected
-                    ? 'bg-[#EFE8DC] ' + p.activeBorder + ' shadow-md'
-                    : 'bg-white hover:bg-[#EFE8DC]/80 border-[#D8C3A5] hover:border-[#B85C38]/40 shadow-xs'
+                    ? 'bg-white ' + p.activeBorder + ' shadow-md'
+                    : 'bg-white hover:bg-[#EAF3ED]/60 border-[#CDE3D5] hover:border-[#1A5336]/40 shadow-xs'
                 }`}
               >
                 <div className="flex items-start justify-between">
@@ -189,29 +267,29 @@ export const PortalSlideMenu: React.FC<PortalSlideMenuProps> = ({
                     </div>
                     <div>
                       <div className="flex items-center gap-2">
-                        <h4 className="font-bold text-sm text-[#171717]">
+                        <h4 className="font-roxborough font-bold text-sm text-[#0B2317] leading-tight">
                           {language === 'hi' ? p.hindiTitle : p.title}
                         </h4>
                         {isSelected && (
-                          <span className="w-2 h-2 rounded-full bg-[#1A5336] animate-ping" />
+                          <span className="w-2 h-2 rounded-full bg-[#1A5336] animate-ping shrink-0" />
                         )}
                       </div>
-                      <span className="text-[10px] font-semibold text-[#B85C38]">
+                      <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full border mt-0.5 inline-block ${p.badgeColor}`}>
                         {p.badge}
                       </span>
                     </div>
                   </div>
 
-                  <span className={`text-[10px] font-mono font-bold px-2 py-0.5 rounded-full border ${
+                  <span className={`text-[10px] font-mono font-bold px-2.5 py-1 rounded-full border ${
                     isSelected
                       ? 'bg-[#1A5336] text-[#fffd47] border-[#1A5336]'
-                      : 'bg-[#F8F5EF] text-[#786F67] border-[#D8C3A5]'
+                      : 'bg-[#F4F8F5] text-[#4A5B52] border-[#CDE3D5]'
                   }`}>
-                    {isSelected ? 'VIEWING' : 'OPEN'}
+                    {isSelected ? 'ACTIVE' : 'OPEN'}
                   </span>
                 </div>
 
-                <p className="text-xs text-[#786F67] mt-2.5 leading-relaxed">
+                <p className="text-xs text-[#4A5B52] mt-2.5 leading-relaxed">
                   {p.desc}
                 </p>
               </div>
@@ -220,13 +298,13 @@ export const PortalSlideMenu: React.FC<PortalSlideMenuProps> = ({
         </div>
 
         {/* Drawer Bottom Utility Bar */}
-        <div className="p-4 bg-[#EFE8DC] border-t border-[#D8C3A5] flex items-center justify-between text-xs">
+        <div className="p-4 bg-white border-t border-[#CDE3D5] flex items-center justify-between text-xs">
           {/* Language toggle */}
           <button
             onClick={() => setLanguage(language === 'en' ? 'hi' : 'en')}
-            className="flex items-center space-x-1.5 px-3 py-1.5 rounded-xl bg-white border border-[#D8C3A5] text-[#171717] font-semibold hover:border-[#B85C38] transition shadow-xs"
+            className="flex items-center space-x-1.5 px-3 py-1.5 rounded-xl bg-[#EAF3ED] border border-[#CDE3D5] text-[#0F291E] font-semibold hover:border-[#1A5336] transition shadow-xs"
           >
-            <Globe className="w-3.5 h-3.5 text-[#B85C38]" />
+            <Globe className="w-3.5 h-3.5 text-[#1A5336]" />
             <span>{language === 'en' ? '🇮🇳 हिंदी' : '🇬🇧 English'}</span>
           </button>
 
@@ -237,10 +315,10 @@ export const PortalSlideMenu: React.FC<PortalSlideMenuProps> = ({
               onSelectTab('COVER');
               onClose();
             }}
-            className="flex items-center space-x-1.5 px-3 py-1.5 rounded-xl bg-white border border-[#D8C3A5] text-[#786F67] hover:text-[#171717] font-medium transition shadow-xs"
+            className="flex items-center space-x-1.5 px-3 py-1.5 rounded-xl bg-[#EAF3ED] border border-[#CDE3D5] text-[#4A5B52] hover:text-[#0F291E] font-medium transition shadow-xs"
             title="Reset demo data"
           >
-            <RotateCcw className="w-3.5 h-3.5" />
+            <RotateCcw className="w-3.5 h-3.5 text-[#0284C7]" />
             <span>Reset Demo</span>
           </button>
         </div>

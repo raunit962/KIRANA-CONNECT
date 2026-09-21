@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import { KiranaStore, Parcel, PayoutLog, UserRole, NotificationItem } from '../types';
+import { KiranaStore, Parcel, PayoutLog, UserRole, NotificationItem, UserSession } from '../types';
 import { INITIAL_KIRANA_STORES, INITIAL_PARCELS, INITIAL_PAYOUT_LOGS } from '../lib/mockData';
 import { validatePickupHandoff } from '../lib/security';
 import { findBestKiranaStores } from '../lib/matchingEngine';
@@ -19,6 +19,15 @@ interface AppContextType {
   activeTrackingNumber: string;
   setActiveTrackingNumber: (num: string) => void;
   
+  // Authentication & Session
+  currentUser: UserSession | null;
+  loginUser: (session: UserSession) => void;
+  logoutUser: () => void;
+  isAuthModalOpen: boolean;
+  authModalDefaultRole: 'CUSTOMER' | 'AGENT' | 'MERCHANT';
+  openAuthModal: (role?: 'CUSTOMER' | 'AGENT' | 'MERCHANT') => void;
+  closeAuthModal: () => void;
+
   // Actions
   dropParcelAtKirana: (parcelId: string, proofPhotoUrl?: string) => { success: boolean; message: string };
   verifyAndReleaseParcel: (parcelId: string, inputCode: string) => { success: boolean; message: string; method?: string };
@@ -52,6 +61,45 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
   const [notifications, setNotifications] = useState<NotificationItem[]>([]);
   const [activeStoreId, setActiveStoreId] = useState<string>('store-1');
   const [activeTrackingNumber, setActiveTrackingNumber] = useState<string>('KC-70091-KOL');
+
+  // Authentication State
+  const [currentUser, setCurrentUser] = useState<UserSession | null>(() => {
+    const saved = localStorage.getItem('kc_user_session_v1');
+    return saved ? JSON.parse(saved) : null;
+  });
+
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
+  const [authModalDefaultRole, setAuthModalDefaultRole] = useState<'CUSTOMER' | 'AGENT' | 'MERCHANT'>('CUSTOMER');
+
+  useEffect(() => {
+    if (currentUser) {
+      localStorage.setItem('kc_user_session_v1', JSON.stringify(currentUser));
+    } else {
+      localStorage.removeItem('kc_user_session_v1');
+    }
+  }, [currentUser]);
+
+  const openAuthModal = (role: 'CUSTOMER' | 'AGENT' | 'MERCHANT' = 'CUSTOMER') => {
+    setAuthModalDefaultRole(role);
+    setIsAuthModalOpen(true);
+  };
+
+  const closeAuthModal = () => {
+    setIsAuthModalOpen(false);
+  };
+
+  const loginUser = (session: UserSession) => {
+    setCurrentUser(session);
+    setCurrentRole(session.role);
+    if (session.storeId) {
+      setActiveStoreId(session.storeId);
+    }
+    setIsAuthModalOpen(false);
+  };
+
+  const logoutUser = () => {
+    setCurrentUser(null);
+  };
 
   useEffect(() => {
     localStorage.setItem('kc_stores_v3', JSON.stringify(stores));
@@ -326,6 +374,13 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
         setActiveStoreId,
         activeTrackingNumber,
         setActiveTrackingNumber,
+        currentUser,
+        loginUser,
+        logoutUser,
+        isAuthModalOpen,
+        authModalDefaultRole,
+        openAuthModal,
+        closeAuthModal,
         dropParcelAtKirana,
         verifyAndReleaseParcel,
         requestUpiWithdrawal,

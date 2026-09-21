@@ -1,6 +1,6 @@
 import React from 'react';
 import { useApp } from '../context/AppContext';
-import { RefreshCw, Languages, ArrowLeft, Menu, BookOpen } from 'lucide-react';
+import { RefreshCw, Languages, Home, Menu, Sparkles, KeyRound } from 'lucide-react';
 
 interface NavbarProps {
   activeTab?: string;
@@ -13,7 +13,14 @@ export const Navbar: React.FC<NavbarProps> = ({
   onSelectTab,
   onOpenSlideMenu,
 }) => {
-  const { language, setLanguage, resetToDemoState } = useApp();
+  const {
+    language,
+    setLanguage,
+    resetToDemoState,
+    currentUser,
+    openAuthModal,
+    logoutUser,
+  } = useApp();
 
   const getPortalTitle = () => {
     switch (activeTab) {
@@ -35,12 +42,12 @@ export const Navbar: React.FC<NavbarProps> = ({
   return (
     <>
       {/* Top Banner */}
-      <div className="bg-[#171717] border-b border-[#D8C3A5]/20 text-xs py-1.5 px-4 text-center flex flex-wrap items-center justify-between gap-2 z-50 relative">
+      <div className="bg-[#0B2317] border-b border-[#1A5336]/40 text-xs py-1.5 px-4 text-center flex flex-wrap items-center justify-between gap-2 z-50 relative">
         <div className="flex items-center space-x-2 mx-auto sm:mx-0">
-          <span className="bg-[#B85C38] text-white font-black px-2 py-0.5 rounded text-[10px] tracking-wider uppercase shadow-xs">
-            PUDO 2.0
+          <span className="bg-[#1A5336] text-[#fffd47] font-black px-2 py-0.5 rounded text-[10px] tracking-wider uppercase shadow-xs border border-[#fffd47]/30">
+            PUDO
           </span>
-          <span className="text-[#D8C3A5] font-semibold text-xs">
+          <span className="text-[#D1E7DD] font-medium text-xs">
             Transportation &amp; Logistics: Relieving Urban Transport Networks &amp; Logistics Infrastructure
           </span>
         </div>
@@ -50,36 +57,36 @@ export const Navbar: React.FC<NavbarProps> = ({
             onClick={() => onSelectTab('COVER')}
             className="hidden sm:flex items-center space-x-1.5 text-xs text-[#fffd47] hover:underline font-bold"
           >
-            <BookOpen className="w-3.5 h-3.5" />
-            <span>View Book Cover Page</span>
+            <Home className="w-3.5 h-3.5 text-[#38BDF8]" />
+            <span>Home</span>
           </button>
         )}
       </div>
 
-      <header className="bg-[#171717] border-b border-[#D8C3A5]/20 shadow-md">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex items-center justify-between gap-3">
-          {/* Left: Logo & Back to Cover Page */}
+      <header className="bg-[#0F291E] border-b border-[#1A5336]/40 shadow-lg">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex items-center justify-between gap-3">
+          {/* Left: Logo & Return to Home */}
           <div className="flex items-center space-x-3">
             {onSelectTab && activeTab !== 'COVER' && (
               <button
                 onClick={() => onSelectTab('COVER')}
-                className="flex items-center space-x-1.5 px-3 py-1.5 rounded-xl bg-[#F8F5EF] hover:bg-white text-[#171717] text-xs font-bold transition shadow-xs border border-[#D8C3A5]"
-                title="Return to Book Cover Page"
+                className="flex items-center space-x-1.5 px-3 py-1.5 rounded-xl bg-[#1A5336] hover:bg-[#133F28] text-white text-xs font-bold transition shadow-xs border border-[#38BDF8]/40"
+                title="Return to Home"
               >
-                <ArrowLeft className="w-4 h-4 text-[#B85C38]" />
-                <span className="hidden md:inline">Cover Page</span>
+                <Home className="w-4 h-4 text-[#fffd47]" />
+                <span className="hidden md:inline">Home</span>
               </button>
             )}
 
             <div
               onClick={() => onSelectTab && onSelectTab('COVER')}
-              className="flex items-center space-x-2 cursor-pointer group"
+              className="flex items-center space-x-2.5 cursor-pointer group"
             >
-              <div className="w-10 h-10 rounded-xl bg-white p-1 flex items-center justify-center shadow-xs border border-white/80">
+              <div className="w-10 h-10 rounded-xl bg-white p-1 flex items-center justify-center shadow-md border border-white/80 group-hover:scale-105 transition">
                 <img
                   src="/logo-transparent.png"
                   alt="KiranaConnect Logo"
-                  className="w-full h-full object-contain group-hover:scale-105 transition"
+                  className="w-full h-full object-contain"
                   onError={(e) => {
                     e.currentTarget.style.display = 'none';
                   }}
@@ -87,9 +94,10 @@ export const Navbar: React.FC<NavbarProps> = ({
               </div>
               <div>
                 <h2 className="text-xl sm:text-2xl font-black tracking-tight text-[#F8F5EF] leading-tight">
-                  <span>Kirana</span><span className="text-[#B85C38]">Connect</span>
+                  <span>Kirana</span>
+                  <span className="text-[#F5A623]">Connect</span>
                 </h2>
-                <div className="text-[10px] text-[#D8C3A5] font-semibold flex items-center gap-1">
+                <div className="font-roxborough font-bold text-xs sm:text-sm md:text-base text-[#fffd47] flex items-center gap-1">
                   <span>{getPortalTitle()}</span>
                 </div>
               </div>
@@ -98,11 +106,44 @@ export const Navbar: React.FC<NavbarProps> = ({
 
           {/* Action Controls (Right) */}
           <div className="flex items-center space-x-2 sm:space-x-2.5">
+            {/* User Session Chip / Login Button */}
+            {currentUser ? (
+              <div className="flex items-center space-x-2 bg-[#133827] border border-[#1A5336] rounded-xl px-2.5 py-1.5 text-xs shadow-xs">
+                <div className="w-6 h-6 rounded-full bg-[#1A5336] border border-[#fffd47]/60 flex items-center justify-center font-bold text-white text-[11px] shrink-0">
+                  {currentUser.role === 'MERCHANT' ? '🏪' : currentUser.role === 'AGENT' ? '🛵' : '👤'}
+                </div>
+                <div className="hidden sm:block text-left leading-tight">
+                  <div className="text-[#F8F5EF] font-bold text-xs flex items-center gap-1.5">
+                    <span className="truncate max-w-[110px]">{currentUser.name.split(' ')[0]}</span>
+                    <span className="text-[9px] font-mono px-1.5 py-0.2 bg-[#fffd47]/20 text-[#fffd47] rounded font-bold">
+                      {currentUser.role === 'MERCHANT' ? 'Dukandar' : currentUser.role === 'AGENT' ? 'Rider' : 'Shopper'}
+                    </span>
+                  </div>
+                </div>
+                <button
+                  onClick={logoutUser}
+                  className="text-[10px] text-red-300 hover:text-white hover:bg-red-900/60 px-1.5 py-0.5 rounded transition font-semibold"
+                  title="Log out of session"
+                >
+                  Logout
+                </button>
+              </div>
+            ) : (
+              <button
+                onClick={() => openAuthModal('CUSTOMER')}
+                className="flex items-center space-x-1.5 px-3 py-2 rounded-xl bg-[#fffd47] hover:bg-[#fffd47]/90 text-[#0F291E] text-xs font-black transition shadow-sm border border-[#fffd47] active:scale-95"
+                title="Log in to KiranaConnect"
+              >
+                <KeyRound className="w-3.5 h-3.5 text-[#0F291E]" />
+                <span className="font-bold">Log In</span>
+              </button>
+            )}
+
             {/* Slide Bar Menu Toggle */}
             {onOpenSlideMenu && (
               <button
                 onClick={onOpenSlideMenu}
-                className="flex items-center space-x-1.5 px-3.5 py-2 rounded-xl bg-[#B85C38] hover:bg-[#A94D2F] text-white text-xs font-bold transition shadow-sm border border-[#D8C3A5]/40"
+                className="flex items-center space-x-1.5 px-3.5 py-2 rounded-xl bg-[#1A5336] hover:bg-[#133F28] text-white text-xs font-bold transition shadow-sm border border-[#fffd47]/30"
                 title="Open All Portals Slide Bar"
               >
                 <Menu className="w-4 h-4 text-[#fffd47]" />
@@ -113,7 +154,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             {/* Language Toggle */}
             <button
               onClick={() => setLanguage(language === 'en' ? 'hi' : 'en')}
-              className="flex items-center space-x-1.5 px-3 py-2 rounded-xl bg-[#262626] hover:bg-[#333] text-[#F8F5EF] border border-[#D8C3A5]/30 text-xs font-bold transition shadow-xs"
+              className="flex items-center space-x-1.5 px-3 py-2 rounded-xl bg-[#133827] hover:bg-[#1A5336] text-[#F8F5EF] border border-[#1A5336] text-xs font-bold transition shadow-xs"
               title="Switch Language / भाषा बदलें"
             >
               <Languages className="w-4 h-4 text-[#fffd47]" />
@@ -127,7 +168,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                   resetToDemoState();
                 }
               }}
-              className="p-2 sm:px-3 sm:py-2 rounded-xl bg-[#262626] hover:bg-red-950/40 text-[#D8C3A5] hover:text-red-300 border border-[#D8C3A5]/30 hover:border-red-500/50 text-xs font-semibold transition shadow-xs"
+              className="p-2 sm:px-3 sm:py-2 rounded-xl bg-[#133827] hover:bg-red-950/50 text-[#D1E7DD] hover:text-red-300 border border-[#1A5336] hover:border-red-500/50 text-xs font-semibold transition shadow-xs"
               title="Reset demo data"
             >
               <RefreshCw className="w-3.5 h-3.5" />

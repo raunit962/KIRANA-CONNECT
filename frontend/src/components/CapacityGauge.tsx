@@ -33,19 +33,19 @@ export const CapacityGauge: React.FC<CapacityGaugeProps> = ({
   }
 
   return (
-    <div className="bg-[#F8F5EF] rounded-xl p-4 border border-[#D8C3A5] shadow-sm">
+    <div className="bg-[#F4F8F5] rounded-xl p-4 border border-[#CDE3D5] shadow-xs">
       <div className="flex items-center justify-between mb-2">
         <div className="flex items-center space-x-2">
-          <Package className="w-4 h-4 text-[#B85C38]" />
-          <span className="text-sm font-semibold text-[#171717]">{label}</span>
+          <Package className="w-4 h-4 text-[#1A5336]" />
+          <span className="text-sm font-bold text-[#0F291E]">{label}</span>
         </div>
-        <span className={`text-xs font-bold px-2 py-0.5 rounded-full border ${badgeColor}`}>
+        <span className={`text-xs font-bold px-2.5 py-0.5 rounded-full border ${badgeColor}`}>
           {percentage}% Used
         </span>
       </div>
 
       {/* Progress Bar */}
-      <div className="w-full h-3.5 bg-[#EFE8DC] rounded-full overflow-hidden p-0.5 border border-[#D8C3A5]">
+      <div className="w-full h-3.5 bg-white rounded-full overflow-hidden p-0.5 border border-[#CDE3D5]">
         <div
           className={`h-full rounded-full transition-all duration-500 ${colorClass}`}
           style={{ width: `${percentage}%` }}
@@ -53,11 +53,11 @@ export const CapacityGauge: React.FC<CapacityGaugeProps> = ({
       </div>
 
       {showDetails && (
-        <div className="flex items-center justify-between mt-2.5 text-xs text-[#786F67]">
-          <span className="font-medium text-[#171717]">
+        <div className="flex items-center justify-between mt-2.5 text-xs text-[#4A5B52]">
+          <span className="font-medium text-[#0F291E]">
             <strong>{current}</strong> / {max} parcels held
           </span>
-          <span className="flex items-center gap-1 font-medium text-[#171717]">
+          <span className="flex items-center gap-1 font-medium text-[#0F291E]">
             {percentage >= 85 ? (
               <AlertTriangle className="w-3.5 h-3.5 text-red-500" />
             ) : (

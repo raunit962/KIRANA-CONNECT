@@ -1,4 +1,5 @@
 import { KiranaStore, Parcel, PayoutLog } from '../types';
+import { getParcelCategory } from './parcelCategories';
 
 export const INITIAL_KIRANA_STORES: KiranaStore[] = [
   {
@@ -417,3 +418,184 @@ export const INITIAL_PAYOUT_LOGS: PayoutLog[] = [
     timestamp: '2026-08-19T20:30:00Z',
   }
 ];
+
+export interface CatalogItem {
+  item: string;
+  size: 'SMALL' | 'MEDIUM' | 'LARGE';
+  dimensions: string;
+  weight: string;
+  company: string;
+  price: number;
+}
+
+export const PARCEL_CATALOG: CatalogItem[] = [
+  { item: 'boAt Airdopes 141 ANC Bluetooth Earbuds', size: 'SMALL', dimensions: '14 × 10 × 4 cm', weight: '220g', company: 'Flipkart Logistics', price: 1299 },
+  { item: 'Prestige Iris 750W Mixer Grinder (3 Jars)', size: 'MEDIUM', dimensions: '32 × 24 × 22 cm', weight: '3.4 kg', company: 'Amazon Transportation', price: 3199 },
+  { item: 'American Tourister 79cm Hard Suitcase Box', size: 'LARGE', dimensions: '55 × 38 × 28 cm', weight: '4.8 kg', company: 'Delhivery Direct', price: 6499 },
+  { item: 'Puma Nitro Men Running Shoes (UK 9)', size: 'MEDIUM', dimensions: '32 × 20 × 12 cm', weight: '950g', company: 'Myntra / Shadowfax', price: 2499 },
+  { item: 'Philips HD9200 4.1L Digital Air Fryer', size: 'LARGE', dimensions: '36 × 36 × 38 cm', weight: '4.5 kg', company: 'Amazon Transportation', price: 4999 },
+  { item: 'Tata 1mg Urgent Diabetes Care Kit', size: 'SMALL', dimensions: '16 × 12 × 5 cm', weight: '380g', company: 'Tata 1mg Pharma', price: 849 },
+  { item: 'Fastrack Reflex Beat+ Calling Smartwatch', size: 'SMALL', dimensions: '12 × 12 × 7 cm', weight: '280g', company: 'Flipkart Logistics', price: 1799 },
+  { item: 'Casio Vintage Digital Illuminator Watch', size: 'SMALL', dimensions: '10 × 10 × 6 cm', weight: '210g', company: 'Amazon Transportation', price: 1695 },
+  { item: 'Milton Thermosteel 1000ml Insulated Flask', size: 'MEDIUM', dimensions: '34 × 12 × 12 cm', weight: '780g', company: 'Blinkit Commerce', price: 920 },
+  { item: 'SanDisk Extreme 256GB Dual Type-C Drive', size: 'SMALL', dimensions: '10 × 8 × 2 cm', weight: '85g', company: 'BlueDart Apex', price: 2199 },
+  { item: 'Wildcraft 45L Camo Expedition Rucksack', size: 'LARGE', dimensions: '52 × 34 × 24 cm', weight: '1.6 kg', company: 'Delhivery Direct', price: 2899 },
+  { item: 'Borosil Glass Microwave Safe Lunchbox Set', size: 'MEDIUM', dimensions: '26 × 18 × 14 cm', weight: '1.4 kg', company: 'Flipkart Logistics', price: 1150 },
+  { item: 'Noise ColorFit Icon 2 Calling Smartwatch', size: 'SMALL', dimensions: '12 × 12 × 6 cm', weight: '260g', company: 'Amazon Transportation', price: 1499 },
+  { item: 'Sony WH-CH520 Wireless Headphones', size: 'MEDIUM', dimensions: '22 × 18 × 6 cm', weight: '420g', company: 'Flipkart Logistics', price: 3990 },
+  { item: 'OnePlus Bullets Wireless Z2 ANC Earphones', size: 'SMALL', dimensions: '15 × 12 × 3 cm', weight: '180g', company: 'Amazon Transportation', price: 1999 },
+  { item: 'Realme 20000mAh 33W Fast Charge Powerbank', size: 'MEDIUM', dimensions: '18 × 10 × 4 cm', weight: '540g', company: 'Delhivery Direct', price: 1899 },
+  { item: 'Bajaj DX7 1000W Lightweight Dry Iron', size: 'MEDIUM', dimensions: '26 × 14 × 12 cm', weight: '1.1 kg', company: 'Flipkart Logistics', price: 899 },
+  { item: 'Logitech Pebble Wireless Mouse & Keys Combo', size: 'MEDIUM', dimensions: '32 × 15 × 5 cm', weight: '680g', company: 'Amazon Transportation', price: 2795 },
+  { item: 'Lego Technic McLaren Formula 1 Race Car', size: 'LARGE', dimensions: '48 × 38 × 12 cm', weight: '2.4 kg', company: 'Myntra / Shadowfax', price: 4299 },
+  { item: 'Kent Grand Plus RO Water Purifier Spares', size: 'LARGE', dimensions: '45 × 35 × 25 cm', weight: '5.2 kg', company: 'Delhivery Direct', price: 3450 },
+  { item: 'HDFC Bank Millennia Chip Credit Card Kit', size: 'SMALL', dimensions: '18 × 12 × 1 cm', weight: '110g', company: 'BlueDart Apex', price: 0 },
+  { item: 'Mamaearth Onion Hair Care Serum & Oil Combo', size: 'SMALL', dimensions: '18 × 14 × 6 cm', weight: '620g', company: 'Nykaa E-Retail', price: 799 },
+  { item: 'Campus North Plus Memory Foam Running Shoes', size: 'MEDIUM', dimensions: '32 × 20 × 12 cm', weight: '890g', company: 'Flipkart Logistics', price: 1449 },
+  { item: 'Wipro Smart 16A WiFi Plug with Energy Monitor', size: 'SMALL', dimensions: '12 × 10 × 7 cm', weight: '230g', company: 'Amazon Transportation', price: 890 },
+  { item: 'Portronics SoundDrum P 20W BT Speaker', size: 'MEDIUM', dimensions: '20 × 10 × 10 cm', weight: '760g', company: 'Delhivery Direct', price: 1649 },
+  { item: 'Nykaa Matte to Last Liquid Lipstick Set', size: 'SMALL', dimensions: '14 × 10 × 3 cm', weight: '160g', company: 'Nykaa E-Retail', price: 1199 },
+  { item: 'Dettol Touchless Handwash Dispenser Kit', size: 'MEDIUM', dimensions: '22 × 16 × 12 cm', weight: '880g', company: 'Blinkit Commerce', price: 999 },
+  { item: 'Havells Lifeline Plus 1.5 sq mm Wire Roll', size: 'LARGE', dimensions: '30 × 30 × 12 cm', weight: '3.6 kg', company: 'Delhivery Direct', price: 2150 },
+  { item: 'Zebronics Zeb-Juke Bar 3800 Pro Soundbar', size: 'LARGE', dimensions: '65 × 14 × 12 cm', weight: '4.9 kg', company: 'Flipkart Logistics', price: 4499 },
+  { item: 'Godrej Aer Smart Matic Automatic Air Freshener', size: 'SMALL', dimensions: '18 × 10 × 10 cm', weight: '480g', company: 'Amazon Transportation', price: 625 },
+  { item: 'Pigeon Stainless Steel 2L Pressure Cooker', size: 'MEDIUM', dimensions: '28 × 22 × 18 cm', weight: '1.8 kg', company: 'Flipkart Logistics', price: 1099 },
+  { item: 'Crompton Energion Stylus 1200mm BLDC Fan', size: 'LARGE', dimensions: '56 × 32 × 24 cm', weight: '4.2 kg', company: 'Amazon Transportation', price: 3299 },
+  { item: 'Fossil Grant Chronograph Brown Leather Watch', size: 'SMALL', dimensions: '12 × 12 × 8 cm', weight: '320g', company: 'Myntra / Shadowfax', price: 7495 },
+  { item: 'Safari Ray 55cm Polycarbonate Trolley Bag', size: 'LARGE', dimensions: '55 × 36 × 24 cm', weight: '3.2 kg', company: 'Delhivery Direct', price: 2199 },
+  { item: 'Eveready 10000mAh Ultra Slim Power Bank', size: 'SMALL', dimensions: '14 × 8 × 2 cm', weight: '240g', company: 'Blinkit Commerce', price: 799 },
+  { item: 'Syska HD1600 1000W Salon Hair Dryer', size: 'MEDIUM', dimensions: '24 × 18 × 10 cm', weight: '580g', company: 'Flipkart Logistics', price: 849 },
+  { item: 'Bata Formal Derby Leather Shoes (Black UK 8)', size: 'MEDIUM', dimensions: '34 × 22 × 12 cm', weight: '1.1 kg', company: 'Myntra / Shadowfax', price: 1899 },
+  { item: 'Anchor Roma 8-Module Electrical Switch Board', size: 'SMALL', dimensions: '22 × 12 × 5 cm', weight: '450g', company: 'Delhivery Direct', price: 650 },
+  { item: 'Pampers All Round Protection Diaper Pants (L)', size: 'LARGE', dimensions: '42 × 32 × 18 cm', weight: '2.1 kg', company: 'Amazon Transportation', price: 1249 },
+  { item: 'Classmate Octane Neon Gel Pens Pack of 25', size: 'SMALL', dimensions: '18 × 12 × 3 cm', weight: '290g', company: 'Blinkit Commerce', price: 250 }
+];
+
+export const MOCK_CUSTOMERS = [
+  { name: 'Anirban Chatterjee', phone: '+91 98300 12894', address: 'Tower 3, Godrej Waterside' },
+  { name: 'Indranil Bose', phone: '+91 98365 22091', address: 'Srijan Corporate Park, Tower 1' },
+  { name: 'Priya Sharma', phone: '+91 98310 44521', address: 'Block GP, Sector V' },
+  { name: 'Rahul Mukherjee', phone: '+91 98322 88710', address: 'RDB Boulevard, Block K-1' },
+  { name: 'Aparna Ghosh', phone: '+91 98334 11290', address: 'Infinity Benchmark, Block EP' },
+  { name: 'Suresh Das', phone: '+91 98308 99124', address: 'Globsyn Crystals, Tower 2' },
+  { name: 'Kavita Rao', phone: '+91 98319 66731', address: 'Technopolis, BP Block' },
+  { name: 'Amitav Sen', phone: '+91 98302 33458', address: 'Millennium City IT Park' },
+  { name: 'Roshni Roy', phone: '+91 98315 77892', address: 'Mani Casadona, Block IIF' },
+  { name: 'Snehasis Paul', phone: '+91 98361 22904', address: 'SDF Building Module 410' },
+  { name: 'Bipasha Mitra', phone: '+91 98306 44819', address: 'Karunamoyee Housing Complex' },
+  { name: 'Dipankar Nandi', phone: '+91 98318 55902', address: 'Webel More Crossing, Sec V' },
+  { name: 'Sanchita Guha', phone: '+91 98325 88104', address: 'Wipro Circle, Sector V' },
+  { name: 'Subhamoy Dutta', phone: '+91 98309 66712', address: 'College More, Sector V' },
+  { name: 'Mousumi Sarkar', phone: '+91 98314 22391', address: 'Salt Lake Stadium Gate 3' },
+  { name: 'Abhijit Ganguly', phone: '+91 98367 99015', address: 'Central Park East Gate' },
+  { name: 'Sarmistha Roy', phone: '+91 98304 11842', address: 'Karunamoyee Metro Stn Gate 2' },
+  { name: 'Prasenjit Barman', phone: '+91 98312 44780', address: 'DLF 1 IT Park, New Town' },
+  { name: 'Madhumita Das', phone: '+91 98328 66901', address: 'Unitech Infospace Gate 1' },
+  { name: 'Soumen Halder', phone: '+91 98301 88234', address: 'EcoSpace Business Park' },
+  { name: 'Ananya Sengupta', phone: '+91 98317 33902', address: 'City Centre 1, Salt Lake' },
+  { name: 'Debashis Mondal', phone: '+91 98363 77410', address: 'Sector I Residential Enclave' },
+  { name: 'Tania Bhattacharya', phone: '+91 98305 66129', address: 'Sector II BL Block' },
+  { name: 'Rupak Majumder', phone: '+91 98311 99245', address: 'Sector III GD Island' },
+  { name: 'Swati Chakraborty', phone: '+91 98320 44891', address: 'HB Block Salt Lake' },
+  { name: 'Aniket Bagchi', phone: '+91 98307 22104', address: 'AJ Block Salt Lake' },
+  { name: 'Pallabi Mallick', phone: '+91 98316 88390', address: 'BJ Block Island' },
+  { name: 'Siddhartha Saha', phone: '+91 98369 55012', address: 'CK Market Salt Lake' },
+  { name: 'Chandrima Ray', phone: '+91 98303 77219', address: 'FD Park, Sector III' },
+  { name: 'Kaushik Pramanik', phone: '+91 98313 11980', address: 'IA Block, Salt Lake' }
+];
+
+export function getStoreShelfParcels(store: KiranaStore, allParcels: Parcel[]): Parcel[] {
+  const existing = allParcels.filter(
+    (p) => p.kiranaStoreId === store.id && p.status === 'DROPPED_AT_KIRANA'
+  );
+
+  const neededCount = store.currentCapacity;
+  const result: Parcel[] = [];
+
+  // 1. Process and format existing real parcels
+  existing.forEach((p, idx) => {
+    const slotLetter = String.fromCharCode(65 + Math.floor(idx / 10));
+    const slotCode = `${slotLetter}-${String((idx % 10) + 1).padStart(2, '0')}`;
+    const defaultCarrier = p.orderId.startsWith('FLIP')
+      ? 'Flipkart Logistics'
+      : p.orderId.startsWith('AMZN')
+      ? 'Amazon Transportation'
+      : p.orderId.startsWith('MYNT')
+      ? 'Myntra / Shadowfax'
+      : p.orderId.startsWith('1MG')
+      ? 'Tata 1mg Pharma'
+      : p.orderId.startsWith('NYKA')
+      ? 'Nykaa E-Retail'
+      : 'Delhivery Direct';
+
+    result.push({
+      ...p,
+      shelfSlot: p.shelfSlot || slotCode,
+      serialTag: p.serialTag || `TAG-${store.pincode}-${slotCode.replace('-', '')}`,
+      company: p.company || defaultCarrier,
+      packageDimensions: p.packageDimensions || (p.packageSize === 'SMALL' ? '18 × 12 × 5 cm' : p.packageSize === 'MEDIUM' ? '28 × 20 × 12 cm' : '55 × 38 × 28 cm'),
+      packageWeight: p.packageWeight || (p.packageSize === 'SMALL' ? '320g' : p.packageSize === 'MEDIUM' ? '1.2 kg' : '4.8 kg'),
+      category: p.category || getParcelCategory(p.packageItem),
+    });
+  });
+
+  // 2. Fill remaining slots up to store.currentCapacity
+  if (result.length < neededCount) {
+    const startIdx = result.length;
+    for (let i = startIdx; i < neededCount; i++) {
+      const catalogItem = PARCEL_CATALOG[i % PARCEL_CATALOG.length];
+      const customer = MOCK_CUSTOMERS[i % MOCK_CUSTOMERS.length];
+      const slotLetter = String.fromCharCode(65 + Math.floor(i / 10));
+      const slotCode = `${slotLetter}-${String((i % 10) + 1).padStart(2, '0')}`;
+      const serialTag = `TAG-${store.pincode}-${slotLetter}${String((i % 10) + 1).padStart(2, '0')}`;
+      const carrierPrefix = catalogItem.company.includes('Flipkart')
+        ? 'FLIP'
+        : catalogItem.company.includes('Amazon')
+        ? 'AMZN'
+        : catalogItem.company.includes('Myntra')
+        ? 'MYNT'
+        : catalogItem.company.includes('Tata')
+        ? '1MG'
+        : catalogItem.company.includes('Nykaa')
+        ? 'NYKA'
+        : 'DLHV';
+
+      result.push({
+        id: `parcel-${store.id}-shelf-${i + 1}`,
+        trackingNumber: `KC-${store.pincode}-${String(i + 101).padStart(3, '0')}`,
+        orderId: `${carrierPrefix}-${Math.floor(1000000 + (i * 98765) % 8999999)}`,
+        customerName: customer.name,
+        customerPhone: customer.phone,
+        destinationAddress: `${customer.address}, ${store.city}`,
+        destinationPincode: store.pincode,
+        destinationCoords: {
+          latitude: store.latitude + 0.001 * ((i % 5) - 2),
+          longitude: store.longitude + 0.001 * ((i % 4) - 1.5)
+        },
+        kiranaStoreId: store.id,
+        agentId: 'agent-1',
+        agentName: 'Tapas Sen (Shadowfax / Delhivery Rider)',
+        agentPhone: '+91 98302 99881',
+        status: 'DROPPED_AT_KIRANA',
+        orderedAt: new Date(Date.now() - (36 + i * 2) * 3600 * 1000).toISOString(),
+        dispatchedAt: new Date(Date.now() - (18 + i) * 3600 * 1000).toISOString(),
+        droppedAt: new Date(Date.now() - (4 + (i % 6)) * 3600 * 1000).toISOString(),
+        expiryDate: new Date(Date.now() + (48 - (i % 12)) * 3600 * 1000).toISOString(),
+        pickupOtp: String(1000 + ((i * 4921) % 9000)),
+        qrToken: `KC-AUTH-${store.pincode}-${i + 1}-SEC`,
+        dropProofPhoto: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=500&auto=format&fit=crop&q=80',
+        packageSize: catalogItem.size,
+        packageItem: catalogItem.item,
+        estimatedPrice: catalogItem.price,
+        company: catalogItem.company,
+        packageDimensions: catalogItem.dimensions,
+        packageWeight: catalogItem.weight,
+        serialTag: serialTag,
+        shelfSlot: slotCode,
+        category: getParcelCategory(catalogItem.item),
+      });
+    }
+  }
+
+  return result.slice(0, neededCount);
+}

@@ -23,46 +23,46 @@ export const UPISoundbox: React.FC<UPISoundboxProps> = ({
   };
 
   return (
-    <div className="bg-[#EFE8DC] rounded-3xl p-5 border-2 border-[#D8C3A5] shadow-sm relative overflow-hidden">
+    <div className="bg-[#0F291E] rounded-3xl p-5 border-2 border-[#1A5336] shadow-md relative overflow-hidden text-white">
       {/* Top Soundbox Header with Status LEDs */}
-      <div className="flex items-center justify-between pb-3 border-b border-[#D8C3A5]">
+      <div className="flex items-center justify-between pb-3 border-b border-[#1A5336]">
         <div className="flex items-center space-x-2">
-          <div className="w-6 h-6 rounded-lg bg-[#B85C38] flex items-center justify-center text-white font-black text-xs shadow-sm">
+          <div className="w-6 h-6 rounded-lg bg-[#1A5336] border border-[#fffd47]/30 flex items-center justify-center text-[#fffd47] font-black text-xs shadow-sm">
             ₹
           </div>
-          <span className="font-extrabold text-xs text-[#171717] tracking-wide uppercase">
-            Kirana<span className="text-[#B85C38]">Voice</span> Soundbox
+          <span className="font-extrabold text-xs text-[#F8F5EF] tracking-wide uppercase">
+            Kirana<span className="text-[#fffd47]">Voice</span> Soundbox
           </span>
         </div>
 
         <div className="flex items-center space-x-2">
-          <span className="flex items-center gap-1 text-[10px] text-[#B85C38] font-mono font-bold bg-[#B85C38]/10 px-2 py-0.5 rounded-full border border-[#D8C3A5]">
+          <span className="flex items-center gap-1 text-[10px] text-[#0284C7] font-mono font-bold bg-[#E0F2FE] px-2 py-0.5 rounded-full border border-[#38BDF8]/40">
             <Wifi className="w-3 h-3" /> 4G LTE
           </span>
-          <span className={`w-2.5 h-2.5 rounded-full ${isPlaying ? 'bg-[#B85C38] animate-ping' : 'bg-[#B85C38]'}`} />
+          <span className={`w-2.5 h-2.5 rounded-full ${isPlaying ? 'bg-[#fffd47] animate-ping' : 'bg-[#16a34a]'}`} />
         </div>
       </div>
 
       {/* Simulated LCD Screen */}
-      <div className="my-4 bg-[#F8F5EF] border border-[#D8C3A5] rounded-2xl p-3.5 shadow-inner text-center font-mono space-y-1">
-        <div className="text-[10px] text-[#786F67] uppercase tracking-widest">
+      <div className="my-4 bg-[#F4F8F5] border border-[#CDE3D5] rounded-2xl p-3.5 shadow-inner text-center font-mono space-y-1">
+        <div className="text-[10px] text-[#4A5B52] uppercase tracking-widest">
           UPI Instant Settlement
         </div>
-        <div className="text-2xl font-black text-[#171717] tracking-tight flex items-center justify-center gap-1">
+        <div className="text-2xl font-black text-[#0F291E] tracking-tight flex items-center justify-center gap-1">
           <span>₹{lastAmount}.00</span>
-          <CheckCircle2 className="w-4 h-4 text-[#B85C38]" />
+          <CheckCircle2 className="w-4 h-4 text-[#16a34a]" />
         </div>
-        <div className="text-[9px] text-[#B85C38] font-bold truncate">
+        <div className="text-[9px] text-[#1A5336] font-bold truncate">
           COMMISSION CREDITED • INSTANT
         </div>
       </div>
 
       {/* Speaker Grille Styling */}
-      <div className="flex items-center justify-center space-x-1.5 py-1 opacity-60">
+      <div className="flex items-center justify-center space-x-1.5 py-1 opacity-70">
         {Array.from({ length: 9 }).map((_, i) => (
           <div
             key={i}
-            className={`w-1 rounded-full bg-[#B85C38] transition-all ${
+            className={`w-1 rounded-full bg-[#fffd47] transition-all ${
               isPlaying ? 'animate-pulse h-4' : 'h-2'
             }`}
             style={{ animationDelay: `${i * 0.1}s` }}
@@ -75,7 +75,7 @@ export const UPISoundbox: React.FC<UPISoundboxProps> = ({
         <button
           type="button"
           onClick={() => handleTestVoice('hi')}
-          className="flex items-center justify-center space-x-1.5 bg-[#B85C38] hover:bg-[#A94D2F] text-white py-2 rounded-xl text-xs font-bold transition active:scale-95 shadow-sm"
+          className="flex items-center justify-center space-x-1.5 bg-[#1A5336] hover:bg-[#133F28] text-[#fffd47] py-2 rounded-xl text-xs font-bold transition active:scale-95 shadow-sm border border-[#fffd47]/30"
         >
           <Volume2 className="w-3.5 h-3.5" />
           <span>🔊 बोलें (हिंदी)</span>
@@ -84,7 +84,7 @@ export const UPISoundbox: React.FC<UPISoundboxProps> = ({
         <button
           type="button"
           onClick={() => handleTestVoice('en')}
-          className="flex items-center justify-center space-x-1.5 bg-[#F8F5EF] hover:bg-white text-[#171717] border border-[#D8C3A5] py-2 rounded-xl text-xs font-bold transition active:scale-95 shadow-sm"
+          className="flex items-center justify-center space-x-1.5 bg-[#133827] hover:bg-[#1A5336] text-[#F8F5EF] border border-[#1A5336] py-2 rounded-xl text-xs font-bold transition active:scale-95 shadow-sm"
         >
           <Volume2 className="w-3.5 h-3.5" />
           <span>🔊 Voice (English)</span>

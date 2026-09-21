@@ -69,6 +69,37 @@ export interface Parcel {
   packageSize: 'SMALL' | 'MEDIUM' | 'LARGE';
   packageItem: string; // e.g. "boAt Airdopes 141 Headphones"
   estimatedPrice: number;
+  company?: string; // e.g. "Flipkart Logistics", "Amazon Transportation", "Delhivery"
+  packageDimensions?: string; // e.g. "24 × 18 × 8 cm"
+  packageWeight?: string; // e.g. "0.85 kg"
+  serialTag?: string; // e.g. "TAG-70091-01A"
+  shelfSlot?: string; // e.g. "A-01"
+  category?: ParcelCategory;
+}
+
+export type ParcelCategory = 
+  | 'ELECTRONICS_FRAGILE'
+  | 'APPAREL_SKINCARE'
+  | 'BOOKS_DOCUMENTS'
+  | 'HOME_KITCHEN'
+  | 'HEALTH_BABY_ESSENTIALS';
+
+export interface ParcelCategoryConfig {
+  id: ParcelCategory;
+  name: string;
+  nameHindi: string;
+  colorName: string;
+  badgeBg: string;
+  badgeText: string;
+  borderColor: string;
+  slotBg: string;
+  slotBorder: string;
+  slotHoverBg: string;
+  slotText: string;
+  dotColor: string;
+  ringColor: string;
+  icon: string;
+  tagColor: string;
 }
 
 export interface PayoutLog {
@@ -90,4 +121,17 @@ export interface NotificationItem {
   timestamp: string;
   type: 'SMS' | 'WHATSAPP' | 'SYSTEM';
   read: boolean;
+}
+
+export interface UserSession {
+  id: string;
+  name: string;
+  phone: string;
+  role: 'CUSTOMER' | 'AGENT' | 'MERCHANT';
+  storeId?: string;
+  storeName?: string;
+  agentId?: string;
+  carrier?: string;
+  avatarUrl?: string;
+  loggedInAt: string;
 }

@@ -8,37 +8,46 @@ export default {
     extend: {
       colors: {
         theme: {
-          header: '#171717',
-          bg: '#F8F5EF',
-          card: '#EFE8DC',
-          subcard: '#F4EFE6',
-          heading: '#171717',
-          body: '#786F67',
-          btn: '#B85C38',
-          'btn-hover': '#A94D2F',
-          decor: '#D8C3A5',
+          header: '#0F291E',       // Lush Deep Evergreen
+          bg: '#F4F8F5',           // Soft Mint linen tint
+          card: '#FFFFFF',          // Clean White Card
+          subcard: '#EAF3ED',       // Shaded Pale Lush Green
+          heading: '#0B2317',      // Deep Forest Green
+          body: '#4A5B52',         // Muted Forest Slate
+          btn: '#1A5336',          // Lush Green Button
+          'btn-hover': '#133F28',  // Deep Forest Green Hover
+          decor: '#CDE3D5',        // Soft Sage Green Divider
+          yellow: '#fffd47',       // Sunny Signature Yellow
+          gold: '#F5A623',         // Warm Amber Gold
+          sky: '#38BDF8',          // Vibrant Light Blue
+          'sky-pale': '#E0F2FE',   // Ice Light Blue
         },
-        brand: {
-          50: '#fff7ed',
-          100: '#ffedd5',
-          200: '#fed7aa',
-          300: '#fdba74',
-          400: '#d97d54',
-          500: '#B85C38', // User Button terracotta
-          600: '#A94D2F', // User Button Hover deep terracotta
-          700: '#8c3c22',
-          800: '#6f2d18',
-          900: '#522010',
+        lush: {
+          950: '#07150E',
+          900: '#0B2317',
+          850: '#0F291E',
+          800: '#133827',
+          700: '#15432B',
+          600: '#1A5336',
+          500: '#16a34a',
+          400: '#22c55e',
+          100: '#D1E7DD',
+          50: '#EAF3ED',
         },
-        indigoNavy: {
-          800: '#1e1b4b',
-          900: '#0f172a',
-          950: '#020617',
+        sunny: {
+          yellow: '#fffd47',
+          gold: '#F5A623',
+          amber: '#EAB308',
+          light: '#FFFDEB',
         },
-        kiranaGreen: {
-          500: '#10b981',
-          600: '#059669',
-          700: '#047857',
+        ice: {
+          50: '#F0F9FF',
+          100: '#E0F2FE',
+          200: '#BAE6FD',
+          300: '#7DD3FC',
+          400: '#38BDF8',
+          500: '#0EA5E9',
+          600: '#0284C7',
         },
         thematicYellow: '#fffd47',
         kiranaDeepGreen: '#1A5336',
@@ -46,7 +55,9 @@ export default {
       },
       fontFamily: {
         sans: ['"DM Sans"', 'system-ui', '-apple-system', 'sans-serif'],
-        thematic: ['Maharlika', 'RoxboroughCF', '"Playfair Display"', 'serif'],
+        roxborough: ['"RoxboroughCF"', 'Roxborough', 'Maharlika', '"Playfair Display"', 'Georgia', 'serif'],
+        thematic: ['"RoxboroughCF"', 'Roxborough', 'Maharlika', '"Playfair Display"', 'serif'],
+        cursive: ['Caveat', '"Playfair Display"', 'cursive'],
         script: ['Caveat', 'cursive'],
       }
     },
