@@ -1,6 +1,6 @@
 import React from 'react';
 import { useApp } from '../context/AppContext';
-import { User, Bike, Store, LayoutDashboard, PlayCircle, Sparkles } from 'lucide-react';
+import { User, Bike, Store, LayoutDashboard, PlayCircle, Sparkles, Network } from 'lucide-react';
 
 export const RoleSwitcher: React.FC<{ activeTab: string; setActiveTab: (tab: string) => void }> = ({
   activeTab,
@@ -43,6 +43,13 @@ export const RoleSwitcher: React.FC<{ activeTab: string; setActiveTab: (tab: str
       sublabel: '5-Step Full Lifecycle Demo',
       icon: PlayCircle,
       badge: 'Live Demo',
+    },
+    {
+      id: 'ARCHITECTURE',
+      label: language === 'hi' ? 'सिस्टम आर्किटेक्चर' : 'System Architecture',
+      sublabel: 'GitDiagram 4-Tier Blueprint',
+      icon: Network,
+      badge: 'GitDiagram',
     },
   ];
 

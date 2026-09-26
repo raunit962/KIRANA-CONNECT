@@ -11,6 +11,7 @@ import {
   RotateCcw,
   KeyRound,
   User,
+  Network,
 } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 
@@ -93,6 +94,17 @@ export const PortalSlideMenu: React.FC<PortalSlideMenuProps> = ({
       activeBorder: 'border-[#9fa683] ring-2 ring-[#9fa683]',
       badge: 'Live Simulator',
       badgeColor: 'bg-[#9fa683]/25 text-[#2C311F] border-[#9fa683]/50',
+    },
+    {
+      id: 'ARCHITECTURE',
+      title: 'System Architecture',
+      hindiTitle: 'सिस्टम आर्किटेक्चर',
+      desc: 'Interactive 4-tier GitDiagram topology: Actors, Portals, UI, Express APIs, & Domain Services',
+      icon: Network,
+      color: 'bg-[#1A5336]/20 text-[#1A5336] border-[#1A5336]/30',
+      activeBorder: 'border-[#1A5336] ring-2 ring-[#fffd47]',
+      badge: 'GitDiagram',
+      badgeColor: 'bg-[#EAF3ED] text-[#1A5336] border-[#CDE3D5]',
     },
   ];
 
@@ -239,7 +251,7 @@ export const PortalSlideMenu: React.FC<PortalSlideMenuProps> = ({
           <div className="text-[11px] font-bold uppercase tracking-wider text-[#1A5336] px-1 flex items-center justify-between pt-1">
             <span>{language === 'hi' ? 'संचालन पोर्टल' : 'Operational Portals'}</span>
             <span className="text-[10px] font-mono text-[#0284C7] bg-[#E0F2FE] px-2 py-0.5 rounded-full border border-[#BAE6FD]">
-              5 Active Modules
+              6 Active Modules
             </span>
           </div>
 

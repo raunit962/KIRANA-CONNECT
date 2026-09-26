@@ -1,6 +1,6 @@
 import React from 'react';
 import { useApp } from '../context/AppContext';
-import { RefreshCw, Languages, Home, Menu, Sparkles, KeyRound } from 'lucide-react';
+import { RefreshCw, Languages, Home, Menu, Sparkles, KeyRound, Network } from 'lucide-react';
 
 interface NavbarProps {
   activeTab?: string;
@@ -34,6 +34,8 @@ export const Navbar: React.FC<NavbarProps> = ({
         return language === 'hi' ? 'लॉजिस्टिक्स एडमिन टॉवर' : 'Logistics Admin Hub';
       case 'SIMULATOR':
         return language === 'hi' ? 'इंटरैक्टिव फ्लो सिमुलेटर' : 'Interactive Flow Lab';
+      case 'ARCHITECTURE':
+        return language === 'hi' ? 'सिस्टम आर्किटेक्चर (GitDiagram)' : 'System Architecture (GitDiagram)';
       default:
         return 'Logistics Network';
     }
@@ -53,13 +55,24 @@ export const Navbar: React.FC<NavbarProps> = ({
         </div>
 
         {onSelectTab && (
-          <button
-            onClick={() => onSelectTab('COVER')}
-            className="hidden sm:flex items-center space-x-1.5 text-xs text-[#fffd47] hover:underline font-bold"
-          >
-            <Home className="w-3.5 h-3.5 text-[#38BDF8]" />
-            <span>Home</span>
-          </button>
+          <div className="flex items-center space-x-3 mx-auto sm:mx-0">
+            <button
+              onClick={() => onSelectTab('ARCHITECTURE')}
+              className={`flex items-center space-x-1 text-xs font-bold transition ${
+                activeTab === 'ARCHITECTURE' ? 'text-[#fffd47] underline' : 'text-[#D1E7DD] hover:text-[#fffd47]'
+              }`}
+            >
+              <Network className="w-3.5 h-3.5 text-[#38BDF8]" />
+              <span>Architecture</span>
+            </button>
+            <button
+              onClick={() => onSelectTab('COVER')}
+              className="flex items-center space-x-1.5 text-xs text-[#fffd47] hover:underline font-bold"
+            >
+              <Home className="w-3.5 h-3.5 text-[#38BDF8]" />
+              <span>Home</span>
+            </button>
+          </div>
         )}
       </div>
 
@@ -136,6 +149,22 @@ export const Navbar: React.FC<NavbarProps> = ({
               >
                 <KeyRound className="w-3.5 h-3.5 text-[#0F291E]" />
                 <span className="font-bold">Log In</span>
+              </button>
+            )}
+
+            {/* Architecture View Toggle */}
+            {onSelectTab && (
+              <button
+                onClick={() => onSelectTab('ARCHITECTURE')}
+                className={`hidden md:flex items-center space-x-1.5 px-3 py-2 rounded-xl text-xs font-bold transition shadow-xs border ${
+                  activeTab === 'ARCHITECTURE'
+                    ? 'bg-[#1A5336] text-[#fffd47] border-[#fffd47] ring-1 ring-[#fffd47]'
+                    : 'bg-[#133827] hover:bg-[#1A5336] text-[#D1E7DD] border-[#1A5336]'
+                }`}
+                title="System Architecture (GitDiagram)"
+              >
+                <Network className="w-4 h-4 text-[#38BDF8]" />
+                <span className="hidden lg:inline">Architecture</span>
               </button>
             )}
 

@@ -10,7 +10,8 @@ import {
   ArrowRight,
   MapPin,
   Package,
-  KeyRound
+  KeyRound,
+  Network
 } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 
@@ -113,6 +114,11 @@ export const BookCoverPage: React.FC<BookCoverPageProps> = ({
                   id: 'SIMULATOR',
                   label: 'Interactive flow Lab',
                   icon: PlayCircle,
+                },
+                {
+                  id: 'ARCHITECTURE',
+                  label: 'Architecture',
+                  icon: Network,
                 },
               ].map((item) => {
                 const Icon = item.icon;
@@ -326,6 +332,13 @@ export const BookCoverPage: React.FC<BookCoverPageProps> = ({
           </div>
 
           <div className="flex items-center space-x-3 text-[11px] text-white/80">
+            <button
+              onClick={() => onNavigatePortal('ARCHITECTURE')}
+              className="text-[#fffd47] hover:underline font-bold flex items-center gap-1 transition"
+            >
+              <Network className="w-3.5 h-3.5 text-[#38BDF8]" />
+              <span>System Architecture</span>
+            </button>
             <span className="bg-[#1A5336]/60 text-[#fffd47] px-2.5 py-0.5 rounded-full border border-white/20">
               Salt Lake Sector V, Kolkata
             </span>
