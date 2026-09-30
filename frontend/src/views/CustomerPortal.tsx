@@ -28,6 +28,7 @@ import {
   Bike,
   Calendar,
   Zap,
+  AlertTriangle,
 } from 'lucide-react';
 
 interface CustomerPortalProps {
@@ -191,139 +192,321 @@ export const CustomerPortal: React.FC<CustomerPortalProps> = ({ onNavigateHub })
         </div>
       </div>
 
-      {/* 2. Customer Delivery Mode Choice: Self-Pickup vs Kirana Doorstep Delivery (Amazon Hub Model) */}
-      <div className="bg-white border-2 border-[#CDE3D5] rounded-3xl p-5 shadow-md space-y-4">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-[#CDE3D5] pb-3">
-          <div className="flex items-center space-x-2.5">
-            <div className="w-10 h-10 rounded-2xl bg-[#1A5336] text-[#fffd47] flex items-center justify-center font-bold shadow-xs">
-              <Zap className="w-5 h-5" />
+      {/* 2. Customer Choice After Failed Delivery: "How would you like to receive your parcel?" */}
+      <div className="bg-white border-2 border-[#CDE3D5] rounded-3xl p-5 sm:p-6 shadow-md space-y-5">
+        
+        {/* Failed Delivery Notice Context Banner */}
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-amber-50 border border-amber-200 rounded-2xl p-4">
+          <div className="flex items-start sm:items-center space-x-3">
+            <div className="w-10 h-10 rounded-xl bg-amber-500 text-white flex items-center justify-center font-bold shrink-0 shadow-xs">
+              <AlertTriangle className="w-5 h-5" />
             </div>
             <div>
-              <h3 className="font-extrabold text-sm text-[#0B2317]">
-                {language === 'hi' ? 'पार्सल डिलीवरी का तरीका चुनें' : 'How Would You Like Your Parcel Delivered?'}
-              </h3>
-              <p className="text-xs text-[#4A5B52]">
-                Choose between free neighborhood walk-in pickup or direct doorstep delivery by the Kirana store helper.
+              <div className="flex items-center gap-2">
+                <span className="font-extrabold text-sm text-amber-950">
+                  Doorstep Delivery Attempt Failed (Customer Unavailable)
+                </span>
+                <span className="px-2 py-0.5 rounded-full bg-amber-200 text-amber-900 font-mono text-[10px] font-bold">
+                  NDR Diverted
+                </span>
+              </div>
+              <p className="text-xs text-amber-800 mt-0.5">
+                The courier could not reach you at your doorstep. KiranaConnect safely diverted your parcel to your verified neighborhood Kirana hub.
               </p>
             </div>
           </div>
-          <span className="text-[10px] font-bold bg-[#fffd47]/30 text-[#0F291E] px-2.5 py-1 rounded-full border border-[#fffd47] self-start sm:self-auto font-mono">
-            Amazon Hub Option
+          <span className="text-[11px] font-bold text-emerald-800 bg-emerald-100 px-3 py-1 rounded-xl self-start sm:self-auto border border-emerald-300">
+            ✓ Parcel Safe at Partner Hub
           </span>
         </div>
 
+        {/* Question Header */}
+        <div className="border-b border-[#CDE3D5] pb-3">
+          <h3 className="font-extrabold text-base text-[#0B2317] flex items-center gap-2">
+            <span>How would you like to receive your parcel?</span>
+          </h3>
+          <p className="text-xs text-[#4A5B52] mt-0.5">
+            Select between self-pickup or doorstep delivery from your local Kirana store:
+          </p>
+        </div>
+
+        {/* 2 Option Selector Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {/* Option A: Walk-In Self Pickup */}
+          
+          {/* Option 1: 🏪 Pick Up from Nearby Kirana */}
           <div
             onClick={() => {
               setParcelDeliveryPreference(activeParcel.id, 'SELF_PICKUP');
               soundEffects.playScanBeep();
             }}
-            className={`cursor-pointer rounded-2xl p-4 border-2 transition-all relative flex flex-col justify-between ${
+            className={`cursor-pointer rounded-2xl p-4 sm:p-5 border-2 transition-all relative flex flex-col justify-between ${
               (activeParcel.deliveryPreference || 'SELF_PICKUP') === 'SELF_PICKUP'
-                ? 'bg-[#F4F8F5] border-[#1A5336] ring-2 ring-[#fffd47] shadow-sm'
-                : 'bg-white border-stone-200 hover:border-[#1A5336]/40 opacity-80 hover:opacity-100'
+                ? 'bg-[#F4F8F5] border-[#1A5336] ring-2 ring-[#fffd47] shadow-md'
+                : 'bg-white border-slate-200 hover:border-[#1A5336]/50 opacity-85 hover:opacity-100'
             }`}
           >
             <div>
               <div className="flex items-center justify-between">
-                <span className="font-extrabold text-xs text-[#0B2317] flex items-center gap-1.5">
-                  <Store className="w-4 h-4 text-[#1A5336]" />
-                  <span>1. Walk-In Self Pickup</span>
+                <span className="font-extrabold text-sm text-[#0B2317] flex items-center gap-2">
+                  <Store className="w-5 h-5 text-[#1A5336]" />
+                  <span>🏪 Pick Up from Nearby Kirana</span>
                 </span>
-                <span className="text-[10px] font-bold bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded-full">
+                <span className="text-[10px] font-bold bg-emerald-100 text-emerald-800 px-2.5 py-0.5 rounded-full border border-emerald-300">
                   FREE (Zero Extra Fee)
                 </span>
               </div>
-              <p className="text-xs text-[#4A5B52] mt-2">
-                Walk 2-5 minutes to <strong>{assignedStore.storeName}</strong> at your own convenience today.
+              <p className="text-xs text-[#4A5B52] mt-2 leading-relaxed">
+                Collect directly at <strong>{assignedStore.storeName}</strong> counter whenever convenient today (open till 10:30 PM).
               </p>
-              <div className="mt-3 flex flex-wrap items-center gap-2 text-[11px] text-[#1A5336] font-semibold">
-                <span className="flex items-center gap-1">
-                  <CheckCircle2 className="w-3.5 h-3.5 text-[#1A5336]" />
-                  <span>Instant Counter Pickup</span>
-                </span>
-                <span>•</span>
-                <span>Fills 1 Box toward ₹15 Reward</span>
-              </div>
             </div>
 
-            <div className="mt-3 pt-2 border-t border-[#CDE3D5] flex items-center justify-between text-[11px]">
-              <span className="text-[#4A5B52]">Verification:</span>
-              <span className="font-mono font-bold text-[#0B2317]">Counter QR / 4-Digit PIN</span>
+            <div className="mt-4 pt-3 border-t border-[#CDE3D5] flex items-center justify-between text-xs">
+              <span className="text-[#1A5336] font-bold flex items-center gap-1">
+                <CheckCircle2 className="w-4 h-4 text-[#1A5336]" />
+                <span>Instant Counter Pickup</span>
+              </span>
+              <span className="text-[11px] font-mono font-bold text-emerald-800 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200">
+                +1 Box toward ₹15 Coupon
+              </span>
             </div>
           </div>
 
-          {/* Option B: Kirana Store Doorstep Delivery */}
+          {/* Option 2: 🏠 Request Home Delivery by Kirana */}
           <div
             onClick={() => {
-              setParcelDeliveryPreference(activeParcel.id, 'STORE_DOORSTEP', 'Evening (7:00 PM - 9:00 PM)');
+              setParcelDeliveryPreference(activeParcel.id, 'STORE_DOORSTEP', 'Evening (7:00 PM – 9:00 PM)');
               soundEffects.playCashRegister();
             }}
-            className={`cursor-pointer rounded-2xl p-4 border-2 transition-all relative flex flex-col justify-between ${
+            className={`cursor-pointer rounded-2xl p-4 sm:p-5 border-2 transition-all relative flex flex-col justify-between ${
               activeParcel.deliveryPreference === 'STORE_DOORSTEP'
-                ? 'bg-amber-50/80 border-amber-500 ring-2 ring-amber-400 shadow-sm'
-                : 'bg-white border-stone-200 hover:border-amber-400/60 opacity-80 hover:opacity-100'
+                ? 'bg-amber-50/90 border-amber-500 ring-2 ring-amber-400 shadow-md'
+                : 'bg-white border-slate-200 hover:border-amber-400/60 opacity-85 hover:opacity-100'
             }`}
           >
             <div>
               <div className="flex items-center justify-between">
-                <span className="font-extrabold text-xs text-[#0B2317] flex items-center gap-1.5">
-                  <Bike className="w-4 h-4 text-amber-600" />
-                  <span>2. Kirana Store Doorstep Delivery</span>
+                <span className="font-extrabold text-sm text-[#0B2317] flex items-center gap-2">
+                  <Bike className="w-5 h-5 text-amber-600" />
+                  <span>🏠 Request Home Delivery by Kirana</span>
                 </span>
-                <span className="text-[10px] font-bold bg-amber-200 text-amber-900 px-2 py-0.5 rounded-full font-mono">
-                  Store Helper Run (2-3 km)
+                <span className="text-[10px] font-bold bg-amber-200 text-amber-900 px-2.5 py-0.5 rounded-full font-mono border border-amber-300">
+                  ₹30 Delivery Fee
                 </span>
               </div>
-              <p className="text-xs text-[#4A5B52] mt-2">
-                {assignedStore.storeName}&apos;s staff/helper delivers it directly to your address during store delivery hours.
+              <p className="text-xs text-[#4A5B52] mt-2 leading-relaxed">
+                {assignedStore.storeName}&apos;s store helper delivers it directly to your doorstep in the afternoon or evening lull.
               </p>
-              <div className="mt-3 flex flex-wrap items-center gap-2 text-[11px] text-amber-900 font-semibold">
-                <span className="flex items-center gap-1">
-                  <Bike className="w-3.5 h-3.5 text-amber-700" />
-                  <span>Delivered by Store Helper ({assignedStore.ownerName.split(' ')[0]}&apos;s team)</span>
-                </span>
-                <span>•</span>
-                <span>Slot: Evening (7 PM - 9 PM)</span>
-              </div>
             </div>
 
-            <div className="mt-3 pt-2 border-t border-amber-200 flex items-center justify-between text-[11px]">
-              <span className="text-[#4A5B52]">Delivery Address:</span>
-              <span className="font-bold text-[#0B2317] truncate max-w-[200px]">{activeParcel.destinationAddress}</span>
+            <div className="mt-4 pt-3 border-t border-amber-200 flex items-center justify-between text-xs">
+              <span className="text-amber-900 font-bold flex items-center gap-1">
+                <Bike className="w-4 h-4 text-amber-700" />
+                <span>Store Helper Run (2–3 km)</span>
+              </span>
+              <span className="text-[11px] font-mono font-bold text-amber-900 bg-amber-100 px-2 py-0.5 rounded-md border border-amber-300">
+                Slot: 7:00 PM – 9:00 PM
+              </span>
             </div>
           </div>
         </div>
 
-        {/* Dynamic Helper Delivery Confirmation Bar */}
-        {activeParcel.deliveryPreference === 'STORE_DOORSTEP' && (
-          <div className="bg-amber-100/90 border border-amber-300 rounded-2xl p-3.5 text-xs text-amber-950 flex flex-col sm:flex-row sm:items-center justify-between gap-3 animate-fadeIn">
-            <div className="space-y-0.5">
-              <div className="font-bold flex items-center gap-1.5 text-amber-900">
-                <CheckCircle2 className="w-4 h-4 text-amber-700" />
-                <span>Kirana Doorstep Delivery Confirmed!</span>
+        {/* ── DYNAMIC DETAIL PANELS ── */}
+
+        {/* If Pickup is selected: show selected store, distance, capacity and pickup/OTP details */}
+        {(activeParcel.deliveryPreference || 'SELF_PICKUP') === 'SELF_PICKUP' && (
+          <div className="bg-[#F4F8F5] border-2 border-[#1A5336]/40 rounded-2xl p-4 sm:p-5 space-y-4 animate-fadeIn">
+            <div className="flex items-center justify-between border-b border-[#CDE3D5] pb-3">
+              <span className="text-xs font-bold text-[#1A5336] uppercase tracking-wider flex items-center gap-1.5">
+                <Store className="w-4 h-4" />
+                <span>Selected Store &amp; Pickup Details</span>
+              </span>
+              <span className="px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[11px] font-bold flex items-center gap-1">
+                <ShieldCheck className="w-3.5 h-3.5 text-emerald-700" />
+                <span>Verified Partner Store</span>
+              </span>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
+              {/* Selected Store */}
+              <div className="bg-white p-3.5 rounded-xl border border-[#CDE3D5] space-y-1">
+                <span className="text-[#4A5B52] font-semibold text-[11px] block">Selected Store:</span>
+                <strong className="text-sm text-slate-900 block font-roxborough">{assignedStore.storeName}</strong>
+                <p className="text-slate-600 text-[11px]">{assignedStore.address} (PIN {assignedStore.pincode})</p>
+                <div className="pt-1 text-[#1A5336] font-semibold text-[11px]">
+                  ⏰ Hours: {assignedStore.openTime} – {assignedStore.closeTime}
+                </div>
               </div>
-              <div className="text-[11px] text-amber-800">
-                The Kirana store helper will bring this parcel to your doorstep today during the evening delivery window. Please have your 4-digit PIN (<strong>{activeParcel.pickupOtp}</strong>) ready to confirm delivery.
+
+              {/* Distance */}
+              <div className="bg-white p-3.5 rounded-xl border border-[#CDE3D5] space-y-1">
+                <span className="text-[#4A5B52] font-semibold text-[11px] block">Distance:</span>
+                <strong className="text-sm text-slate-900 block font-mono">180 meters (~2.5 min walk)</strong>
+                <p className="text-slate-600 text-[11px]">Immediate neighborhood store; quick walking detour.</p>
+                <a
+                  href={`https://www.google.com/maps/dir/?api=1&destination=${assignedStore.latitude},${assignedStore.longitude}`}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex items-center gap-1 text-[#1A5336] hover:underline font-bold text-[11px] pt-1"
+                >
+                  <Navigation className="w-3 h-3 text-[#1A5336]" />
+                  <span>View Walking Route on Maps</span>
+                </a>
+              </div>
+
+              {/* Capacity */}
+              <div className="bg-white p-3.5 rounded-xl border border-[#CDE3D5] space-y-1">
+                <span className="text-[#4A5B52] font-semibold text-[11px] block">Store Storage Capacity:</span>
+                <div className="flex items-center gap-1.5 font-bold text-sm text-emerald-800">
+                  <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                  <span>{assignedStore.currentCapacity} / {assignedStore.maxCapacity} slots occupied</span>
+                </div>
+                <div className="w-full h-2 rounded-full bg-slate-100 overflow-hidden mt-1">
+                  <div
+                    className="h-full bg-emerald-500 rounded-full"
+                    style={{ width: `${Math.round((assignedStore.currentCapacity / assignedStore.maxCapacity) * 100)}%` }}
+                  />
+                </div>
+                <p className="text-emerald-700 font-semibold text-[11px] pt-0.5">
+                  🟢 {Math.round((assignedStore.currentCapacity / assignedStore.maxCapacity) * 100)}% Capacity — Accepting new parcels
+                </p>
               </div>
             </div>
 
-            <div className="flex items-center space-x-2 shrink-0 self-start sm:self-auto">
-              <a
-                href={`tel:${assignedStore.phone}`}
-                className="px-3 py-1.5 bg-white hover:bg-amber-50 text-[#0B2317] border border-amber-300 rounded-xl font-bold text-xs flex items-center gap-1 transition shadow-xs"
-              >
-                <Phone className="w-3.5 h-3.5 text-amber-800" />
-                <span>Call Store</span>
-              </a>
-              <button
-                onClick={() => soundEffects.speakOtp(activeParcel.pickupOtp)}
-                className="px-3 py-1.5 bg-amber-600 hover:bg-amber-700 text-white rounded-xl font-bold text-xs flex items-center gap-1 transition shadow-xs"
-              >
-                <Volume2 className="w-3.5 h-3.5" />
-                <span>Audio PIN</span>
-              </button>
+            {/* Pickup & OTP details */}
+            <div className="bg-white p-4 rounded-xl border-2 border-[#1A5336]/30 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              <div className="space-y-1">
+                <div className="flex items-center gap-2">
+                  <KeyRound className="w-4 h-4 text-[#1A5336]" />
+                  <span className="font-extrabold text-xs text-slate-900 uppercase tracking-wider">
+                    Pickup &amp; OTP Details
+                  </span>
+                </div>
+                <p className="text-xs text-slate-600">
+                  Show this 4-digit PIN or digital QR code to the shopkeeper at the counter to verify and collect your parcel.
+                </p>
+              </div>
+
+              <div className="flex items-center space-x-3 shrink-0">
+                <div className="text-right">
+                  <span className="text-[10px] text-slate-500 block uppercase font-bold">Your Pickup PIN:</span>
+                  <span className="font-mono text-2xl font-black text-[#1A5336] tracking-widest">{activeParcel.pickupOtp}</span>
+                </div>
+                <button
+                  onClick={handleListenPin}
+                  className="p-2.5 rounded-xl bg-[#F4F8F5] hover:bg-[#EAF3ED] text-[#1A5336] border border-[#CDE3D5] transition shadow-xs"
+                  title="Pronounce PIN out loud (Hindi/English)"
+                >
+                  <Volume2 className="w-5 h-5" />
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* If Home Delivery is selected: show kirana store delivering, estimated delivery time and any applicable delivery fee */}
+        {activeParcel.deliveryPreference === 'STORE_DOORSTEP' && (
+          <div className="bg-amber-50/90 border-2 border-amber-400 rounded-2xl p-4 sm:p-5 space-y-4 animate-fadeIn">
+            <div className="flex items-center justify-between border-b border-amber-300 pb-3">
+              <span className="text-xs font-bold text-amber-950 uppercase tracking-wider flex items-center gap-1.5">
+                <Bike className="w-4 h-4 text-amber-700" />
+                <span>Kirana Home Delivery Schedule &amp; Order Details</span>
+              </span>
+              <span className="px-2.5 py-0.5 rounded-full bg-amber-200 text-amber-900 text-[11px] font-bold font-mono">
+                Amazon Hub Delivery Run
+              </span>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
+              {/* Kirana store delivering the parcel */}
+              <div className="bg-white p-3.5 rounded-xl border border-amber-200 space-y-1">
+                <span className="text-amber-800 font-semibold text-[11px] block">Kirana Store Delivering:</span>
+                <strong className="text-sm text-slate-900 block font-roxborough">{assignedStore.storeName}</strong>
+                <p className="text-slate-600 text-[11px]">
+                  Delivered by: <strong>{assignedStore.helperName || 'Ramesh Kumar (Store Assistant)'}</strong>
+                </p>
+                <div className="pt-1 flex items-center gap-1 text-slate-700 text-[11px]">
+                  <Phone className="w-3 h-3 text-amber-700" />
+                  <span>Store Phone: {assignedStore.phone}</span>
+                </div>
+              </div>
+
+              {/* Estimated delivery time */}
+              <div className="bg-white p-3.5 rounded-xl border border-amber-200 space-y-1">
+                <span className="text-amber-800 font-semibold text-[11px] block">Estimated Delivery Time:</span>
+                <div className="flex items-center gap-1 text-amber-900 font-extrabold text-sm">
+                  <Clock className="w-4 h-4 text-amber-700" />
+                  <span>{activeParcel.deliverySlot || 'Today, Evening (7:00 PM – 9:00 PM)'}</span>
+                </div>
+                <p className="text-slate-600 text-[11px]">
+                  Dispatched during store afternoon/evening lull hours within 2.5 km radius.
+                </p>
+                <div className="flex items-center gap-1.5 pt-1">
+                  <button
+                    onClick={() => setParcelDeliveryPreference(activeParcel.id, 'STORE_DOORSTEP', 'Evening (7:00 PM – 9:00 PM)')}
+                    className={`px-2 py-0.5 rounded text-[10px] font-bold border transition ${
+                      (activeParcel.deliverySlot || '').includes('Evening')
+                        ? 'bg-amber-600 text-white border-amber-600'
+                        : 'bg-white text-slate-700 border-slate-300'
+                    }`}
+                  >
+                    7-9 PM
+                  </button>
+                  <button
+                    onClick={() => setParcelDeliveryPreference(activeParcel.id, 'STORE_DOORSTEP', 'Afternoon (2:00 PM – 4:30 PM)')}
+                    className={`px-2 py-0.5 rounded text-[10px] font-bold border transition ${
+                      (activeParcel.deliverySlot || '').includes('Afternoon')
+                        ? 'bg-amber-600 text-white border-amber-600'
+                        : 'bg-white text-slate-700 border-slate-300'
+                    }`}
+                  >
+                    2-4:30 PM
+                  </button>
+                </div>
+              </div>
+
+              {/* Applicable delivery fee */}
+              <div className="bg-white p-3.5 rounded-xl border border-amber-200 space-y-1">
+                <span className="text-amber-800 font-semibold text-[11px] block">Applicable Delivery Fee:</span>
+                <strong className="text-base text-amber-900 block font-mono">
+                  ₹{activeParcel.doorstepDeliveryFee || 30}.00
+                </strong>
+                <p className="text-slate-600 text-[11px]">
+                  Paid directly to the store helper on arrival / included in e-commerce settlement.
+                </p>
+                <div className="pt-1 text-emerald-700 font-semibold text-[11px] flex items-center gap-1">
+                  <CheckCircle2 className="w-3.5 h-3.5" />
+                  <span>₹0 Platform Surcharge</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Doorstep Verification OTP */}
+            <div className="bg-white p-4 rounded-xl border-2 border-amber-300 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              <div className="space-y-1">
+                <div className="flex items-center gap-2">
+                  <ShieldCheck className="w-4 h-4 text-amber-700" />
+                  <span className="font-extrabold text-xs text-slate-900 uppercase tracking-wider">
+                    Doorstep OTP Verification
+                  </span>
+                </div>
+                <p className="text-xs text-slate-600">
+                  Please share this 4-digit OTP with <strong>{assignedStore.helperName || 'the Kirana delivery helper'}</strong> when they arrive at your address (<strong>{activeParcel.destinationAddress}</strong>) to confirm handover.
+                </p>
+              </div>
+
+              <div className="flex items-center space-x-3 shrink-0">
+                <div className="text-right">
+                  <span className="text-[10px] text-slate-500 block uppercase font-bold">Doorstep OTP:</span>
+                  <span className="font-mono text-2xl font-black text-amber-800 tracking-widest">{activeParcel.pickupOtp}</span>
+                </div>
+                <button
+                  onClick={handleListenPin}
+                  className="p-2.5 rounded-xl bg-amber-50 hover:bg-amber-100 text-amber-900 border border-amber-300 transition shadow-xs"
+                  title="Pronounce PIN out loud (Hindi/English)"
+                >
+                  <Volume2 className="w-5 h-5" />
+                </button>
+              </div>
             </div>
           </div>
         )}
@@ -338,32 +521,63 @@ export const CustomerPortal: React.FC<CustomerPortalProps> = ({ onNavigateHub })
             {/* Ticket Header in Lush Evergreen */}
             <div className="bg-gradient-to-r from-[#0F291E] to-[#15432B] p-5 text-white flex items-center justify-between font-bold border-b border-[#1A5336]/40">
               <div className="flex items-center space-x-2">
-                <Store className="w-5 h-5 text-[#fffd47]" />
-                <span className="text-sm font-black uppercase tracking-wider text-[#F8F5EF]">KiranaConnect Digital Pass</span>
+                {activeParcel.deliveryPreference === 'STORE_DOORSTEP' ? (
+                  <Bike className="w-5 h-5 text-[#fffd47]" />
+                ) : (
+                  <Store className="w-5 h-5 text-[#fffd47]" />
+                )}
+                <span className="text-sm font-black uppercase tracking-wider text-[#F8F5EF]">
+                  {activeParcel.deliveryPreference === 'STORE_DOORSTEP' 
+                    ? 'KiranaConnect Home Delivery Pass' 
+                    : 'KiranaConnect Counter Pickup Pass'}
+                </span>
               </div>
               <span className="bg-[#fffd47] text-[#0F291E] text-xs px-3 py-1 rounded-full font-mono font-black shadow">
                 {activeParcel.trackingNumber}
               </span>
             </div>
 
-            {/* Canva 4-Step Pickup Journey Pill */}
+            {/* 4-Step Pickup / Delivery Journey Pill */}
             <div className="grid grid-cols-4 gap-1 p-2 bg-[#133827] text-white text-[11px] font-bold text-center border-b border-[#1A5336]">
-              <div className="p-1.5 rounded-xl bg-white/10 flex flex-col items-center">
-                <span className="text-emerald-300">1. Locate</span>
-                <span className="text-[9px] text-white/70 font-normal">Walk to Hub</span>
-              </div>
-              <div className="p-1.5 rounded-xl bg-white/10 flex flex-col items-center">
-                <span className="text-emerald-300">2. Show Pass</span>
-                <span className="text-[9px] text-white/70 font-normal">QR / 4-Digit PIN</span>
-              </div>
-              <div className="p-1.5 rounded-xl bg-white/10 flex flex-col items-center">
-                <span className="text-emerald-300">3. Collect</span>
-                <span className="text-[9px] text-white/70 font-normal">Merchant release</span>
-              </div>
-              <div className="p-1.5 rounded-xl bg-white/10 flex flex-col items-center">
-                <span className="text-[#fffd47]">4. Save More</span>
-                <span className="text-[9px] text-white/70 font-normal">Shop Discount</span>
-              </div>
+              {activeParcel.deliveryPreference === 'STORE_DOORSTEP' ? (
+                <>
+                  <div className="p-1.5 rounded-xl bg-white/10 flex flex-col items-center">
+                    <span className="text-amber-300">1. At Kirana</span>
+                    <span className="text-[9px] text-white/70 font-normal">Held safely</span>
+                  </div>
+                  <div className="p-1.5 rounded-xl bg-white/10 flex flex-col items-center">
+                    <span className="text-amber-300">2. Helper</span>
+                    <span className="text-[9px] text-white/70 font-normal">Assigned</span>
+                  </div>
+                  <div className="p-1.5 rounded-xl bg-white/10 flex flex-col items-center">
+                    <span className="text-amber-300">3. Doorstep</span>
+                    <span className="text-[9px] text-white/70 font-normal">Slot: 7-9 PM</span>
+                  </div>
+                  <div className="p-1.5 rounded-xl bg-[#1A5336] border border-[#fffd47]/30 flex flex-col items-center">
+                    <span className="text-[#fffd47]">4. Verify</span>
+                    <span className="text-[9px] text-white/70 font-normal">OTP Handover</span>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <div className="p-1.5 rounded-xl bg-white/10 flex flex-col items-center">
+                    <span className="text-emerald-300">1. Locate</span>
+                    <span className="text-[9px] text-white/70 font-normal">Walk 180m</span>
+                  </div>
+                  <div className="p-1.5 rounded-xl bg-white/10 flex flex-col items-center">
+                    <span className="text-emerald-300">2. Show Pass</span>
+                    <span className="text-[9px] text-white/70 font-normal">QR / PIN</span>
+                  </div>
+                  <div className="p-1.5 rounded-xl bg-white/10 flex flex-col items-center">
+                    <span className="text-emerald-300">3. Collect</span>
+                    <span className="text-[9px] text-white/70 font-normal">Instant release</span>
+                  </div>
+                  <div className="p-1.5 rounded-xl bg-white/10 flex flex-col items-center">
+                    <span className="text-[#fffd47]">4. Save More</span>
+                    <span className="text-[9px] text-white/70 font-normal">Shop Discount</span>
+                  </div>
+                </>
+              )}
             </div>
 
             {/* Ticket Main Body */}
@@ -375,7 +589,11 @@ export const CustomerPortal: React.FC<CustomerPortalProps> = ({ onNavigateHub })
                     isReadyForPickup ? 'bg-[#1A5336] animate-ping' : isCollected ? 'bg-slate-400' : 'bg-[#F5A623] animate-pulse'
                   }`} />
                   <span className="text-xs font-extrabold uppercase text-[#0B2317]">
-                    {isReadyForPickup ? '✅ Ready For Instant Collection' : isCollected ? '📦 Delivered & Collected' : '🛵 Out For Kirana Drop'}
+                    {isReadyForPickup 
+                      ? (activeParcel.deliveryPreference === 'STORE_DOORSTEP' 
+                          ? '🛵 Scheduled for Kirana Home Delivery (7 PM - 9 PM)' 
+                          : '✅ Ready For Instant Counter Collection') 
+                      : isCollected ? '📦 Delivered & Collected' : '🛵 Out For Kirana Drop'}
                   </span>
                 </div>
 

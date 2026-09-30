@@ -30,14 +30,18 @@ export const StatusTimeline: React.FC<StatusTimelineProps> = ({ parcel }) => {
     },
     {
       status: 'DROPPED_AT_KIRANA',
-      title: 'Safely at Kirana Hub',
-      description: 'Verified drop-off completed. Waiting for customer collection.',
+      title: parcel.deliveryPreference === 'STORE_DOORSTEP' 
+        ? 'Scheduled for Kirana Home Delivery' 
+        : 'Ready for Counter Pickup at Kirana',
+      description: parcel.deliveryPreference === 'STORE_DOORSTEP'
+        ? `Delivering via ${parcel.assignedHelperName || 'Kirana Store Assistant'} (${parcel.deliverySlot || 'Evening 7:00 PM – 9:00 PM'}). Fee: ₹${parcel.doorstepDeliveryFee || 30}.`
+        : 'Verified drop-off completed. Collect at your convenience (open till 10 PM) using your 4-digit PIN.',
       icon: Store,
       timestamp: parcel.droppedAt ? new Date(parcel.droppedAt).toLocaleString('en-IN', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' }) : undefined,
     },
     {
       status: 'COLLECTED',
-      title: 'Collected by Customer',
+      title: parcel.deliveryPreference === 'STORE_DOORSTEP' ? 'Delivered to Doorstep' : 'Collected by Customer',
       description: 'Cryptographically verified via OTP / QR pass. Mission accomplished.',
       icon: CheckCircle,
       timestamp: parcel.collectedAt ? new Date(parcel.collectedAt).toLocaleString('en-IN', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' }) : undefined,
