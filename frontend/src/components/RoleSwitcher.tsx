@@ -50,9 +50,9 @@ export const RoleSwitcher: React.FC<{ activeTab: string; setActiveTab: (tab: str
       {
         id: 'SIMULATOR',
         label: language === 'hi' ? 'लाइव सिमुलेशन' : 'Interactive Flow Lab',
-        sublabel: 'Delivery Lifecycle Demo',
+        sublabel: 'Delivery Lifecycle Journey',
         icon: PlayCircle,
-        badge: 'Live Demo',
+        badge: 'Simulator',
       },
     ];
   } else if (currentUser?.role === 'MERCHANT') {
@@ -80,7 +80,7 @@ export const RoleSwitcher: React.FC<{ activeTab: string; setActiveTab: (tab: str
       },
     ];
   } else {
-    // Admin or Guest / Unauthenticated demo view
+    // Admin or Guest / Unauthenticated view
     roles = [
       {
         id: 'CUSTOMER',
@@ -120,9 +120,9 @@ export const RoleSwitcher: React.FC<{ activeTab: string; setActiveTab: (tab: str
       {
         id: 'SIMULATOR',
         label: language === 'hi' ? 'लाइव सिमुलेशन' : 'Interactive Flow Lab',
-        sublabel: '5-Step Full Lifecycle Demo',
+        sublabel: '5-Step Full Lifecycle Journey',
         icon: PlayCircle,
-        badge: 'Live Demo',
+        badge: 'Simulator',
       },
     ];
   }

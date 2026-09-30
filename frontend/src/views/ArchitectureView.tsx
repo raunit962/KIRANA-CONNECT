@@ -519,7 +519,7 @@ export const ARCHITECTURE_NODES: Record<string, ArchitectureNode> = {
     keyFunctions: [
       'Pre-populated with 5 authentic Indian neighborhood Kirana stores in Sector V Salt Lake',
       'Maintains transactional state across parcel dispatch, drop, and pickup',
-      'Supports state reset and local storage persistence for live demos',
+      'Supports state reset and local storage persistence for interactive walkthroughs',
     ],
     inbound: [
       { source: 'node_parcel_controller', relation: 'reads/writes' },

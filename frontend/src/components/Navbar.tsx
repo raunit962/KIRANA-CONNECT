@@ -169,15 +169,15 @@ export const Navbar: React.FC<NavbarProps> = ({
               <span className="hidden xs:inline">{language === 'en' ? 'हिन्दी' : 'English'}</span>
             </button>
 
-            {/* Reset Demo Button */}
+            {/* Reset State Button */}
             <button
               onClick={() => {
-                if (confirm('Reset application to original demo state?')) {
+                if (confirm('Reset application to original default state?')) {
                   resetToDemoState();
                 }
               }}
               className="p-2 sm:px-3 sm:py-2 rounded-xl bg-[#133827] hover:bg-red-950/50 text-[#D1E7DD] hover:text-red-300 border border-[#1A5336] hover:border-red-500/50 text-xs font-semibold transition shadow-xs"
-              title="Reset demo data"
+              title="Reset application data"
             >
               <RefreshCw className="w-3.5 h-3.5" />
             </button>

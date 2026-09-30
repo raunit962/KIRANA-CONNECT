@@ -66,7 +66,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
 
   if (!isOpen) return null;
 
-  // Demo Profiles for 1-Click evaluation
+  // Fast-Pass Profiles for 1-Click evaluation
   const demoProfiles: Record<UserRole, any> = {
     CUSTOMER: {
       name: 'Anirban Chatterjee',
@@ -192,7 +192,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
     onClose();
   };
 
-  // 1-Click Fast Pass Demo Login
+  // 1-Click Fast Pass Login
   const handleFastDemoLogin = (role: UserRole) => {
     setActiveRole(role);
     const prof = demoProfiles[role];
@@ -374,7 +374,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                   </button>
                 </div>
                 <div className="inline-block bg-[#fffd47]/30 border border-[#fffd47] px-3 py-1 rounded-xl text-xs font-mono font-bold text-[#0F291E]">
-                  Demo OTP Code: <span className="text-[#1A5336] text-sm tracking-widest">{demoCodeHint}</span>
+                  Test OTP Code: <span className="text-[#1A5336] text-sm tracking-widest">{demoCodeHint}</span>
                 </div>
               </div>
 
@@ -419,12 +419,12 @@ export const AuthModal: React.FC<AuthModalProps> = ({
             </form>
           )}
 
-          {/* Quick Demo Login Fast-Pass Chips */}
+          {/* Quick Fast-Pass Login Chips */}
           <div className="pt-2 border-t border-[#CDE3D5]">
             <div className="flex items-center justify-between mb-2.5">
               <span className="text-[11px] font-bold uppercase tracking-wider text-[#4A5B52] flex items-center gap-1">
                 <Sparkles className="w-3.5 h-3.5 text-[#fffd47] fill-[#fffd47]" />
-                1-Click Instant Demo Login
+                1-Click Fast Pass Login
               </span>
               <span className="text-[10px] text-[#1A5336] font-mono font-semibold bg-[#EAF3ED] px-2 py-0.5 rounded-md">
                 Fast-Pass

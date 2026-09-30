@@ -677,7 +677,7 @@ export const MerchantLogisticsPortal: React.FC<MerchantLogisticsPortalProps> = (
                   autoFocus
                 />
                 <span className="text-[10px] text-[#4A5B52] block mt-1">
-                  Demo PIN for this package: <strong>{otpModalParcel.pickupOtp}</strong>
+                  Collection PIN for this package: <strong>{otpModalParcel.pickupOtp}</strong>
                 </span>
               </div>
 

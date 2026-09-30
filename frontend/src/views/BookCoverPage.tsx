@@ -148,7 +148,7 @@ export const BookCoverPage: React.FC<BookCoverPageProps> = ({
           {/* Quick Nav Anchors */}
           <nav className="hidden lg:flex items-center gap-6 text-xs font-semibold text-[#D1E7DD]">
             <a href="#how-it-works" className="hover:text-[#fffd47] transition">How It Works</a>
-            <a href="#demo-section" className="hover:text-[#fffd47] transition">Live Demo</a>
+            <a href="#capacity-section" className="hover:text-[#fffd47] transition">Store Capacity</a>
             <a href="#kirana-map" className="hover:text-[#fffd47] transition">Nearby Kirana Map</a>
             <a href="#store-dashboard" className="hover:text-[#fffd47] transition">Kirana Dashboard</a>
             <a href="#carrier-view" className="hover:text-[#fffd47] transition">Carrier View</a>
@@ -243,7 +243,7 @@ export const BookCoverPage: React.FC<BookCoverPageProps> = ({
               className="px-6 py-3 rounded-2xl bg-[#10b981] hover:bg-[#059669] text-white font-extrabold text-sm sm:text-base transition transform hover:-translate-y-0.5 shadow-xl shadow-[#10b981]/25 flex items-center gap-2"
             >
               <PlayCircle className="w-5 h-5 text-[#fffd47]" />
-              <span>Try KiranaConnect Demo →</span>
+              <span>Try Live Demo →</span>
             </button>
 
             <button
@@ -739,9 +739,9 @@ export const BookCoverPage: React.FC<BookCoverPageProps> = ({
 
 
       {/* ──────────────────────────────────────────────────────────── */}
-      {/* 5. CAPACITY INDICATOR & MANAGEMENT DEMO                       */}
+      {/* 5. CAPACITY INDICATOR & MANAGEMENT FLOW                       */}
       {/* ──────────────────────────────────────────────────────────── */}
-      <section className="py-16 px-4 sm:px-8 lg:px-12 bg-[#F4F8F5] border-b border-slate-200">
+      <section id="capacity-section" className="py-16 px-4 sm:px-8 lg:px-12 bg-[#F4F8F5] border-b border-slate-200">
         <div className="max-w-5xl mx-auto">
           
           <div className="text-center max-w-2xl mx-auto mb-10">
@@ -895,7 +895,7 @@ export const BookCoverPage: React.FC<BookCoverPageProps> = ({
 
 
       {/* ──────────────────────────────────────────────────────────── */}
-      {/* 4. KIRANA STORE DASHBOARD (SIH DEMO FAVORITE)                 */}
+      {/* 4. KIRANA STORE DASHBOARD (SIH SHOWCASE)                     */}
       {/* ──────────────────────────────────────────────────────────── */}
       <section id="store-dashboard" className="py-16 px-4 sm:px-8 lg:px-12 bg-white border-b border-slate-200">
         <div className="max-w-7xl mx-auto">
@@ -962,7 +962,7 @@ export const BookCoverPage: React.FC<BookCoverPageProps> = ({
               <h3 className="font-extrabold text-slate-800 text-sm">
                 Incoming &amp; Active Parcels at Counter
               </h3>
-              <span className="text-xs text-slate-500">Demo Store: Sharma Kirana</span>
+              <span className="text-xs text-slate-500">Partner Store: Sharma Kirana</span>
             </div>
 
             <div className="overflow-x-auto">
@@ -1070,7 +1070,7 @@ export const BookCoverPage: React.FC<BookCoverPageProps> = ({
                 Carrier Dashboard (Delhivery / Shadowfax View)
               </h2>
               <p className="text-xs sm:text-sm text-slate-400 mt-1">
-                Demonstrates that KiranaConnect coordinates between carriers, corner stores, and buyers.
+                Illustrates how KiranaConnect coordinates between carriers, corner stores, and buyers.
               </p>
             </div>
 
@@ -1241,7 +1241,7 @@ export const BookCoverPage: React.FC<BookCoverPageProps> = ({
                   Network Dashboard
                 </h2>
                 <span className="px-2.5 py-0.5 rounded-full bg-slate-200 text-slate-700 text-[11px] font-mono font-bold">
-                  Demo Data
+                  Live Network Data
                 </span>
               </div>
               <p className="text-xs sm:text-sm text-slate-600 mt-1">
@@ -1693,7 +1693,7 @@ export const BookCoverPage: React.FC<BookCoverPageProps> = ({
 
 
       {/* ──────────────────────────────────────────────────────────── */}
-      {/* MODAL 1: LIVE FAILED DELIVERY DEMO JOURNEY (4/8 STEPS)       */}
+      {/* MODAL 1: LIVE FAILED DELIVERY RECOVERY JOURNEY (4/8 STEPS)   */}
       {/* ──────────────────────────────────────────────────────────── */}
       {isDemoModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm animate-fadeIn">
@@ -1877,7 +1877,7 @@ export const BookCoverPage: React.FC<BookCoverPageProps> = ({
                       onClick={() => setIsDemoModalOpen(false)}
                       className="mt-2 px-4 py-2 bg-emerald-700 text-white font-bold rounded-xl text-xs"
                     >
-                      Done with Demo
+                      Complete Walkthrough
                     </button>
                   </div>
                 ) : (

@@ -387,7 +387,7 @@ export const PortalSlideMenu: React.FC<PortalSlideMenuProps> = ({
             <span>{language === 'en' ? '🇮🇳 हिंदी' : '🇬🇧 English'}</span>
           </button>
 
-          {/* Reset demo */}
+          {/* Reset state */}
           <button
             onClick={() => {
               resetToDemoState();
@@ -395,10 +395,10 @@ export const PortalSlideMenu: React.FC<PortalSlideMenuProps> = ({
               onClose();
             }}
             className="flex items-center space-x-1.5 px-3 py-1.5 rounded-xl bg-[#EAF3ED] border border-[#CDE3D5] text-[#4A5B52] hover:text-[#0F291E] font-medium transition shadow-xs"
-            title="Reset demo data"
+            title="Reset application data"
           >
             <RotateCcw className="w-3.5 h-3.5 text-[#0284C7]" />
-            <span>Reset Demo</span>
+            <span>Reset State</span>
           </button>
         </div>
       </aside>

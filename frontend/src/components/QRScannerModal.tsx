@@ -107,7 +107,7 @@ export const QRScannerModal: React.FC<QRScannerModalProps> = ({
             <p className="text-xs font-bold text-[#F8F5EF]">Point Camera at Customer QR Code</p>
             <p className="text-[11px] text-[#D1E7DD] mt-0.5">Supports high-speed optical scanning & instant OTP validation</p>
 
-            {/* Quick Demo Autofill helper */}
+            {/* Quick Autofill helper */}
             {activeParcel && (
               <div className="mt-4 pt-3 border-t border-[#1A5336] w-full flex flex-wrap items-center justify-center gap-2">
                 <button
