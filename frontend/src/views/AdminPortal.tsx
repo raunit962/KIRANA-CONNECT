@@ -23,7 +23,6 @@ import {
   SlidersHorizontal,
   Flame,
   IndianRupee,
-  Network,
 } from 'lucide-react';
 import { KiranaStore } from '../types';
 
@@ -147,16 +146,6 @@ export const AdminPortal: React.FC<{ onNavigateTab?: (tab: string) => void }> = 
         </div>
 
         <div className="flex items-center space-x-2">
-          {onNavigateTab && (
-            <button
-              onClick={() => onNavigateTab('ARCHITECTURE')}
-              className="flex items-center space-x-2 bg-[#133827] hover:bg-[#1A5336] text-[#38BDF8] hover:text-white font-bold px-4 py-2.5 rounded-2xl text-xs shadow-sm border border-[#38BDF8]/40 transition"
-              title="View GitDiagram System Architecture"
-            >
-              <Network className="w-4 h-4 text-[#38BDF8]" />
-              <span>GitDiagram Architecture</span>
-            </button>
-          )}
 
           <button
             onClick={() => setIsAddingStore(!isAddingStore)}

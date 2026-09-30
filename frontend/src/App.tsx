@@ -6,12 +6,14 @@ import { PortalSlideMenu } from './components/PortalSlideMenu';
 import { AuthModal } from './components/AuthModal';
 import { BookCoverPage } from './views/BookCoverPage';
 import { CustomerPortal } from './views/CustomerPortal';
+import { CustomerLogisticsHub } from './views/CustomerLogisticsHub';
 import { AgentPortal } from './views/AgentPortal';
 import { MerchantPortal } from './views/MerchantPortal';
+import { MerchantLogisticsPortal } from './views/MerchantLogisticsPortal';
+import { MerchantProfilePortal } from './views/MerchantProfilePortal';
 import { AdminPortal } from './views/AdminPortal';
 import { LiveFlowSimulator } from './views/LiveFlowSimulator';
-import { ArchitectureView } from './views/ArchitectureView';
-import { Store, ShieldCheck, Home, Network } from 'lucide-react';
+import { Store, ShieldCheck, Home } from 'lucide-react';
 
 const MainLayout: React.FC = () => {
   // Starts on the Front Page by default
@@ -34,6 +36,7 @@ const MainLayout: React.FC = () => {
         onLoginSuccess={(role) => {
           if (role === 'MERCHANT') setActiveTab('MERCHANT');
           else if (role === 'AGENT') setActiveTab('AGENT');
+          else if (role === 'ADMIN') setActiveTab('ADMIN');
           else setActiveTab('CUSTOMER');
           window.scrollTo({ top: 0, behavior: 'smooth' });
         }}
@@ -75,9 +78,59 @@ const MainLayout: React.FC = () => {
 
           {/* Active Portal Workspace */}
           <main className="flex-1 pb-16">
-            {activeTab === 'CUSTOMER' && <CustomerPortal />}
+            {activeTab === 'CUSTOMER' && (
+              <CustomerPortal
+                onNavigateHub={() => {
+                  setActiveTab('CUSTOMER_HUB');
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                }}
+              />
+            )}
+            {activeTab === 'CUSTOMER_HUB' && (
+              <CustomerLogisticsHub
+                onNavigatePass={() => {
+                  setActiveTab('CUSTOMER');
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                }}
+              />
+            )}
             {activeTab === 'AGENT' && <AgentPortal />}
-            {activeTab === 'MERCHANT' && <MerchantPortal />}
+            {activeTab === 'MERCHANT' && (
+              <MerchantPortal
+                onNavigateLogistics={() => {
+                  setActiveTab('MERCHANT_LOGISTICS');
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                }}
+                onNavigateProfile={() => {
+                  setActiveTab('MERCHANT_PROFILE');
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                }}
+              />
+            )}
+            {activeTab === 'MERCHANT_LOGISTICS' && (
+              <MerchantLogisticsPortal
+                onNavigateOperations={() => {
+                  setActiveTab('MERCHANT');
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                }}
+                onNavigateProfile={() => {
+                  setActiveTab('MERCHANT_PROFILE');
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                }}
+              />
+            )}
+            {activeTab === 'MERCHANT_PROFILE' && (
+              <MerchantProfilePortal
+                onNavigateOperations={() => {
+                  setActiveTab('MERCHANT');
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                }}
+                onNavigateLogistics={() => {
+                  setActiveTab('MERCHANT_LOGISTICS');
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                }}
+              />
+            )}
             {activeTab === 'ADMIN' && (
               <AdminPortal
                 onNavigateTab={(tab) => {
@@ -87,14 +140,6 @@ const MainLayout: React.FC = () => {
               />
             )}
             {activeTab === 'SIMULATOR' && <LiveFlowSimulator />}
-            {activeTab === 'ARCHITECTURE' && (
-              <ArchitectureView
-                onNavigateTab={(tab) => {
-                  setActiveTab(tab);
-                  window.scrollTo({ top: 0, behavior: 'smooth' });
-                }}
-              />
-            )}
           </main>
 
           {/* Footer */}
@@ -107,16 +152,6 @@ const MainLayout: React.FC = () => {
               </div>
 
               <div className="flex items-center space-x-4">
-                <button
-                  onClick={() => {
-                    setActiveTab('ARCHITECTURE');
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
-                  }}
-                  className="text-[#38BDF8] hover:text-[#fffd47] hover:underline font-bold flex items-center gap-1 transition"
-                >
-                  <Network className="w-3.5 h-3.5 text-[#38BDF8]" />
-                  <span>Architecture</span>
-                </button>
                 <button
                   onClick={() => setActiveTab('COVER')}
                   className="text-[#fffd47] hover:underline font-bold flex items-center gap-1"

@@ -82,3 +82,73 @@
 .pulse-glow {
   animation: pulseGlow 2.5s infinite;
 }
+
+/* Canva-inspired smooth slide transitions & easing curves */
+@keyframes canvaSlideInRight {
+  0% {
+    opacity: 0;
+    transform: translate3d(40px, 0, 0) scale(0.98);
+  }
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+@keyframes canvaSlideInLeft {
+  0% {
+    opacity: 0;
+    transform: translate3d(-40px, 0, 0) scale(0.98);
+  }
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+@keyframes canvaFadeUp {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 24px, 0);
+  }
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes canvaScaleUp {
+  0% {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.canva-slide-right {
+  animation: canvaSlideInRight 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.canva-slide-left {
+  animation: canvaSlideInLeft 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.canva-fade-up {
+  animation: canvaFadeUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.canva-scale-up {
+  animation: canvaScaleUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.canva-card {
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.canva-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 36px rgba(27, 66, 53, 0.12);
+}

@@ -1,6 +1,6 @@
 import React from 'react';
 import { useApp } from '../context/AppContext';
-import { RefreshCw, Languages, Home, Menu, Sparkles, KeyRound, Network } from 'lucide-react';
+import { RefreshCw, Languages, Home, Menu, KeyRound, ShieldCheck } from 'lucide-react';
 
 interface NavbarProps {
   activeTab?: string;
@@ -25,17 +25,21 @@ export const Navbar: React.FC<NavbarProps> = ({
   const getPortalTitle = () => {
     switch (activeTab) {
       case 'CUSTOMER':
-        return language === 'hi' ? 'ग्राहक पिकअप पोर्टल' : 'Customer Pickup Portal';
+        return language === 'hi' ? 'ग्राहक पिकअप पास' : 'Customer Pickup Pass';
+      case 'CUSTOMER_HUB':
+        return language === 'hi' ? 'ग्राहक लॉजिस्टिक्स हब' : 'Customer Logistics Hub';
       case 'AGENT':
-        return language === 'hi' ? 'राइडर डिलीवरी ओएस' : 'Delivery Rider Gig OS';
+        return language === 'hi' ? 'डिलीवरी राइडर ओएस' : 'Delivery Rider Gig OS';
       case 'MERCHANT':
-        return language === 'hi' ? 'किराना मर्चेंट हब' : 'Kirana Merchant Hub';
+        return language === 'hi' ? 'किराना काउंटर व रैक ओएस' : 'Kirana Counter & Shelf OS';
+      case 'MERCHANT_LOGISTICS':
+        return language === 'hi' ? 'स्टोर लॉजिस्टिक्स हब (MyHub)' : 'Store Logistics Hub (MyHub)';
+      case 'MERCHANT_PROFILE':
+        return language === 'hi' ? 'दुकान प्रोफ़ाइल व विवरण' : 'Store Details & Profile';
       case 'ADMIN':
-        return language === 'hi' ? 'लॉजिस्टिक्स एडमिन टॉवर' : 'Logistics Admin Hub';
+        return language === 'hi' ? 'लॉजिस्टिक्स एडमिन टॉवर' : 'Logistics Command Hub';
       case 'SIMULATOR':
-        return language === 'hi' ? 'इंटरैक्टिव फ्लो सिमुलेटर' : 'Interactive Flow Lab';
-      case 'ARCHITECTURE':
-        return language === 'hi' ? 'सिस्टम आर्किटेक्चर (GitDiagram)' : 'System Architecture (GitDiagram)';
+        return language === 'hi' ? 'इंटरैक्टिव फ्लो लैब' : 'Interactive Flow Lab';
       default:
         return 'Logistics Network';
     }
@@ -56,15 +60,6 @@ export const Navbar: React.FC<NavbarProps> = ({
 
         {onSelectTab && (
           <div className="flex items-center space-x-3 mx-auto sm:mx-0">
-            <button
-              onClick={() => onSelectTab('ARCHITECTURE')}
-              className={`flex items-center space-x-1 text-xs font-bold transition ${
-                activeTab === 'ARCHITECTURE' ? 'text-[#fffd47] underline' : 'text-[#D1E7DD] hover:text-[#fffd47]'
-              }`}
-            >
-              <Network className="w-3.5 h-3.5 text-[#38BDF8]" />
-              <span>Architecture</span>
-            </button>
             <button
               onClick={() => onSelectTab('COVER')}
               className="flex items-center space-x-1.5 text-xs text-[#fffd47] hover:underline font-bold"
@@ -123,13 +118,13 @@ export const Navbar: React.FC<NavbarProps> = ({
             {currentUser ? (
               <div className="flex items-center space-x-2 bg-[#133827] border border-[#1A5336] rounded-xl px-2.5 py-1.5 text-xs shadow-xs">
                 <div className="w-6 h-6 rounded-full bg-[#1A5336] border border-[#fffd47]/60 flex items-center justify-center font-bold text-white text-[11px] shrink-0">
-                  {currentUser.role === 'MERCHANT' ? '🏪' : currentUser.role === 'AGENT' ? '🛵' : '👤'}
+                  {currentUser.role === 'MERCHANT' ? '🏪' : currentUser.role === 'AGENT' ? '🛵' : currentUser.role === 'ADMIN' ? '🏢' : '👤'}
                 </div>
                 <div className="hidden sm:block text-left leading-tight">
                   <div className="text-[#F8F5EF] font-bold text-xs flex items-center gap-1.5">
                     <span className="truncate max-w-[110px]">{currentUser.name.split(' ')[0]}</span>
-                    <span className="text-[9px] font-mono px-1.5 py-0.2 bg-[#fffd47]/20 text-[#fffd47] rounded font-bold">
-                      {currentUser.role === 'MERCHANT' ? 'Dukandar' : currentUser.role === 'AGENT' ? 'Rider' : 'Shopper'}
+                    <span className="text-[9px] font-mono px-1.5 py-0.5 bg-[#fffd47]/20 text-[#fffd47] rounded font-bold uppercase">
+                      {currentUser.role === 'MERCHANT' ? 'Dukandar' : currentUser.role === 'AGENT' ? 'Rider' : currentUser.role === 'ADMIN' ? 'Admin' : 'Shopper'}
                     </span>
                   </div>
                 </div>
@@ -149,22 +144,6 @@ export const Navbar: React.FC<NavbarProps> = ({
               >
                 <KeyRound className="w-3.5 h-3.5 text-[#0F291E]" />
                 <span className="font-bold">Log In</span>
-              </button>
-            )}
-
-            {/* Architecture View Toggle */}
-            {onSelectTab && (
-              <button
-                onClick={() => onSelectTab('ARCHITECTURE')}
-                className={`hidden md:flex items-center space-x-1.5 px-3 py-2 rounded-xl text-xs font-bold transition shadow-xs border ${
-                  activeTab === 'ARCHITECTURE'
-                    ? 'bg-[#1A5336] text-[#fffd47] border-[#fffd47] ring-1 ring-[#fffd47]'
-                    : 'bg-[#133827] hover:bg-[#1A5336] text-[#D1E7DD] border-[#1A5336]'
-                }`}
-                title="System Architecture (GitDiagram)"
-              >
-                <Network className="w-4 h-4 text-[#38BDF8]" />
-                <span className="hidden lg:inline">Architecture</span>
               </button>
             )}
 

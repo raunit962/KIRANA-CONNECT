@@ -24,13 +24,30 @@ import {
   CheckCircle2,
   Copy,
   ExternalLink,
+  Ticket,
+  Bike,
+  Calendar,
+  Zap,
 } from 'lucide-react';
 
-export const CustomerPortal: React.FC = () => {
-  const { parcels, stores, activeTrackingNumber, setActiveTrackingNumber, language } = useApp();
+interface CustomerPortalProps {
+  onNavigateHub?: () => void;
+}
+
+export const CustomerPortal: React.FC<CustomerPortalProps> = ({ onNavigateHub }) => {
+  const {
+    parcels,
+    stores,
+    activeTrackingNumber,
+    setActiveTrackingNumber,
+    language,
+    currentUser,
+    setParcelDeliveryPreference,
+  } = useApp();
   const [isWhatsAppOpen, setIsWhatsAppOpen] = useState(false);
   const [copiedOtp, setCopiedOtp] = useState(false);
   const [timeLeft, setTimeLeft] = useState('47h 18m 42s');
+  const [revealDiscount, setRevealDiscount] = useState(false);
 
   const activeParcel =
     parcels.find((p) => p.trackingNumber === activeTrackingNumber) || parcels[0];
@@ -75,6 +92,47 @@ export const CustomerPortal: React.FC = () => {
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
+      {/* 1. Dual-Portal Switcher Tabs for Customer */}
+      <div className="bg-white border-2 border-[#CDE3D5] rounded-3xl p-3 shadow-md flex flex-col sm:flex-row items-center justify-between gap-3">
+        <div className="flex items-center space-x-2 w-full sm:w-auto">
+          <button
+            className="flex-1 sm:flex-none px-4 py-2.5 rounded-2xl text-xs font-bold bg-[#1A5336] text-white shadow-md border border-[#fffd47]/40 flex items-center justify-center space-x-2"
+          >
+            <Ticket className="w-4 h-4 text-[#fffd47]" />
+            <span className="font-roxborough text-xs font-bold text-[#fffd47]">1. Customer Pickup Pass</span>
+            <span className="text-[10px] bg-[#fffd47] text-[#0F291E] font-bold px-2 py-0.5 rounded-full">
+              Active Pass
+            </span>
+          </button>
+
+          <button
+            onClick={onNavigateHub}
+            className="flex-1 sm:flex-none px-4 py-2.5 rounded-2xl text-xs font-bold text-[#0F291E] hover:bg-[#EAF3ED] border border-transparent hover:border-[#CDE3D5] transition flex items-center justify-center space-x-2 group"
+          >
+            <Package className="w-4 h-4 text-[#1A5336] group-hover:scale-110 transition" />
+            <span className="font-roxborough text-xs font-bold">2. Customer Logistics Hub</span>
+            <span className="text-[10px] bg-amber-100 text-amber-800 font-black px-2 py-0.5 rounded-full font-mono">
+              ₹15 Box
+            </span>
+          </button>
+        </div>
+
+        {/* User Grahak Badge */}
+        <div className="flex items-center space-x-2.5 text-xs text-[#0F291E] font-medium bg-[#F4F8F5] px-3.5 py-1.5 rounded-2xl border border-[#CDE3D5]">
+          <div className="w-6 h-6 rounded-full bg-[#1A5336] text-[#fffd47] flex items-center justify-center font-bold text-[11px]">
+            👤
+          </div>
+          <div>
+            <span className="font-bold text-[#0F291E]">
+              {currentUser?.name || 'Anirban Chatterjee'}
+            </span>
+            <span className="text-[10px] text-[#1A5336] font-mono ml-1.5 font-bold">
+              • Verified Grahak
+            </span>
+          </div>
+        </div>
+      </div>
+
       {/* Top Banner & Selector in Lush Green */}
       <div className="bg-[#0F291E] border border-[#1A5336] rounded-3xl p-5 flex flex-col md:flex-row md:items-center md:justify-between gap-4 shadow-md text-white">
         <div className="flex items-center space-x-3.5">
@@ -133,6 +191,144 @@ export const CustomerPortal: React.FC = () => {
         </div>
       </div>
 
+      {/* 2. Customer Delivery Mode Choice: Self-Pickup vs Kirana Doorstep Delivery (Amazon Hub Model) */}
+      <div className="bg-white border-2 border-[#CDE3D5] rounded-3xl p-5 shadow-md space-y-4">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-[#CDE3D5] pb-3">
+          <div className="flex items-center space-x-2.5">
+            <div className="w-10 h-10 rounded-2xl bg-[#1A5336] text-[#fffd47] flex items-center justify-center font-bold shadow-xs">
+              <Zap className="w-5 h-5" />
+            </div>
+            <div>
+              <h3 className="font-extrabold text-sm text-[#0B2317]">
+                {language === 'hi' ? 'पार्सल डिलीवरी का तरीका चुनें' : 'How Would You Like Your Parcel Delivered?'}
+              </h3>
+              <p className="text-xs text-[#4A5B52]">
+                Choose between free neighborhood walk-in pickup or direct doorstep delivery by the Kirana store helper.
+              </p>
+            </div>
+          </div>
+          <span className="text-[10px] font-bold bg-[#fffd47]/30 text-[#0F291E] px-2.5 py-1 rounded-full border border-[#fffd47] self-start sm:self-auto font-mono">
+            Amazon Hub Option
+          </span>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {/* Option A: Walk-In Self Pickup */}
+          <div
+            onClick={() => {
+              setParcelDeliveryPreference(activeParcel.id, 'SELF_PICKUP');
+              soundEffects.playScanBeep();
+            }}
+            className={`cursor-pointer rounded-2xl p-4 border-2 transition-all relative flex flex-col justify-between ${
+              (activeParcel.deliveryPreference || 'SELF_PICKUP') === 'SELF_PICKUP'
+                ? 'bg-[#F4F8F5] border-[#1A5336] ring-2 ring-[#fffd47] shadow-sm'
+                : 'bg-white border-stone-200 hover:border-[#1A5336]/40 opacity-80 hover:opacity-100'
+            }`}
+          >
+            <div>
+              <div className="flex items-center justify-between">
+                <span className="font-extrabold text-xs text-[#0B2317] flex items-center gap-1.5">
+                  <Store className="w-4 h-4 text-[#1A5336]" />
+                  <span>1. Walk-In Self Pickup</span>
+                </span>
+                <span className="text-[10px] font-bold bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded-full">
+                  FREE (Zero Extra Fee)
+                </span>
+              </div>
+              <p className="text-xs text-[#4A5B52] mt-2">
+                Walk 2-5 minutes to <strong>{assignedStore.storeName}</strong> at your own convenience today.
+              </p>
+              <div className="mt-3 flex flex-wrap items-center gap-2 text-[11px] text-[#1A5336] font-semibold">
+                <span className="flex items-center gap-1">
+                  <CheckCircle2 className="w-3.5 h-3.5 text-[#1A5336]" />
+                  <span>Instant Counter Pickup</span>
+                </span>
+                <span>•</span>
+                <span>Fills 1 Box toward ₹15 Reward</span>
+              </div>
+            </div>
+
+            <div className="mt-3 pt-2 border-t border-[#CDE3D5] flex items-center justify-between text-[11px]">
+              <span className="text-[#4A5B52]">Verification:</span>
+              <span className="font-mono font-bold text-[#0B2317]">Counter QR / 4-Digit PIN</span>
+            </div>
+          </div>
+
+          {/* Option B: Kirana Store Doorstep Delivery */}
+          <div
+            onClick={() => {
+              setParcelDeliveryPreference(activeParcel.id, 'STORE_DOORSTEP', 'Evening (7:00 PM - 9:00 PM)');
+              soundEffects.playCashRegister();
+            }}
+            className={`cursor-pointer rounded-2xl p-4 border-2 transition-all relative flex flex-col justify-between ${
+              activeParcel.deliveryPreference === 'STORE_DOORSTEP'
+                ? 'bg-amber-50/80 border-amber-500 ring-2 ring-amber-400 shadow-sm'
+                : 'bg-white border-stone-200 hover:border-amber-400/60 opacity-80 hover:opacity-100'
+            }`}
+          >
+            <div>
+              <div className="flex items-center justify-between">
+                <span className="font-extrabold text-xs text-[#0B2317] flex items-center gap-1.5">
+                  <Bike className="w-4 h-4 text-amber-600" />
+                  <span>2. Kirana Store Doorstep Delivery</span>
+                </span>
+                <span className="text-[10px] font-bold bg-amber-200 text-amber-900 px-2 py-0.5 rounded-full font-mono">
+                  Store Helper Run (2-3 km)
+                </span>
+              </div>
+              <p className="text-xs text-[#4A5B52] mt-2">
+                {assignedStore.storeName}&apos;s staff/helper delivers it directly to your address during store delivery hours.
+              </p>
+              <div className="mt-3 flex flex-wrap items-center gap-2 text-[11px] text-amber-900 font-semibold">
+                <span className="flex items-center gap-1">
+                  <Bike className="w-3.5 h-3.5 text-amber-700" />
+                  <span>Delivered by Store Helper ({assignedStore.ownerName.split(' ')[0]}&apos;s team)</span>
+                </span>
+                <span>•</span>
+                <span>Slot: Evening (7 PM - 9 PM)</span>
+              </div>
+            </div>
+
+            <div className="mt-3 pt-2 border-t border-amber-200 flex items-center justify-between text-[11px]">
+              <span className="text-[#4A5B52]">Delivery Address:</span>
+              <span className="font-bold text-[#0B2317] truncate max-w-[200px]">{activeParcel.destinationAddress}</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Dynamic Helper Delivery Confirmation Bar */}
+        {activeParcel.deliveryPreference === 'STORE_DOORSTEP' && (
+          <div className="bg-amber-100/90 border border-amber-300 rounded-2xl p-3.5 text-xs text-amber-950 flex flex-col sm:flex-row sm:items-center justify-between gap-3 animate-fadeIn">
+            <div className="space-y-0.5">
+              <div className="font-bold flex items-center gap-1.5 text-amber-900">
+                <CheckCircle2 className="w-4 h-4 text-amber-700" />
+                <span>Kirana Doorstep Delivery Confirmed!</span>
+              </div>
+              <div className="text-[11px] text-amber-800">
+                The Kirana store helper will bring this parcel to your doorstep today during the evening delivery window. Please have your 4-digit PIN (<strong>{activeParcel.pickupOtp}</strong>) ready to confirm delivery.
+              </div>
+            </div>
+
+            <div className="flex items-center space-x-2 shrink-0 self-start sm:self-auto">
+              <a
+                href={`tel:${assignedStore.phone}`}
+                className="px-3 py-1.5 bg-white hover:bg-amber-50 text-[#0B2317] border border-amber-300 rounded-xl font-bold text-xs flex items-center gap-1 transition shadow-xs"
+              >
+                <Phone className="w-3.5 h-3.5 text-amber-800" />
+                <span>Call Store</span>
+              </a>
+              <button
+                onClick={() => soundEffects.speakOtp(activeParcel.pickupOtp)}
+                className="px-3 py-1.5 bg-amber-600 hover:bg-amber-700 text-white rounded-xl font-bold text-xs flex items-center gap-1 transition shadow-xs"
+              >
+                <Volume2 className="w-3.5 h-3.5" />
+                <span>Audio PIN</span>
+              </button>
+            </div>
+          </div>
+        )}
+      </div>
+
       {/* Main Grid: Left = Digital Boarding Pass Ticket, Right = Live Neighborhood Radar */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         {/* Left: Smart Boarding Pass Style Card (7 Cols) */}
@@ -148,6 +344,26 @@ export const CustomerPortal: React.FC = () => {
               <span className="bg-[#fffd47] text-[#0F291E] text-xs px-3 py-1 rounded-full font-mono font-black shadow">
                 {activeParcel.trackingNumber}
               </span>
+            </div>
+
+            {/* Canva 4-Step Pickup Journey Pill */}
+            <div className="grid grid-cols-4 gap-1 p-2 bg-[#133827] text-white text-[11px] font-bold text-center border-b border-[#1A5336]">
+              <div className="p-1.5 rounded-xl bg-white/10 flex flex-col items-center">
+                <span className="text-emerald-300">1. Locate</span>
+                <span className="text-[9px] text-white/70 font-normal">Walk to Hub</span>
+              </div>
+              <div className="p-1.5 rounded-xl bg-white/10 flex flex-col items-center">
+                <span className="text-emerald-300">2. Show Pass</span>
+                <span className="text-[9px] text-white/70 font-normal">QR / 4-Digit PIN</span>
+              </div>
+              <div className="p-1.5 rounded-xl bg-white/10 flex flex-col items-center">
+                <span className="text-emerald-300">3. Collect</span>
+                <span className="text-[9px] text-white/70 font-normal">Merchant release</span>
+              </div>
+              <div className="p-1.5 rounded-xl bg-white/10 flex flex-col items-center">
+                <span className="text-[#fffd47]">4. Save More</span>
+                <span className="text-[9px] text-white/70 font-normal">Shop Discount</span>
+              </div>
             </div>
 
             {/* Ticket Main Body */}
@@ -309,24 +525,48 @@ export const CustomerPortal: React.FC = () => {
             </div>
           </div>
 
-          {/* "Drop & Buy" Kirana Customer Cross-Sell Perk Card */}
-          <div className="bg-white border border-[#CDE3D5] rounded-3xl p-5 shadow-sm flex items-center justify-between gap-4">
+          {/* "Drop & Buy" Kirana Customer Cross-Sell Perk Card (Canva Slide 2 Design) */}
+          <div className="bg-gradient-to-r from-amber-50 to-emerald-50 border border-amber-200/80 rounded-3xl p-5 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div className="flex items-center space-x-3.5">
-              <div className="w-12 h-12 rounded-2xl bg-[#fffd47]/30 border border-[#fffd47]/50 flex items-center justify-center text-[#0F291E]">
+              <div className="w-12 h-12 rounded-2xl bg-amber-400/20 border border-amber-400/40 flex items-center justify-center text-[#0F291E] shrink-0">
                 <ShoppingBag className="w-6 h-6 text-[#1A5336]" />
               </div>
               <div>
-                <h4 className="font-extrabold text-sm text-[#0B2317]">
-                  {language === 'hi' ? 'किराना ग्राहक ऑफर: ₹15 की छूट' : 'Kirana "Pick & Shop" Special'}
-                </h4>
+                <div className="flex items-center gap-1.5">
+                  <h4 className="font-extrabold text-sm text-[#0B2317]">
+                    {language === 'hi' ? 'किराना ग्राहक ऑफर: दुकान छूट' : 'Shop Discount for You'}
+                  </h4>
+                  <span className="text-[10px] font-bold bg-[#1A5336] text-[#fffd47] px-2 py-0.5 rounded-full">
+                    Canva Perk
+                  </span>
+                </div>
                 <p className="text-xs text-[#4A5B52] mt-0.5">
-                  Get <strong className="text-[#1A5336]">₹15 OFF</strong> on daily milk/snacks when you collect this parcel!
+                  Get <strong className="text-[#1A5336]">₹20 OFF</strong> on grocery purchase above ₹100 at this Kirana counter!
                 </p>
               </div>
             </div>
-            <span className="text-xs font-mono font-black bg-[#1A5336] text-[#fffd47] px-3.5 py-2 rounded-xl uppercase whitespace-nowrap shadow-sm border border-[#fffd47]/30">
-              KIRANA15
-            </span>
+
+            {revealDiscount ? (
+              <div className="flex items-center gap-2 animate-scaleUp">
+                <span className="text-xs font-mono font-black bg-[#1A5336] text-[#fffd47] px-4 py-2 rounded-xl uppercase whitespace-nowrap shadow-sm border border-[#fffd47]/30 tracking-wider">
+                  KIRANAPASS20
+                </span>
+                <span className="text-[10px] font-bold text-emerald-800 bg-emerald-100 px-2 py-1 rounded-lg">
+                  Applied!
+                </span>
+              </div>
+            ) : (
+              <button
+                onClick={() => {
+                  soundEffects.playCashRegister();
+                  setRevealDiscount(true);
+                }}
+                className="bg-amber-400 hover:bg-amber-300 text-stone-900 font-extrabold text-xs px-4 py-2.5 rounded-xl shadow-sm flex items-center justify-center gap-1.5 transition active:scale-95 whitespace-nowrap"
+              >
+                <Sparkles className="w-3.5 h-3.5 text-stone-900" />
+                <span>Reveal Offer</span>
+              </button>
+            )}
           </div>
 
           {/* PS 26205: Reverse PUDO (Zero-Courier Return Hub) */}

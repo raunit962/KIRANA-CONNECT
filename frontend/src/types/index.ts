@@ -32,6 +32,16 @@ export interface KiranaStore {
   photoUrl: string;
   rating: number;
   totalParcelsHandled: number;
+  // Amazon MyHub & Store Delivery Extensions
+  deliveryRadiusKm?: number; // e.g. 2.5 km
+  hasStoreHelper?: boolean;
+  helperName?: string;
+  helperPhone?: string;
+  doorstepDeliveryRate?: number; // e.g. ₹25 - ₹30 per delivery
+  upiId?: string;
+  cctvInstalled?: boolean;
+  storageType?: string;
+  gstin?: string;
 }
 
 export interface Parcel {
@@ -75,6 +85,14 @@ export interface Parcel {
   serialTag?: string; // e.g. "TAG-70091-01A"
   shelfSlot?: string; // e.g. "A-01"
   category?: ParcelCategory;
+
+  // HyperLocal Delivery Preference (Amazon Hub Delivery Model)
+  deliveryPreference?: 'SELF_PICKUP' | 'STORE_DOORSTEP';
+  deliverySlot?: string; // e.g. "Evening 7:00 PM - 9:00 PM"
+  assignedHelperName?: string; // e.g. "Ramesh Kumar (Store Helper)"
+  assignedHelperPhone?: string;
+  doorstepDeliveryFee?: number; // e.g. ₹30
+  doorstepDeliveredAt?: string;
 }
 
 export type ParcelCategory = 
@@ -127,7 +145,7 @@ export interface UserSession {
   id: string;
   name: string;
   phone: string;
-  role: 'CUSTOMER' | 'AGENT' | 'MERCHANT';
+  role: UserRole;
   storeId?: string;
   storeName?: string;
   agentId?: string;

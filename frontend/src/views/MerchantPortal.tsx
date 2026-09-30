@@ -29,7 +29,15 @@ import {
 } from 'lucide-react';
 import { Parcel, ParcelCategory } from '../types';
 
-export const MerchantPortal: React.FC = () => {
+interface MerchantPortalProps {
+  onNavigateLogistics?: () => void;
+  onNavigateProfile?: () => void;
+}
+
+export const MerchantPortal: React.FC<MerchantPortalProps> = ({
+  onNavigateLogistics,
+  onNavigateProfile,
+}) => {
   const {
     stores,
     parcels,
@@ -128,6 +136,55 @@ export const MerchantPortal: React.FC = () => {
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
+      {/* 1. Top 3-Portal Switcher Tabs for Kirana Merchant */}
+      <div className="bg-white border-2 border-[#CDE3D5] rounded-3xl p-3 shadow-md flex flex-col md:flex-row items-center justify-between gap-3">
+        <div className="flex flex-wrap items-center gap-2 w-full md:w-auto">
+          <button
+            className="flex-1 sm:flex-none px-4 py-2.5 rounded-2xl text-xs font-bold bg-[#1A5336] text-white shadow-md border border-[#fffd47]/40 flex items-center justify-center space-x-2"
+          >
+            <Store className="w-4 h-4 text-[#fffd47]" />
+            <span className="font-roxborough text-xs font-bold text-[#fffd47]">1. Counter &amp; Shelf OS</span>
+            <span className="text-[10px] bg-[#fffd47] text-[#0F291E] font-black px-2 py-0.5 rounded-full">
+              Scanner &amp; Rack
+            </span>
+          </button>
+
+          <button
+            onClick={onNavigateLogistics}
+            className="flex-1 sm:flex-none px-4 py-2.5 rounded-2xl text-xs font-bold text-[#0F291E] hover:bg-[#EAF3ED] border border-transparent hover:border-[#CDE3D5] transition flex items-center justify-center space-x-2 group"
+          >
+            <Package className="w-4 h-4 text-[#1A5336] group-hover:scale-110 transition" />
+            <span className="font-roxborough text-xs font-bold">2. Store Logistics Hub</span>
+            <span className="text-[10px] bg-amber-100 text-amber-800 font-mono px-2 py-0.5 rounded-full font-bold">
+              Amazon MyHub
+            </span>
+          </button>
+
+          <button
+            onClick={onNavigateProfile}
+            className="flex-1 sm:flex-none px-4 py-2.5 rounded-2xl text-xs font-bold text-[#0F291E] hover:bg-[#EAF3ED] border border-transparent hover:border-[#CDE3D5] transition flex items-center justify-center space-x-2 group"
+          >
+            <ShieldCheck className="w-4 h-4 text-[#1A5336] group-hover:scale-110 transition" />
+            <span className="font-roxborough text-xs font-bold">3. Store Profile &amp; Details</span>
+          </button>
+        </div>
+
+        {/* Current Store Switcher Pill */}
+        <div className="flex items-center space-x-2 w-full md:w-auto justify-end">
+          <select
+            value={currentStore.id}
+            onChange={(e) => setActiveStoreId(e.target.value)}
+            className="bg-[#F4F8F5] border border-[#CDE3D5] text-[#0F291E] font-bold text-xs rounded-xl px-3 py-1.5 focus:outline-none focus:border-[#1A5336]"
+          >
+            {stores.map((s) => (
+              <option key={s.id} value={s.id}>
+                🏪 {s.storeName.split(' ')[0]} ({s.pincode})
+              </option>
+            ))}
+          </select>
+        </div>
+      </div>
+
       {/* Top Store Selector & Status Bar in Lush Green */}
       <div className="bg-[#0F291E] border border-[#1A5336] rounded-3xl p-6 shadow-md flex flex-col md:flex-row md:items-center md:justify-between gap-4 text-white">
         <div className="flex items-center space-x-4">
@@ -149,6 +206,11 @@ export const MerchantPortal: React.FC = () => {
             <p className="text-xs text-[#D1E7DD] mt-0.5">
               Owner: <strong className="text-[#fffd47]">{currentStore.ownerName}</strong> | PIN: {currentStore.pincode} ({currentStore.city})
             </p>
+            <div className="flex items-center gap-2 mt-1">
+              <span className="text-[10px] font-bold text-[#fffd47] bg-[#fffd47]/15 px-2.5 py-0.5 rounded-full border border-[#fffd47]/30">
+                Har Gali. Har Parcel. Safe & Simple.
+              </span>
+            </div>
           </div>
         </div>
 

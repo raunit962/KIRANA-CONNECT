@@ -302,6 +302,24 @@ export const AgentPortal: React.FC = () => {
                           </button>
                         ))}
                       </div>
+
+                      {/* Canva Slide 3: AI Drop-Proof Checklist */}
+                      <div className="bg-[#133827] rounded-xl p-2.5 border border-[#1A5336] space-y-1.5 text-[11px] mt-2">
+                        <span className="text-[10px] font-bold text-[#fffd47] uppercase tracking-wider block">
+                          Canva AI Verification Checklist:
+                        </span>
+                        <div className="grid grid-cols-3 gap-1.5 text-[10px]">
+                          <span className="flex items-center gap-1 text-emerald-300 font-medium">
+                            <CheckCircle2 className="w-3 h-3 text-emerald-400" /> Shop Board
+                          </span>
+                          <span className="flex items-center gap-1 text-emerald-300 font-medium">
+                            <CheckCircle2 className="w-3 h-3 text-emerald-400" /> Shelf Visible
+                          </span>
+                          <span className="flex items-center gap-1 text-emerald-300 font-medium">
+                            <CheckCircle2 className="w-3 h-3 text-emerald-400" /> Barcode Clear
+                          </span>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>

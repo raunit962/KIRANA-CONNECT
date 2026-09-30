@@ -124,7 +124,7 @@ export const LiveFlowSimulator: React.FC = () => {
               </span>
             </div>
             <p className="text-xs text-[#D5D9C8]">
-              Walk step-by-step through the full Indian PUDO delivery lifecycle in under 60 seconds
+              See the journey. From first mile to final smile — walk through the Indian PUDO delivery lifecycle in under 60 seconds
             </p>
           </div>
         </div>

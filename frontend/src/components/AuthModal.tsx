@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useApp } from '../context/AppContext';
-import { UserSession } from '../types';
+import { UserRole, UserSession } from '../types';
 import {
   X,
   User,
   Bike,
   Store,
-  Phone,
   ShieldCheck,
   CheckCircle2,
   ArrowRight,
@@ -14,13 +13,14 @@ import {
   Lock,
   MessageSquare,
   KeyRound,
+  LayoutDashboard,
 } from 'lucide-react';
 
 interface AuthModalProps {
   isOpen: boolean;
   onClose: () => void;
-  defaultRole?: 'CUSTOMER' | 'AGENT' | 'MERCHANT';
-  onLoginSuccess?: (role: 'CUSTOMER' | 'AGENT' | 'MERCHANT') => void;
+  defaultRole?: UserRole;
+  onLoginSuccess?: (role: UserRole) => void;
 }
 
 export const AuthModal: React.FC<AuthModalProps> = ({
@@ -31,7 +31,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
 }) => {
   const { loginUser, stores } = useApp();
 
-  const [activeRole, setActiveRole] = useState<'CUSTOMER' | 'AGENT' | 'MERCHANT'>(defaultRole);
+  const [activeRole, setActiveRole] = useState<UserRole>(defaultRole);
   const [phone, setPhone] = useState('');
   const [step, setStep] = useState<'PHONE' | 'OTP'>('PHONE');
   const [otp, setOtp] = useState(['', '', '', '']);
@@ -67,7 +67,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
   if (!isOpen) return null;
 
   // Demo Profiles for 1-Click evaluation
-  const demoProfiles = {
+  const demoProfiles: Record<UserRole, any> = {
     CUSTOMER: {
       name: 'Anirban Chatterjee',
       phone: '9830012894',
@@ -88,6 +88,13 @@ export const AuthModal: React.FC<AuthModalProps> = ({
       storeName: 'Ghosh Brothers Daily Provisions',
       code: '1973',
       tag: 'Official Kirana PUDO Hub',
+    },
+    ADMIN: {
+      name: 'Priya Sharma',
+      phone: '9820199214',
+      carrier: 'ONDC Network Command',
+      code: '5521',
+      tag: 'Logistics Command Controller',
     },
   };
 
@@ -155,6 +162,15 @@ export const AuthModal: React.FC<AuthModalProps> = ({
         avatarUrl: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150',
         loggedInAt: new Date().toISOString(),
       };
+    } else if (activeRole === 'ADMIN') {
+      session = {
+        id: 'admin-1',
+        name: demoProfiles.ADMIN.name,
+        phone: `+91 ${mobileNumber || demoProfiles.ADMIN.phone}`,
+        role: 'ADMIN',
+        avatarUrl: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=150',
+        loggedInAt: new Date().toISOString(),
+      };
     } else {
       const targetStore = stores.find((s) => s.id === 'store-1') || stores[0];
       session = {
@@ -177,7 +193,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
   };
 
   // 1-Click Fast Pass Demo Login
-  const handleFastDemoLogin = (role: 'CUSTOMER' | 'AGENT' | 'MERCHANT') => {
+  const handleFastDemoLogin = (role: UserRole) => {
     setActiveRole(role);
     const prof = demoProfiles[role];
     setPhone(prof.phone);
@@ -234,7 +250,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
             <label className="block text-[11px] font-bold uppercase tracking-wider text-[#1A5336] mb-2">
               Select Your Role
             </label>
-            <div className="grid grid-cols-3 gap-2 bg-[#EAF3ED] p-1.5 rounded-2xl border border-[#CDE3D5]">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 bg-[#EAF3ED] p-1.5 rounded-2xl border border-[#CDE3D5]">
               {[
                 {
                   id: 'CUSTOMER' as const,
@@ -244,15 +260,21 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                 },
                 {
                   id: 'AGENT' as const,
-                  label: 'Delivery Rider',
-                  sub: 'Gig Partner',
+                  label: 'Rider',
+                  sub: 'Gig Courier',
                   icon: Bike,
                 },
                 {
                   id: 'MERCHANT' as const,
-                  label: 'Kirana Hub',
+                  label: 'Kirana',
                   sub: 'Dukandar',
                   icon: Store,
+                },
+                {
+                  id: 'ADMIN' as const,
+                  label: 'Admin',
+                  sub: 'Control Tower',
+                  icon: LayoutDashboard,
                 },
               ].map((tab) => {
                 const Icon = tab.icon;
@@ -392,7 +414,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                 className="w-full py-3.5 bg-[#1A5336] hover:bg-[#133F28] text-[#fffd47] font-extrabold text-sm rounded-2xl shadow-md border border-[#fffd47]/30 flex items-center justify-center space-x-2 transition"
               >
                 <CheckCircle2 className="w-4 h-4" />
-                <span>Verify & Enter {activeRole === 'CUSTOMER' ? 'Pickup Portal' : activeRole === 'AGENT' ? 'Rider OS' : 'Merchant Hub'}</span>
+                <span>Verify & Enter {activeRole === 'CUSTOMER' ? 'Pickup Portal' : activeRole === 'AGENT' ? 'Rider OS' : activeRole === 'ADMIN' ? 'Command Tower' : 'Merchant Hub'}</span>
               </button>
             </form>
           )}
@@ -409,7 +431,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
               </span>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
               <button
                 type="button"
                 onClick={() => handleFastDemoLogin('CUSTOMER')}
@@ -419,8 +441,8 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                   <User className="w-3.5 h-3.5 text-[#1A5336]" />
                   <span className="text-[11px] font-bold text-[#0F291E]">Customer</span>
                 </div>
-                <div className="text-[10px] text-[#4A5B52] truncate">Anirban Chatterjee</div>
-                <div className="text-[9px] font-mono text-[#1A5336] font-semibold mt-0.5">Pickup Pass Ready</div>
+                <div className="text-[10px] text-[#4A5B52] truncate">Anirban C.</div>
+                <div className="text-[9px] font-mono text-[#1A5336] font-semibold mt-0.5">Pickup Pass</div>
               </button>
 
               <button
@@ -429,11 +451,11 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                 className="p-2.5 rounded-2xl bg-white hover:bg-[#EAF3ED] border border-[#CDE3D5] text-left transition shadow-xs group"
               >
                 <div className="flex items-center space-x-1.5 mb-1">
-                  <Bike className="w-3.5 h-3.5 text-[#1A5336]" />
+                  <Bike className="w-3.5 h-3.5 text-[#0284C7]" />
                   <span className="text-[11px] font-bold text-[#0F291E]">Rider</span>
                 </div>
-                <div className="text-[10px] text-[#4A5B52] truncate">Tapas Sen (EV)</div>
-                <div className="text-[9px] font-mono text-[#0284C7] font-semibold mt-0.5">Shadowfax Fleet</div>
+                <div className="text-[10px] text-[#4A5B52] truncate">Tapas Sen</div>
+                <div className="text-[9px] font-mono text-[#0284C7] font-semibold mt-0.5">Delhivery Fleet</div>
               </button>
 
               <button
@@ -445,8 +467,21 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                   <Store className="w-3.5 h-3.5 text-[#1A5336]" />
                   <span className="text-[11px] font-bold text-[#0F291E]">Kirana</span>
                 </div>
-                <div className="text-[10px] text-[#4A5B52] truncate">Ghosh Brothers</div>
-                <div className="text-[9px] font-mono text-[#fffd47] bg-[#0F291E] px-1 rounded inline-block mt-0.5">₹1,850 Wallet</div>
+                <div className="text-[10px] text-[#4A5B52] truncate">Ghosh Bros</div>
+                <div className="text-[9px] font-mono text-[#1A5336] font-semibold mt-0.5">Shelf &amp; Soundbox</div>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => handleFastDemoLogin('ADMIN')}
+                className="p-2.5 rounded-2xl bg-white hover:bg-[#EAF3ED] border border-[#CDE3D5] text-left transition shadow-xs group"
+              >
+                <div className="flex items-center space-x-1.5 mb-1">
+                  <LayoutDashboard className="w-3.5 h-3.5 text-[#7C3AED]" />
+                  <span className="text-[11px] font-bold text-[#0F291E]">Admin</span>
+                </div>
+                <div className="text-[10px] text-[#4A5B52] truncate">Priya Sharma</div>
+                <div className="text-[9px] font-mono text-[#7C3AED] font-semibold mt-0.5">Control Tower</div>
               </button>
             </div>
           </div>

@@ -11,7 +11,7 @@ import {
   MapPin,
   Package,
   KeyRound,
-  Network
+  LayoutDashboard,
 } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 
@@ -86,76 +86,32 @@ export const BookCoverPage: React.FC<BookCoverPageProps> = ({
             </div>
           </div>
 
-          {/* Extreme Upper Right Corner: Portals navigation pills + Explore Portals button */}
-          <div className="ml-auto flex flex-wrap items-center justify-end gap-2.5">
-            <nav className="hidden xl:flex items-center flex-wrap gap-2.5">
-              {[
-                {
-                  id: 'CUSTOMER',
-                  label: 'Customer pickup',
-                  icon: User,
-                },
-                {
-                  id: 'AGENT',
-                  label: 'Delivery Rider',
-                  icon: Bike,
-                },
-                {
-                  id: 'MERCHANT',
-                  label: 'Kirana Merchant',
-                  icon: Store,
-                },
-                {
-                  id: 'ADMIN',
-                  label: 'Logistics Admin Hub',
-                  icon: ShieldCheck,
-                },
-                {
-                  id: 'SIMULATOR',
-                  label: 'Interactive flow Lab',
-                  icon: PlayCircle,
-                },
-                {
-                  id: 'ARCHITECTURE',
-                  label: 'Architecture',
-                  icon: Network,
-                },
-              ].map((item) => {
-                const Icon = item.icon;
-                return (
-                  <button
-                    key={item.id}
-                    onClick={() => onNavigatePortal(item.id)}
-                    className="glass-pill px-3.5 py-2 rounded-2xl flex items-center space-x-2 text-xs font-bold text-[#0F291E] hover:text-[#1A5336] transition hover:scale-102 active:scale-98 shadow-xs hover:border-[#1A5336]/30 group"
-                  >
-                    <div className="w-5 h-5 rounded-full bg-[#fffd47] text-[#0F291E] flex items-center justify-center font-black shadow-xs shrink-0 group-hover:bg-[#1A5336] group-hover:text-[#fffd47] transition">
-                      <Icon className="w-3 h-3" />
-                    </div>
-                    <span className="font-roxborough font-bold text-xs tracking-normal">
-                      {item.label}
-                    </span>
-                  </button>
-                );
-              })}
-            </nav>
-
-            {/* User Session Chip / Login Button */}
+          {/* Upper Right Corner: User Session Chip or Log In Button */}
+          <div className="ml-auto flex items-center justify-end gap-2.5">
             {currentUser ? (
-              <div className="glass-pill px-3 py-1.5 rounded-2xl flex items-center space-x-2 shadow-md border-2 border-white/95">
-                <div className="w-7 h-7 rounded-full bg-[#1A5336] text-[#fffd47] flex items-center justify-center font-bold text-xs shrink-0">
-                  {currentUser.role === 'MERCHANT' ? '🏪' : currentUser.role === 'AGENT' ? '🛵' : '👤'}
-                </div>
-                <div className="text-left hidden xs:block">
-                  <div className="text-xs font-bold text-[#0F291E] leading-tight font-roxborough">
-                    {currentUser.name.split(' ')[0]}
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={() => onNavigatePortal(currentUser.role === 'CUSTOMER' ? 'CUSTOMER' : currentUser.role)}
+                  className="glass-pill px-3.5 py-2 rounded-2xl flex items-center space-x-2.5 shadow-md border-2 border-white/95 hover:scale-102 transition group"
+                  title="Open Your Dashboard"
+                >
+                  <div className="w-7 h-7 rounded-full bg-[#1A5336] text-[#fffd47] flex items-center justify-center font-bold text-xs shrink-0 group-hover:bg-[#133F28] transition">
+                    {currentUser.role === 'MERCHANT' ? '🏪' : currentUser.role === 'AGENT' ? '🛵' : currentUser.role === 'ADMIN' ? '🏢' : '👤'}
                   </div>
-                  <div className="text-[10px] font-mono text-[#1A5336] font-semibold">
-                    {currentUser.role === 'MERCHANT' ? 'Kirana Hub' : currentUser.role === 'AGENT' ? 'Rider' : 'Shopper'}
+                  <div className="text-left hidden xs:block">
+                    <div className="text-xs font-bold text-[#0F291E] leading-tight font-roxborough">
+                      {currentUser.name.split(' ')[0]}
+                    </div>
+                    <div className="text-[10px] font-mono text-[#1A5336] font-semibold">
+                      {currentUser.role === 'MERCHANT' ? 'Kirana Hub' : currentUser.role === 'AGENT' ? 'Rider OS' : currentUser.role === 'ADMIN' ? 'Admin Hub' : 'Shopper Portal'}
+                    </div>
                   </div>
-                </div>
+                  <ArrowRight className="w-3.5 h-3.5 text-[#1A5336] group-hover:translate-x-0.5 transition" />
+                </button>
+
                 <button
                   onClick={logoutUser}
-                  className="ml-1 text-[10px] font-bold text-red-700 hover:bg-red-100/80 px-2 py-1 rounded-lg transition"
+                  className="glass-pill px-3 py-2 rounded-xl text-xs font-bold text-red-700 hover:bg-red-100/90 transition shadow-sm border border-red-200"
                   title="Log Out"
                 >
                   Exit
@@ -171,17 +127,6 @@ export const BookCoverPage: React.FC<BookCoverPageProps> = ({
                 <span className="font-roxborough font-bold text-xs tracking-normal">Log In</span>
               </button>
             )}
-
-            {/* Explore Portals Slide Drawer Button in Extreme Right Corner */}
-            <button
-              onClick={onOpenSlideMenu}
-              className="glass-pill px-4 py-2.5 rounded-2xl flex items-center space-x-2 text-xs font-black text-[#0F291E] hover:text-[#1A5336] hover:scale-105 transition shadow-md border-2 border-white/95 group"
-              title="Open Portals Slide Bar"
-            >
-              <Menu className="w-4 h-4 text-[#1A5336]" />
-              <span className="font-roxborough font-bold text-xs tracking-normal">Explore Portals</span>
-              <span className="w-2 h-2 rounded-full bg-[#1A5336] animate-pulse" />
-            </button>
           </div>
         </div>
       </header>
@@ -237,34 +182,79 @@ export const BookCoverPage: React.FC<BookCoverPageProps> = ({
                 </button>
               </form>
 
-              {/* 3 Personas Direct Login Quick-Launch Chips */}
-              <div className="mt-3 bg-black/35 backdrop-blur-md rounded-2xl p-2.5 border border-white/15">
-                <div className="flex items-center justify-between text-[11px] font-bold text-[#fffd47] px-1 mb-1.5">
-                  <span>Sign In as:</span>
-                  <span className="text-white/70 font-normal">Phone + OTP Verification</span>
+              {/* 4 Personas Direct Login Quick-Launch Cards */}
+              <div className="mt-3 bg-black/40 backdrop-blur-md rounded-2xl p-3 border border-white/20">
+                <div className="flex items-center justify-between text-[11px] font-bold text-[#fffd47] px-1 mb-2">
+                  <span>Sign In By Category:</span>
+                  <span className="text-white/70 font-normal">Instant Role Access</span>
                 </div>
-                <div className="grid grid-cols-3 gap-2">
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
                   <button
                     onClick={() => openAuthModal('CUSTOMER')}
-                    className="py-1.5 px-2 rounded-xl bg-white/90 hover:bg-white text-[#0F291E] hover:text-[#1A5336] text-xs font-bold flex items-center justify-center space-x-1.5 transition shadow-xs group"
+                    className="py-2 px-2.5 rounded-xl bg-white/95 hover:bg-white text-[#0F291E] hover:text-[#1A5336] text-xs font-bold flex flex-col items-center justify-center transition shadow-sm group border border-white"
                   >
-                    <User className="w-3.5 h-3.5 text-[#1A5336] group-hover:scale-110 transition" />
-                    <span>Customer</span>
+                    <User className="w-4 h-4 text-[#1A5336] group-hover:scale-110 transition mb-0.5" />
+                    <span className="text-[11px]">Customer</span>
+                    <span className="text-[9px] text-[#4A5B52] font-normal">Grahak Pass</span>
                   </button>
+
                   <button
                     onClick={() => openAuthModal('AGENT')}
-                    className="py-1.5 px-2 rounded-xl bg-white/90 hover:bg-white text-[#0F291E] hover:text-[#0284C7] text-xs font-bold flex items-center justify-center space-x-1.5 transition shadow-xs group"
+                    className="py-2 px-2.5 rounded-xl bg-white/95 hover:bg-white text-[#0F291E] hover:text-[#0284C7] text-xs font-bold flex flex-col items-center justify-center transition shadow-sm group border border-white"
                   >
-                    <Bike className="w-3.5 h-3.5 text-[#0284C7] group-hover:scale-110 transition" />
-                    <span>Rider</span>
+                    <Bike className="w-4 h-4 text-[#0284C7] group-hover:scale-110 transition mb-0.5" />
+                    <span className="text-[11px]">Rider</span>
+                    <span className="text-[9px] text-[#4A5B52] font-normal">Batch Drop OS</span>
                   </button>
+
                   <button
                     onClick={() => openAuthModal('MERCHANT')}
-                    className="py-1.5 px-2 rounded-xl bg-white/90 hover:bg-white text-[#0F291E] hover:text-[#1A5336] text-xs font-bold flex items-center justify-center space-x-1.5 transition shadow-xs group"
+                    className="py-2 px-2.5 rounded-xl bg-white/95 hover:bg-white text-[#0F291E] hover:text-[#1A5336] text-xs font-bold flex flex-col items-center justify-center transition shadow-sm group border border-white"
                   >
-                    <Store className="w-3.5 h-3.5 text-[#1A5336] group-hover:scale-110 transition" />
-                    <span>Kirana Hub</span>
+                    <Store className="w-4 h-4 text-[#1A5336] group-hover:scale-110 transition mb-0.5" />
+                    <span className="text-[11px]">Kirana Hub</span>
+                    <span className="text-[9px] text-[#4A5B52] font-normal">Dukan Shelf</span>
                   </button>
+
+                  <button
+                    onClick={() => openAuthModal('ADMIN')}
+                    className="py-2 px-2.5 rounded-xl bg-white/95 hover:bg-white text-[#0F291E] hover:text-[#7C3AED] text-xs font-bold flex flex-col items-center justify-center transition shadow-sm group border border-white"
+                  >
+                    <LayoutDashboard className="w-4 h-4 text-[#7C3AED] group-hover:scale-110 transition mb-0.5" />
+                    <span className="text-[11px]">Admin Hub</span>
+                    <span className="text-[9px] text-[#4A5B52] font-normal">Control Tower</span>
+                  </button>
+                </div>
+              </div>
+
+              {/* Canva Template: Mission Statement & 3-Step Proof Journey */}
+              <div className="mt-3 bg-black/40 backdrop-blur-md rounded-2xl p-3 border border-white/15 space-y-2 text-white">
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-bold text-[#fffd47]">
+                    Solving last-mile failures, one neighbourhood at a time.
+                  </span>
+                  <span className="text-[10px] bg-[#1A5336] text-[#fffd47] px-2 py-0.5 rounded-full font-mono font-bold">
+                    PUDO
+                  </span>
+                </div>
+                <p className="text-[11px] text-white/80 leading-relaxed">
+                  KiranaConnect turns trusted kirana stores into secure pickup points, so parcels never miss you. When you&apos;re not home, we hold it close to home — for you to collect on your time.
+                </p>
+
+                {/* 3 Steps Mini-Bar */}
+                <div className="pt-2 border-t border-white/10 grid grid-cols-3 gap-1.5 text-center text-[10px]">
+                  <div className="bg-white/10 p-1.5 rounded-xl border border-white/10">
+                    <span className="block font-bold text-[#38BDF8]">1. Picked Up</span>
+                    <span className="text-white/60 text-[9px]">From Warehouse</span>
+                  </div>
+                  <div className="bg-[#1A5336]/80 p-1.5 rounded-xl border border-[#fffd47]/30">
+                    <span className="block font-bold text-[#fffd47]">2. At Kirana</span>
+                    <span className="text-white/80 text-[9px]">Ready for Pickup</span>
+                  </div>
+                  <div className="bg-white/10 p-1.5 rounded-xl border border-white/10">
+                    <span className="block font-bold text-emerald-300">3. Collected</span>
+                    <span className="text-white/60 text-[9px]">By You (QR/OTP)</span>
+                  </div>
                 </div>
               </div>
 
@@ -332,13 +322,6 @@ export const BookCoverPage: React.FC<BookCoverPageProps> = ({
           </div>
 
           <div className="flex items-center space-x-3 text-[11px] text-white/80">
-            <button
-              onClick={() => onNavigatePortal('ARCHITECTURE')}
-              className="text-[#fffd47] hover:underline font-bold flex items-center gap-1 transition"
-            >
-              <Network className="w-3.5 h-3.5 text-[#38BDF8]" />
-              <span>System Architecture</span>
-            </button>
             <span className="bg-[#1A5336]/60 text-[#fffd47] px-2.5 py-0.5 rounded-full border border-white/20">
               Salt Lake Sector V, Kolkata
             </span>

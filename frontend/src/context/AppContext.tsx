@@ -24,8 +24,8 @@ interface AppContextType {
   loginUser: (session: UserSession) => void;
   logoutUser: () => void;
   isAuthModalOpen: boolean;
-  authModalDefaultRole: 'CUSTOMER' | 'AGENT' | 'MERCHANT';
-  openAuthModal: (role?: 'CUSTOMER' | 'AGENT' | 'MERCHANT') => void;
+  authModalDefaultRole: UserRole;
+  openAuthModal: (role?: UserRole) => void;
   closeAuthModal: () => void;
 
   // Actions
@@ -34,6 +34,9 @@ interface AppContextType {
   requestUpiWithdrawal: (storeId: string, amount: number, upiId: string) => { success: boolean; message: string };
   createAndDispatchParcel: (orderData: Partial<Parcel>) => { success: boolean; parcel?: Parcel; message: string };
   registerKiranaStore: (storeData: Partial<KiranaStore>) => { success: boolean; store?: KiranaStore; message: string };
+  setParcelDeliveryPreference: (parcelId: string, preference: 'SELF_PICKUP' | 'STORE_DOORSTEP', slot?: string) => void;
+  assignKiranaHelper: (parcelId: string, helperName: string) => void;
+  deliverParcelAtDoorstep: (parcelId: string, otp: string) => { success: boolean; message: string };
   resetToDemoState: () => void;
 }
 
@@ -69,7 +72,7 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
   });
 
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
-  const [authModalDefaultRole, setAuthModalDefaultRole] = useState<'CUSTOMER' | 'AGENT' | 'MERCHANT'>('CUSTOMER');
+  const [authModalDefaultRole, setAuthModalDefaultRole] = useState<UserRole>('CUSTOMER');
 
   useEffect(() => {
     if (currentUser) {
@@ -79,7 +82,7 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
     }
   }, [currentUser]);
 
-  const openAuthModal = (role: 'CUSTOMER' | 'AGENT' | 'MERCHANT' = 'CUSTOMER') => {
+  const openAuthModal = (role: UserRole = 'CUSTOMER') => {
     setAuthModalDefaultRole(role);
     setIsAuthModalOpen(true);
   };
@@ -344,6 +347,85 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
     return { success: true, store: newStore, message: `Store "${newStore.storeName}" registered & verified!` };
   };
 
+  // HyperLocal Delivery Preference & Helper Actions (Amazon Hub Delivery Model)
+  const setParcelDeliveryPreference = (
+    parcelId: string,
+    preference: 'SELF_PICKUP' | 'STORE_DOORSTEP',
+    slot?: string
+  ) => {
+    setParcels((prev) =>
+      prev.map((p) =>
+        p.id === parcelId || p.trackingNumber === parcelId
+          ? {
+              ...p,
+              deliveryPreference: preference,
+              deliverySlot: slot || (preference === 'STORE_DOORSTEP' ? 'Evening (7:00 PM - 9:00 PM)' : undefined),
+              doorstepDeliveryFee: preference === 'STORE_DOORSTEP' ? 30 : 0,
+            }
+          : p
+      )
+    );
+  };
+
+  const assignKiranaHelper = (parcelId: string, helperName: string) => {
+    setParcels((prev) =>
+      prev.map((p) =>
+        p.id === parcelId || p.trackingNumber === parcelId
+          ? {
+              ...p,
+              assignedHelperName: helperName,
+            }
+          : p
+      )
+    );
+  };
+
+  const deliverParcelAtDoorstep = (parcelId: string, otp: string) => {
+    const parcel = parcels.find((p) => p.id === parcelId || p.trackingNumber === parcelId);
+    if (!parcel) return { success: false, message: 'Parcel not found' };
+
+    if (otp !== parcel.pickupOtp) {
+      return { success: false, message: `Invalid customer PIN: ${otp}. Required 4-digit code.` };
+    }
+
+    const store = stores.find((s) => s.id === parcel.kiranaStoreId);
+    const totalEarning = (store?.commissionRate || 15) + (parcel.doorstepDeliveryFee || 30);
+
+    setParcels((prev) =>
+      prev.map((p) =>
+        p.id === parcel.id
+          ? {
+              ...p,
+              status: 'COLLECTED',
+              collectedAt: new Date().toISOString(),
+              doorstepDeliveredAt: new Date().toISOString(),
+            }
+          : p
+      )
+    );
+
+    // Credit store wallet
+    if (store) {
+      setStores((prev) =>
+        prev.map((s) =>
+          s.id === store.id
+            ? {
+                ...s,
+                currentCapacity: Math.max(0, s.currentCapacity - 1),
+                walletBalance: s.walletBalance + totalEarning,
+                totalParcelsHandled: s.totalParcelsHandled + 1,
+              }
+            : s
+        )
+      );
+    }
+
+    return {
+      success: true,
+      message: `Parcel delivered at customer doorstep! Earned ₹${totalEarning} (₹15 holding + ₹${parcel.doorstepDeliveryFee || 30} delivery).`,
+    };
+  };
+
   const resetToDemoState = () => {
     setStores(INITIAL_KIRANA_STORES);
     setParcels(INITIAL_PARCELS);
@@ -386,6 +468,9 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
         requestUpiWithdrawal,
         createAndDispatchParcel,
         registerKiranaStore,
+        setParcelDeliveryPreference,
+        assignKiranaHelper,
+        deliverParcelAtDoorstep,
         resetToDemoState,
       }}
     >

@@ -11,7 +11,9 @@ import {
   RotateCcw,
   KeyRound,
   User,
-  Network,
+  Ticket,
+  Package,
+  ShieldCheck,
 } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 
@@ -39,74 +41,139 @@ export const PortalSlideMenu: React.FC<PortalSlideMenuProps> = ({
 
   if (!isOpen) return null;
 
-  const portals = [
-    {
-      id: 'CUSTOMER',
-      title: 'Customer Pickup',
-      hindiTitle: 'ग्राहक पिकअप पोर्टल',
-      desc: 'Digital QR Boarding Pass, 72h countdown, audio OTP & WhatsApp alert pass',
-      icon: UserCheck,
-      color: 'bg-[#fffd47]/25 text-[#0F291E] border-[#fffd47]/40',
-      activeBorder: 'border-[#1A5336] ring-2 ring-[#fffd47]',
-      badge: 'Self Collection',
-      badgeColor: 'bg-[#fffd47]/20 text-[#1A5336] border-[#fffd47]/40',
-    },
-    {
-      id: 'AGENT',
-      title: 'Delivery Rider',
-      hindiTitle: 'डिलीवरी राइडर ओएस',
-      desc: 'Consolidated batch drop, camera photo-proof verification & route navigation',
-      icon: Bike,
-      color: 'bg-[#38BDF8]/20 text-[#0284C7] border-[#38BDF8]/40',
-      activeBorder: 'border-[#0284C7] ring-2 ring-[#38BDF8]',
-      badge: 'Batch Logistics',
-      badgeColor: 'bg-[#E0F2FE] text-[#0284C7] border-[#BAE6FD]',
-    },
-    {
-      id: 'MERCHANT',
-      title: 'Kirana Merchant',
-      hindiTitle: 'किराना मर्चेंट हब',
-      desc: 'Physical 2D shelf rack map (A-01 to C-10), UPI Soundbox & ₹15/drop settlement',
-      icon: Store,
-      color: 'bg-[#1A5336]/20 text-[#1A5336] border-[#1A5336]/30',
-      activeBorder: 'border-[#1A5336] ring-2 ring-[#fffd47]',
-      badge: 'Soundbox Verified',
-      badgeColor: 'bg-[#EAF3ED] text-[#1A5336] border-[#CDE3D5]',
-    },
-    {
-      id: 'ADMIN',
-      title: 'Logistics Admin Hub',
-      hindiTitle: 'लॉजिस्टिक्स एडमिन टॉवर',
-      desc: 'Haversine store matchmaking, Green Footprint Tracker & Doorstep vs PUDO ROI',
-      icon: BarChart3,
-      color: 'bg-[#38BDF8]/20 text-[#0284C7] border-[#38BDF8]/40',
-      activeBorder: 'border-[#0284C7] ring-2 ring-[#38BDF8]',
-      badge: 'Urban Command',
-      badgeColor: 'bg-[#E0F2FE] text-[#0284C7] border-[#BAE6FD]',
-    },
-    {
-      id: 'SIMULATOR',
-      title: 'Interactive Flow Lab',
-      hindiTitle: 'इंटरैक्टिव फ्लो लैब',
-      desc: 'Step-by-step 60-second end-to-end delivery lifecycle simulation with event stream',
-      icon: PlayCircle,
-      color: 'bg-[#9fa683]/20 text-[#3A4027] border-[#9fa683]/40',
-      activeBorder: 'border-[#9fa683] ring-2 ring-[#9fa683]',
-      badge: 'Live Simulator',
-      badgeColor: 'bg-[#9fa683]/25 text-[#2C311F] border-[#9fa683]/50',
-    },
-    {
-      id: 'ARCHITECTURE',
-      title: 'System Architecture',
-      hindiTitle: 'सिस्टम आर्किटेक्चर',
-      desc: 'Interactive 4-tier GitDiagram topology: Actors, Portals, UI, Express APIs, & Domain Services',
-      icon: Network,
-      color: 'bg-[#1A5336]/20 text-[#1A5336] border-[#1A5336]/30',
-      activeBorder: 'border-[#1A5336] ring-2 ring-[#fffd47]',
-      badge: 'GitDiagram',
-      badgeColor: 'bg-[#EAF3ED] text-[#1A5336] border-[#CDE3D5]',
-    },
-  ];
+  let portals = [];
+
+  if (currentUser?.role === 'CUSTOMER') {
+    portals = [
+      {
+        id: 'CUSTOMER',
+        title: 'Customer Pickup Pass',
+        hindiTitle: 'ग्राहक पिकअप पोर्टल',
+        desc: 'Digital QR Boarding Pass, 72h countdown, audio OTP & WhatsApp alert pass',
+        icon: Ticket,
+        color: 'bg-[#fffd47]/25 text-[#0F291E] border-[#fffd47]/40',
+        activeBorder: 'border-[#1A5336] ring-2 ring-[#fffd47]',
+        badge: 'Smart Pass',
+        badgeColor: 'bg-[#fffd47]/20 text-[#1A5336] border-[#fffd47]/40',
+      },
+      {
+        id: 'CUSTOMER_HUB',
+        title: 'Customer Logistics Hub',
+        hindiTitle: 'ग्राहक लॉजिस्टिक्स हब',
+        desc: 'Previous picked-up orders history, 5-box loyalty streak & ₹15 store discount voucher',
+        icon: Package,
+        color: 'bg-emerald-500/20 text-[#1A5336] border-emerald-400/40',
+        activeBorder: 'border-[#1A5336] ring-2 ring-[#fffd47]',
+        badge: '₹15 Box',
+        badgeColor: 'bg-[#EAF3ED] text-[#1A5336] border-[#CDE3D5]',
+      },
+    ];
+  } else if (currentUser?.role === 'MERCHANT') {
+    portals = [
+      {
+        id: 'MERCHANT',
+        title: '1. Counter & Shelf OS',
+        hindiTitle: 'किराना काउंटर व रैक',
+        desc: 'Physical 2D shelf rack map (A-01 to C-10), UPI Soundbox & ₹15/drop settlement',
+        icon: Store,
+        color: 'bg-[#1A5336]/20 text-[#1A5336] border-[#1A5336]/30',
+        activeBorder: 'border-[#1A5336] ring-2 ring-[#fffd47]',
+        badge: 'Counter OS',
+        badgeColor: 'bg-[#EAF3ED] text-[#1A5336] border-[#CDE3D5]',
+      },
+      {
+        id: 'MERCHANT_LOGISTICS',
+        title: '2. Store Logistics Hub',
+        hindiTitle: 'स्टोर लॉजिस्टिक्स हब',
+        desc: 'Amazon MyHub inspired order history, money earned, doorstep vs pickup & helper fleet',
+        icon: Package,
+        color: 'bg-amber-100 text-amber-900 border-amber-300',
+        activeBorder: 'border-amber-600 ring-2 ring-amber-400',
+        badge: 'Amazon MyHub',
+        badgeColor: 'bg-amber-100 text-amber-900 border-amber-300',
+      },
+      {
+        id: 'MERCHANT_PROFILE',
+        title: '3. Store Profile & Details',
+        hindiTitle: 'दुकान प्रोफ़ाइल विवरण',
+        desc: 'Full store specifications, operating radius, CCTV security & automated UPI settings',
+        icon: ShieldCheck,
+        color: 'bg-[#fffd47]/20 text-[#0F291E] border-[#fffd47]/40',
+        activeBorder: 'border-[#1A5336] ring-2 ring-[#fffd47]',
+        badge: 'Store Details',
+        badgeColor: 'bg-[#fffd47]/30 text-[#0F291E] border-[#fffd47]/50',
+      },
+    ];
+  } else {
+    portals = [
+      {
+        id: 'CUSTOMER',
+        title: 'Customer Pickup',
+        hindiTitle: 'ग्राहक पिकअप पोर्टल',
+        desc: 'Digital QR Boarding Pass, 72h countdown, audio OTP & WhatsApp alert pass',
+        icon: UserCheck,
+        color: 'bg-[#fffd47]/25 text-[#0F291E] border-[#fffd47]/40',
+        activeBorder: 'border-[#1A5336] ring-2 ring-[#fffd47]',
+        badge: 'Self Collection',
+        badgeColor: 'bg-[#fffd47]/20 text-[#1A5336] border-[#fffd47]/40',
+      },
+      {
+        id: 'CUSTOMER_HUB',
+        title: 'Customer Logistics Hub',
+        hindiTitle: 'ग्राहक लॉजिस्टिक्स हब',
+        desc: 'Previous picked-up orders history, 5-box loyalty streak & ₹15 store discount voucher',
+        icon: Package,
+        color: 'bg-emerald-500/20 text-[#1A5336] border-emerald-400/40',
+        activeBorder: 'border-[#1A5336] ring-2 ring-[#fffd47]',
+        badge: '₹15 Box',
+        badgeColor: 'bg-[#EAF3ED] text-[#1A5336] border-[#CDE3D5]',
+      },
+      {
+        id: 'AGENT',
+        title: 'Delivery Rider',
+        hindiTitle: 'डिलीवरी राइडर ओएस',
+        desc: 'Consolidated batch drop, camera photo-proof verification & route navigation',
+        icon: Bike,
+        color: 'bg-[#38BDF8]/20 text-[#0284C7] border-[#38BDF8]/40',
+        activeBorder: 'border-[#0284C7] ring-2 ring-[#38BDF8]',
+        badge: 'Batch Logistics',
+        badgeColor: 'bg-[#E0F2FE] text-[#0284C7] border-[#BAE6FD]',
+      },
+      {
+        id: 'MERCHANT',
+        title: 'Kirana Merchant',
+        hindiTitle: 'किराना मर्चेंट हब',
+        desc: 'Physical 2D shelf rack map (A-01 to C-10), UPI Soundbox & ₹15/drop settlement',
+        icon: Store,
+        color: 'bg-[#1A5336]/20 text-[#1A5336] border-[#1A5336]/30',
+        activeBorder: 'border-[#1A5336] ring-2 ring-[#fffd47]',
+        badge: 'Soundbox Verified',
+        badgeColor: 'bg-[#EAF3ED] text-[#1A5336] border-[#CDE3D5]',
+      },
+      {
+        id: 'ADMIN',
+        title: 'Logistics Admin Hub',
+        hindiTitle: 'लॉजिस्टिक्स एडमिन टॉवर',
+        desc: 'Haversine store matchmaking, Green Footprint Tracker & Doorstep vs PUDO ROI',
+        icon: BarChart3,
+        color: 'bg-[#38BDF8]/20 text-[#0284C7] border-[#38BDF8]/40',
+        activeBorder: 'border-[#0284C7] ring-2 ring-[#38BDF8]',
+        badge: 'Urban Command',
+        badgeColor: 'bg-[#E0F2FE] text-[#0284C7] border-[#BAE6FD]',
+      },
+      {
+        id: 'SIMULATOR',
+        title: 'Interactive Flow Lab',
+        hindiTitle: 'इंटरैक्टिव फ्लो लैब',
+        desc: 'Step-by-step 60-second end-to-end delivery lifecycle simulation with event stream',
+        icon: PlayCircle,
+        color: 'bg-[#9fa683]/20 text-[#3A4027] border-[#9fa683]/40',
+        activeBorder: 'border-[#9fa683] ring-2 ring-[#9fa683]',
+        badge: 'Live Simulator',
+        badgeColor: 'bg-[#9fa683]/25 text-[#2C311F] border-[#9fa683]/50',
+      },
+    ];
+  }
 
   return (
     <div className="fixed inset-0 z-50 overflow-hidden animate-fadeIn">
@@ -251,7 +318,7 @@ export const PortalSlideMenu: React.FC<PortalSlideMenuProps> = ({
           <div className="text-[11px] font-bold uppercase tracking-wider text-[#1A5336] px-1 flex items-center justify-between pt-1">
             <span>{language === 'hi' ? 'संचालन पोर्टल' : 'Operational Portals'}</span>
             <span className="text-[10px] font-mono text-[#0284C7] bg-[#E0F2FE] px-2 py-0.5 rounded-full border border-[#BAE6FD]">
-              6 Active Modules
+              7 Active Modules
             </span>
           </div>
 
